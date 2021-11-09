@@ -17,7 +17,11 @@ class LoginView extends LoginController {
           appBar: CommonWidgets.noAppBar(
             systemUiOverlayStyle: SystemUiOverlayStyle.dark,
           ),
-          body: LoginBody(),
+          body: LoginBody(
+            loginCheck: loginCheck,
+            usernameController: usernameController,
+            passwordController: passwordController,
+          ),
         ),
       ),
     );
@@ -25,6 +29,13 @@ class LoginView extends LoginController {
 }
 
 class LoginBody extends StatelessWidget {
+  final Function() loginCheck;
+  final TextEditingController usernameController;
+  final TextEditingController passwordController;
+  LoginBody(
+      {required this.loginCheck,
+      required this.passwordController,
+      required this.usernameController});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +70,8 @@ class LoginBody extends StatelessWidget {
             ),
             FormBuilderTextField(
               name: 'username',
-              
+              maxLines: 1,
+              controller: usernameController,
             ),
             SizedBox(
               height: 20,
@@ -73,13 +85,18 @@ class LoginBody extends StatelessWidget {
             SizedBox(
               height: 8,
             ),
-            CupertinoTextField(),
+            FormBuilderTextField(
+              name: 'password',
+              maxLines: 1,
+              obscureText: true,
+              controller: passwordController,
+            ),
             SizedBox(
               height: 40,
             ),
             CommonWidgets.containedButton(
               text: 'Login',
-              onPressed: () {},
+              onPressed: () => loginCheck(),
             ),
           ],
         ),

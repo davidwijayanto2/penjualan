@@ -25,25 +25,25 @@ class DatabaseHelper {
 
   void populateDb(Database database, int version) async {
     await database.execute('''
-          CREATE TABLE barang(
+          CREATE TABLE barang (
             ID_BARANG TEXT PRIMARY KEY,
             ID_KATEGORI TEXT,
             NM_BARANG TEXT,
             HARGA INTEGER,
-            STATUS TEXT,            
+            STATUS TEXT     
           )''');
 
-    await database.execute('''CREATE TABLE customer(
+    await database.execute('''CREATE TABLE customer (
             ID_CUSTOMER INTEGER PRIMARY KEY AUTOINCREMENT,            
             NM_CUSTOMER TEXT,
             NO_TLP TEXT,
             ALAMAT TEXT,
             EMAIL TEXT,
             STATUS TEXT,
-            HARGA_KHUSUS TEXT,
+            HARGA_KHUSUS TEXT
           )''');
 
-    await database.execute('''CREATE TABLE h_beli(
+    await database.execute('''CREATE TABLE h_beli (
             ID_HBELI TEXT PRIMARY KEY,
             NM_SUPPLIER TEXT,
             NM_KARYAWAN TEXT,
@@ -54,7 +54,7 @@ class DatabaseHelper {
             KETERANGAN TEXT
             )''');
 
-    await database.execute('''CREATE TABLE h_jual(
+    await database.execute('''CREATE TABLE h_jual (
             ID_HJUAL TEXT PRIMARY KEY,
             TGL_TRANSAKSI TEXT,
             NM_KARYAWAN TEXT,
@@ -67,47 +67,47 @@ class DatabaseHelper {
             KETERANGAN TEXT,
             KOTA TEXT,
             POTONGAN INTEGER,
-            REKENING TEXT,            
+            REKENING TEXT    
             )''');
 
-    await database.execute('''CREATE TABLE d_beli(
+    await database.execute('''CREATE TABLE d_beli (
             ID_DBELI INTEGER PRIMARY KEY AUTOINCREMENT,
             ID_HBELI TEXT,
             NM_BARANG TEXT,
             SATUAN TEXT,
             QUANTITY INT,
             HARGA_BARANG INT,
-            SUBTOTAL INT,
+            SUBTOTAL INT
             )''');
 
-    await database.execute('''CREATE TABLE d_jual(
+    await database.execute('''CREATE TABLE d_jual (
             ID_DJUAL INTEGER PRIMARY KEY AUTOINCREMENT,
             ID_HJUAL TEXT,
             NM_BARANG TEXT,
             SATUAN TEXT,
             QUANTITY INTEGER,
             HARGA_BARANG INTEGER,
-            SUBTOTAL INTEGER,
+            SUBTOTAL INTEGER
             )''');
 
-    await database.execute('''CREATE TABLE hutang(
+    await database.execute('''CREATE TABLE hutang (
             ID_HJUAL TEXT PRIMARY KEY,
             NAMA_CUSTOMER TEXT,
             NOMINAL INTEGER,
             TGL_JATUH_TEMPO TEXT,
             STATUS TEXT,
             TGL_BAYAR TEXT,
-            NONOTA TEXT,
+            NONOTA TEXT
     )''');
 
-    await database.execute('''CREATE TABLE jabatan(
+    await database.execute('''CREATE TABLE jabatan (
             ID_JABATAN INTEGER PRIMARY KEY AUTOINCREMENT,
             NM_JABATAN TEXT,
             ACCESS TEXT,
-            STATUS TEXT,            
+            STATUS TEXT    
             )''');
 
-    await database.execute('''CREATE TABLE karyawan(
+    await database.execute('''CREATE TABLE karyawan (
             ID_KARYAWAN TEXT PRIMARY KEY,
             ID_JABATAN INTEGER,
             NM_KARYAWAN TEXT,
@@ -116,47 +116,47 @@ class DatabaseHelper {
             EMAIL TEXT,
             USERNAME TEXT,
             PASSWORD TEXT,
-            STATUS TEXT,
+            STATUS TEXT
             )''');
 
-    await database.execute('''CREATE TABLE kategori(
+    await database.execute('''CREATE TABLE kategori (
             ID_KATEGORI INTEGER PRIMARY KEY AUTOINCREMENT,
             NM_KATEGORI TEXT,
-            STATUS TEXT,            
+            STATUS TEXT    
             )''');
 
-    await database.execute('''CREATE TABLE mh_perusahaan(
+    await database.execute('''CREATE TABLE mh_perusahaan (
             ID_PERUSAHAAN INTEGER PRIMARY KEY AUTOINCREMENT,
             NM_PERUSAHAAN TEXT,
-            LOGO TEXT,
+            LOGO TEXT
             )''');
 
-    await database.execute('''CREATE TABLE mh_supplier(
+    await database.execute('''CREATE TABLE mh_supplier (
             ID_SUPPLIER TEXT PRIMARY KEY,
             NM_SUPPLIER TEXT,
             NO_TLP TEXT,
             ALAMAT TEXT,
             EMAIL TEXT,
-            STATUS TEXT,
+            STATUS TEXT
             )''');
 
-    await database.execute('''CREATE TABLE satuan(
+    await database.execute('''CREATE TABLE satuan (
             ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            NAMA_SATUAN TEXT,            
+            NAMA_SATUAN TEXT        
       )''');
 
-    await database.execute('''CREATE TABLE stok(
+    await database.execute('''CREATE TABLE stok (
             ID_STOK INTEGER PRIMARY KEY AUTOINCREMENT,
             ID_KATEGORI INT,
             NAMA_BARANG TEXT,
             QUANTITY INT,
             HARGA INT,
-            STATUS INT,            
+            STATUS INT
       )''');
 
     //create index
     await database
-        .execute('''CREATE INDEX FK_DBELI_BARANG ON barang (ID_KATEGORI)''');
+        .execute('''CREATE INDEX FK_KATEGORI ON barang (ID_KATEGORI)''');
     await database
         .execute('''CREATE INDEX NM_CUSTOMER ON customer (NM_CUSTOMER)''');
     await database
@@ -176,5 +176,8 @@ class DatabaseHelper {
         .execute('''CREATE INDEX NM_KARYAWAN ON karyawan (NM_KARYAWAN)''');
     await database
         .execute('''CREATE INDEX NM_SUPPLIER ON mh_supplier (NM_SUPPLIER)''');
+
+    await database.execute(
+        '''INSERT INTO `karyawan` VALUES ('001', '1', 'DUMMY', '08124567', 'DUMMY', 'DUMMY', 'tes', '1b6cb4e23e2b490f1235755a4622469b', '1')''');
   }
 }
