@@ -225,5 +225,18 @@ class DatabaseHelper {
 ('5', 'BAUT', 'Aktif'),
 ('6', 'SPRING BAND', 'Aktif'),
 ('7', 'BAN BAJA', 'Aktif') ''');
+
+    await database.execute(
+        '''INSERT INTO `customer` VALUES ('2', 'BAPAK HAJI KHAIRUL ANWAR', '', '', '', '1', 'TIDAK'),
+('3', 'BAPAK SUBARI', '', '', '', '', 'TIDAK'),
+('4', 'BAPAK JEFRY', '', '', '', '', 'TIDAK'),
+('5', 'BAPAK ANANG', '', '', '', '', 'TIDAK'),
+('6', 'BAPAK SALMAN', '', '', '', '', 'TIDAK'),
+('7', 'BAPAK TOMY', '', '', '', '', 'TIDAK'),
+('8', 'PT ONGKO WIJOYO', '', '', '', '', 'TIDAK'),
+('9', 'P.R RAJAWALI', '', '', '', '', 'TIDAK'),
+('10', 'PT ROCK INTERNATIONAL', '', '', '', '', 'TIDAK'),
+('11', 'PT CAHAYA PRO', '', '', '', '', 'TIDAK'),
+('12', 'PT TIGA BOLA', '', '', '', '', 'TIDAK')''');
   }
 }

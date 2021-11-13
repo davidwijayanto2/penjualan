@@ -7,6 +7,8 @@ import 'package:penjualan/screen/login/login_controller.dart';
 import 'package:penjualan/routing/router_const.dart';
 import 'package:penjualan/screen/master/barang/form/add_master_barang_controller.dart';
 import 'package:penjualan/screen/master/barang/master_barang_controller.dart';
+import 'package:penjualan/screen/master/customer/form/add_master_customer_controller.dart';
+import 'package:penjualan/screen/master/customer/master_customer_controller.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -19,6 +21,11 @@ class MyRouter {
         return routeTransition(screen: MasterBarang());
       case addMasterBarangRoute:
         var args = settings.arguments as AddMasterBarang;
+        return routeTransition(screen: args);
+      case masterCustomerRoute:
+        return routeTransition(screen: MasterCustomer());
+      case addMasterCustomerRoute:
+        var args = settings.arguments as AddMasterCustomer;
         return routeTransition(screen: args);
       default:
         return routeTransition(
