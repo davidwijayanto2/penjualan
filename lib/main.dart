@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:penjualan/repositories/local_storage.dart';
+import 'package:penjualan/routing/router.dart';
+import 'package:penjualan/screen/home/home_controller.dart';
 import 'package:penjualan/screen/login/login_controller.dart';
 import 'package:penjualan/utils/my_colors.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(MyApp());
 }
 
@@ -12,10 +17,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.white, // Color for Android
+      statusBarColor: Colors.transparent, // Color for Android
       statusBarBrightness:
           Brightness.dark, // Dark == white status bar -- for IOS.
     ));
+    bool isLogin = LocalStorage.isLogin() ?? false;
+    Widget? initPage;
+    if (isLogin) {
+      initPage = Home();
+    } else {
+      initPage = Login();
+    }
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -27,7 +39,8 @@ class MyApp extends StatelessWidget {
           backgroundColor: MyColors.white,
         ),
       ),
-      home: Login(),
+      onGenerateRoute: MyRouter.generateRoute,
+      home: initPage,
     );
   }
 }

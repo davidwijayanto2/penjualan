@@ -11,4 +11,5 @@ class MyColors {
   static const black = const Color(0xFF000000);
   static const textGray = const Color(0xFF606060);
   static const havelockBlue = const Color(0xFF638EE1);
+  static const orange = const Color(0xFFE19763);
 }

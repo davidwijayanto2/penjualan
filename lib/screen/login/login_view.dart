@@ -17,88 +17,88 @@ class LoginView extends LoginController {
           appBar: CommonWidgets.noAppBar(
             systemUiOverlayStyle: SystemUiOverlayStyle.dark,
           ),
-          body: LoginBody(
-            loginCheck: loginCheck,
-            usernameController: usernameController,
-            passwordController: passwordController,
-          ),
+          backgroundColor: MyColors.white,
+          body: _loginBody(),
         ),
       ),
     );
   }
-}
 
-class LoginBody extends StatelessWidget {
-  final Function() loginCheck;
-  final TextEditingController usernameController;
-  final TextEditingController passwordController;
-  LoginBody(
-      {required this.loginCheck,
-      required this.passwordController,
-      required this.usernameController});
-  @override
-  Widget build(BuildContext context) {
+  _loginBody() {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: 20,
         horizontal: 15,
       ),
-      color: MyColors.white,
       child: FormBuilder(
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            CommonText.text(
-              text: "Login",
-              style: CommonText.title(
-                color: MyColors.black,
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            CommonText.text(
-              text: "Username",
-              style: CommonText.body1(
-                color: MyColors.black,
+              CommonText.text(
+                text: "Login",
+                style: CommonText.title(
+                  color: MyColors.black,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            FormBuilderTextField(
-              name: 'username',
-              maxLines: 1,
-              controller: usernameController,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CommonText.text(
-              text: "Password",
-              style: CommonText.body1(
-                color: MyColors.black,
+              SizedBox(
+                height: 30,
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            FormBuilderTextField(
-              name: 'password',
-              maxLines: 1,
-              obscureText: true,
-              controller: passwordController,
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            CommonWidgets.containedButton(
-              text: 'Login',
-              onPressed: () => loginCheck(),
-            ),
-          ],
+              CommonText.text(
+                text: "Username",
+                style: CommonText.body1(
+                  color: MyColors.black,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              FormBuilderTextField(
+                name: 'username',
+                maxLines: 1,
+                controller: usernameController,
+                validator: FormBuilderValidators.compose(
+                  [
+                    FormBuilderValidators.required(context),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CommonText.text(
+                text: "Password",
+                style: CommonText.body1(
+                  color: MyColors.black,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              FormBuilderTextField(
+                name: 'password',
+                maxLines: 1,
+                obscureText: true,
+                controller: passwordController,
+                validator: FormBuilderValidators.compose(
+                  [
+                    FormBuilderValidators.required(context),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              CommonWidgets.containedButton(
+                text: 'Login',
+                onPressed: () => loginCheck(),
+              ),
+            ],
+          ),
         ),
       ),
     );
