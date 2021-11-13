@@ -17,71 +17,88 @@ class LoginView extends LoginController {
           appBar: CommonWidgets.noAppBar(
             systemUiOverlayStyle: SystemUiOverlayStyle.dark,
           ),
-          body: LoginBody(),
+          backgroundColor: MyColors.white,
+          body: _loginBody(),
         ),
       ),
     );
   }
-}
 
-class LoginBody extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  _loginBody() {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: 20,
         horizontal: 15,
       ),
-      color: MyColors.white,
       child: FormBuilder(
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            CommonText.text(
-              text: "Login",
-              style: CommonText.title(
-                color: MyColors.black,
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            CommonText.text(
-              text: "Username",
-              style: CommonText.body1(
-                color: MyColors.black,
+              CommonText.text(
+                text: "Login",
+                style: CommonText.title(
+                  color: MyColors.black,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            FormBuilderTextField(
-              name: 'username',
-              
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CommonText.text(
-              text: "Password",
-              style: CommonText.body1(
-                color: MyColors.black,
+              SizedBox(
+                height: 30,
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            CupertinoTextField(),
-            SizedBox(
-              height: 40,
-            ),
-            CommonWidgets.containedButton(
-              text: 'Login',
-              onPressed: () {},
-            ),
-          ],
+              CommonText.text(
+                text: "Username",
+                style: CommonText.body1(
+                  color: MyColors.black,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              FormBuilderTextField(
+                name: 'username',
+                maxLines: 1,
+                controller: usernameController,
+                validator: FormBuilderValidators.compose(
+                  [
+                    FormBuilderValidators.required(context),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CommonText.text(
+                text: "Password",
+                style: CommonText.body1(
+                  color: MyColors.black,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              FormBuilderTextField(
+                name: 'password',
+                maxLines: 1,
+                obscureText: true,
+                controller: passwordController,
+                validator: FormBuilderValidators.compose(
+                  [
+                    FormBuilderValidators.required(context),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              CommonWidgets.containedButton(
+                text: 'Login',
+                onPressed: () => loginCheck(),
+              ),
+            ],
+          ),
         ),
       ),
     );
