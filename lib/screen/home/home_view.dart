@@ -111,7 +111,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Barang',
+                      text: 'Penjualan',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),
@@ -138,88 +138,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Barang',
-                      style: CommonText.body1(
-                        color: MyColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.circle,
-                      size: 18,
-                      color: MyColors.black,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    CommonText.text(
-                      text: 'Barang',
-                      style: CommonText.body1(
-                        color: MyColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.circle,
-                      size: 18,
-                      color: MyColors.black,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    CommonText.text(
-                      text: 'Barang',
-                      style: CommonText.body1(
-                        color: MyColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.circle,
-                      size: 18,
-                      color: MyColors.black,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    CommonText.text(
-                      text: 'Barang',
+                      text: 'Pembelian',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),
@@ -271,6 +190,60 @@ class HomeView extends HomeController {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
+              onTap: () {},
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.circle,
+                      size: 18,
+                      color: MyColors.black,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    CommonText.text(
+                      text: 'Kategori',
+                      style: CommonText.body1(
+                        color: MyColors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            InkWell(
+              onTap: () => goToMasterCustomer(context: context),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.circle,
+                      size: 18,
+                      color: MyColors.black,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    CommonText.text(
+                      text: 'Customer',
+                      style: CommonText.body1(
+                        color: MyColors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            InkWell(
               onTap: () {
                 goToMasterBarang(context: context);
               },
@@ -314,88 +287,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Customer',
-                      style: CommonText.body1(
-                        color: MyColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.circle,
-                      size: 18,
-                      color: MyColors.black,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    CommonText.text(
                       text: 'Satuan',
-                      style: CommonText.body1(
-                        color: MyColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.circle,
-                      size: 18,
-                      color: MyColors.black,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    CommonText.text(
-                      text: 'Kategori',
-                      style: CommonText.body1(
-                        color: MyColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.circle,
-                      size: 18,
-                      color: MyColors.black,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    CommonText.text(
-                      text: 'Barang',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),
@@ -461,7 +353,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Barang',
+                      text: 'Stok Keluar',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),
@@ -488,7 +380,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Barang',
+                      text: 'Stok Masuk',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),
@@ -515,7 +407,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Barang',
+                      text: 'Pembelian',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),
@@ -542,7 +434,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Barang',
+                      text: 'Penjualan',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),
@@ -569,7 +461,7 @@ class HomeView extends HomeController {
                       width: 8,
                     ),
                     CommonText.text(
-                      text: 'Barang',
+                      text: 'Piutang',
                       style: CommonText.body1(
                         color: MyColors.black,
                       ),

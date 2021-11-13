@@ -49,11 +49,11 @@ abstract class MasterBarangController extends State<MasterBarang> {
           "SELECT stok.ID_STOK,stok.ID_KATEGORI,stok.NAMA_BARANG,stok.QUANTITY, stok.HARGA,stok.status,kategori.NM_KATEGORI FROM stok LEFT JOIN kategori ON stok.ID_KATEGORI = kategori.ID_KATEGORI WHERE stok.STATUS = 1");
     }
 
-    if ((result?.length ?? 0) > 0) {
-      setState(() {
-        listStok = List<Stok>.from(result.map((map) => Stok.fromMap(map)));
-      });
-    }
+    // if ((result?.length ?? 0) > 0) {
+    setState(() {
+      listStok = List<Stok>.from(result.map((map) => Stok.fromMap(map)));
+    });
+    // }
   }
 
   showDialogDelete(_idStok) {
