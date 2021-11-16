@@ -6,3 +6,5 @@ const String masterBarangRoute = '/masterBarangRoute';
 const String addMasterBarangRoute = '/addMasterBarangRoute';
 const String masterCustomerRoute = '/masterCustomerRoute';
 const String addMasterCustomerRoute = '/addMasterCustomerRoute';
+const String masterKategoriRoute = '/masterKategoriRoute';
+const String addMasterKategoriRoute = '/addMasterKategoriRoute';

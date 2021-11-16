@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:penjualan/model/customer.dart';
+import 'package:penjualan/model/kategori.dart';
 import 'package:penjualan/routing/navigator.dart';
-import 'package:penjualan/screen/master/customer/master_customer_controller.dart';
+import 'package:penjualan/screen/master/kategori/master_kategori_controller.dart';
 import 'package:penjualan/utils/common_text.dart';
 import 'package:penjualan/utils/common_widgets.dart';
 import 'package:penjualan/utils/my_colors.dart';
 
-class MasterCustomerView extends MasterCustomerController {
+class MasterKategoriView extends MasterKategoriController {
   @override
   Widget build(BuildContext context) {
     return CommonWidgets.baseFormContainer(
@@ -21,7 +21,7 @@ class MasterCustomerView extends MasterCustomerController {
               systemUiOverlayStyle: SystemUiOverlayStyle.dark,
             ),
             backgroundColor: MyColors.white,
-            body: _masterCustomerBody(),
+            body: _masterKategoriBody(),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: FloatingActionButton(
               backgroundColor: MyColors.themeColor1,
@@ -30,10 +30,10 @@ class MasterCustomerView extends MasterCustomerController {
                 size: 24,
               ),
               onPressed: () {
-                goToAddMasterCustomer(
+                goToAddMasterKategori(
                     context: context,
                     afterOpen: (value) {
-                      fetchDataCustomer();
+                      fetchDataKategori();
                     });
               },
             )),
@@ -41,7 +41,7 @@ class MasterCustomerView extends MasterCustomerController {
     );
   }
 
-  _masterCustomerBody() {
+  _masterKategoriBody() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
       child: Column(
@@ -55,7 +55,7 @@ class MasterCustomerView extends MasterCustomerController {
               placeholderStyle: CommonText.body1(color: MyColors.gray),
               style: CommonText.body1(color: MyColors.black),
               onSubmitted: (text) {
-                fetchDataCustomer(text: text);
+                fetchDataKategori(text: text);
               },
             ),
           ),
@@ -68,9 +68,9 @@ class MasterCustomerView extends MasterCustomerController {
               shrinkWrap: true,
               physics: AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.only(bottom: 50),
-              itemCount: listCustomer?.length,
+              itemCount: listKategori?.length,
               itemBuilder: (BuildContext context, int index) {
-                return _item(index, listCustomer?[index]);
+                return _item(index, listKategori?[index]);
               },
             ),
           ),
@@ -79,7 +79,7 @@ class MasterCustomerView extends MasterCustomerController {
     );
   }
 
-  _item(int index, Customer? customer) {
+  _item(int index, Kategori? kategori) {
     return Container(
       child: Column(
         children: [
@@ -98,7 +98,7 @@ class MasterCustomerView extends MasterCustomerController {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CommonText.text(
-                    text: "ID: ${customer?.idCustomer}",
+                    text: "ID: ${kategori?.idKategori}",
                     style: CommonText.body1(
                       color: MyColors.textGray,
                     ),
@@ -107,28 +107,9 @@ class MasterCustomerView extends MasterCustomerController {
                     height: 8,
                   ),
                   CommonText.text(
-                    text: "${customer?.nmCustomer}",
+                    text: "${kategori?.nmKategori}",
                     style: CommonText.title(
                       color: MyColors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  CommonText.text(
-                    text: "${customer?.alamat}",
-                    style: CommonText.body1(
-                      color: MyColors.textGray,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  CommonText.text(
-                    text:
-                        "Email: ${customer?.email} | Telp: ${customer?.noTelp}",
-                    style: CommonText.body1(
-                      color: MyColors.themeColor1,
                     ),
                   ),
                 ],
@@ -141,7 +122,7 @@ class MasterCustomerView extends MasterCustomerController {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () => showDialogDelete(customer?.idCustomer),
+                    onTap: () => showDialogDelete(kategori?.idKategori),
                     child: CommonText.text(
                       text: 'Delete',
                       style: CommonText.body1(
@@ -154,12 +135,12 @@ class MasterCustomerView extends MasterCustomerController {
                   ),
                   InkWell(
                     onTap: () {
-                      goToAddMasterCustomer(
+                      goToAddMasterKategori(
                         context: context,
                         afterOpen: (value) {
-                          fetchDataCustomer();
+                          fetchDataKategori();
                         },
-                        editCustomer: customer,
+                        editKategori: kategori,
                       );
                     },
                     child: CommonText.text(
