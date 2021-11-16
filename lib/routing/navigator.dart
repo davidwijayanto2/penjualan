@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:penjualan/model/customer.dart';
+import 'package:penjualan/model/kategori.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/routing/router_const.dart';
 import 'package:penjualan/screen/master/barang/form/add_master_barang_controller.dart';
 import 'package:penjualan/screen/master/customer/form/add_master_customer_controller.dart';
+import 'package:penjualan/screen/master/kategori/form/add_master_kategori_controller.dart';
 
 goToHome(BuildContext context) async {
   Navigator.pushNamed(context, homeRoute);
@@ -78,6 +80,35 @@ goToAddMasterCustomer<R>({
     Navigator.pushNamed(context, addMasterCustomerRoute,
         arguments: AddMasterCustomer(
           editCustomer: editCustomer,
+        ));
+  }
+}
+
+goToMasterKategori<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, masterKategoriRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, masterKategoriRoute);
+  }
+}
+
+goToAddMasterKategori<R>({
+  required BuildContext context,
+  Kategori? editKategori,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, addMasterKategoriRoute,
+        arguments: AddMasterKategori(
+          editKategori: editKategori,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, addMasterKategoriRoute,
+        arguments: AddMasterKategori(
+          editKategori: editKategori,
         ));
   }
 }

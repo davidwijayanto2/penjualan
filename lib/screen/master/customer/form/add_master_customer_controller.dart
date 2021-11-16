@@ -57,7 +57,7 @@ abstract class AddMasterCustomerController extends State<AddMasterCustomer> {
         await db?.rawUpdate(
             'UPDATE customer set NM_CUSTOMER = ?,NO_TLP = ?,ALAMAT =?, EMAIL = ?, HARGA_KHUSUS = ? WHERE ID_CUSTOMER = ?',
             [
-              namaCustomerController.text.trim(),
+              namaCustomerController.text.trim().toUpperCase(),
               noTelpController.text.trim(),
               alamatController.text.trim(),
               emailController.text.trim(),
@@ -71,7 +71,7 @@ abstract class AddMasterCustomerController extends State<AddMasterCustomer> {
         await db?.rawInsert(
             'INSERT INTO customer(NM_CUSTOMER, NO_TLP,ALAMAT,EMAIL,STATUS,HARGA_KHUSUS) VALUES(?, ?, ? ,?, 1,?)',
             [
-              namaCustomerController.text.trim(),
+              namaCustomerController.text.trim().toUpperCase(),
               noTelpController.text.trim(),
               alamatController.text.trim(),
               emailController.text.trim(),

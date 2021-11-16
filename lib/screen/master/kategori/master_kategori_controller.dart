@@ -2,24 +2,25 @@ import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:penjualan/model/customer.dart';
+import 'package:penjualan/model/kategori.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/repositories/db_helper.dart';
 import 'package:penjualan/utils/common_dialog.dart';
 import 'package:penjualan/utils/my_colors.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'master_customer_view.dart';
+import 'master_kategori_view.dart';
 
-class MasterCustomer extends StatefulWidget {
+class MasterKategori extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => MasterCustomerView();
+  State<StatefulWidget> createState() => MasterKategoriView();
 }
 
-abstract class MasterCustomerController extends State<MasterCustomer> {
+abstract class MasterKategoriController extends State<MasterKategori> {
   final debouncer =
       Debouncer<String>(Duration(milliseconds: 250), initialValue: '');
   final TextEditingController searchController = TextEditingController();
-  List<Customer>? listCustomer = <Customer>[];
+  List<Kategori>? listKategori = <Kategori>[];
   @override
   void initState() {
     searchController.addListener(() {
@@ -29,34 +30,34 @@ abstract class MasterCustomerController extends State<MasterCustomer> {
     });
     debouncer.values.listen((text) {
       if (mounted) {
-        fetchDataCustomer(text: text);
+        fetchDataKategori(text: text);
       }
     });
-    fetchDataCustomer();
+    fetchDataKategori();
     super.initState();
   }
 
-  fetchDataCustomer({String? text}) async {
+  fetchDataKategori({String? text}) async {
     Database? db = await DatabaseHelper.instance.database;
 
     var result;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT * FROM customer WHERE (ID_CUSTOMER like ? OR lower(NM_CUSTOMER) like ? OR NO_TLP like ? OR ALAMAT like ? OR EMAIL like ? OR HARGA_KHUSUS like ?)",
-          ["%$text%", "%$text%", "%$text%", "%$text%", "%$text%", "%$text%"]);
+          "SELECT * FROM kategori WHERE (ID_KATEGORI like ? OR lower(NM_KATEGORI) like ?)",
+          ["%$text%", "%$text%"]);
       print(result);
     } else {
-      result = await db?.rawQuery("SELECT * FROM customer");
+      result = await db?.rawQuery("SELECT * FROM kategori");
     }
 
     // if ((result?.length ?? 0) > 0) {
     setState(() {
-      listCustomer =
-          List<Customer>.from(result.map((map) => Customer.fromMap(map)));
+      listKategori =
+          List<Kategori>.from(result.map((map) => Kategori.fromMap(map)));
     });
   }
 
-  showDialogDelete(_idCustomer) {
+  showDialogDelete(_idStok) {
     PopupDialog(
       context: context,
       titleText: 'Hapus Data',
@@ -65,18 +66,18 @@ abstract class MasterCustomerController extends State<MasterCustomer> {
       iconColor: Colors.red,
       rightButtonAction: (_) async {
         Navigator.pop(context);
-        deleteCustomer(_idCustomer);
+        deleteBarang(_idStok);
       },
       rightButtonColor: Colors.red,
     );
   }
 
-  deleteCustomer(_idCustomer) async {
+  deleteBarang(_idKategori) async {
     Database? db = await DatabaseHelper.instance.database;
 
     await db?.rawDelete(
-        "UPDATE customer SET STATUS = 0 WHERE ID_CUSTOMER = ?", [_idCustomer]);
+        "UPDATE kategori SET STATUS = 0 WHERE ID_KATEGORI = ?", [_idKategori]);
 
-    fetchDataCustomer();
+    fetchDataKategori();
   }
 }
