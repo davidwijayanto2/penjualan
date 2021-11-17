@@ -22,13 +22,13 @@ class AddMasterKategoriView extends AddMasterKategoriController {
           appBar: CommonWidgets.customAppBar(context,
               titleText: 'Add Master Kategori'),
           backgroundColor: MyColors.white,
-          body: _addMasterBarangBody(),
+          body: _addMasterKategoriBody(),
         ),
       ),
     );
   }
 
-  _addMasterBarangBody() {
+  _addMasterKategoriBody() {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: 20,
