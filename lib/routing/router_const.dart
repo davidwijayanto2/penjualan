@@ -8,3 +8,5 @@ const String masterCustomerRoute = '/masterCustomerRoute';
 const String addMasterCustomerRoute = '/addMasterCustomerRoute';
 const String masterKategoriRoute = '/masterKategoriRoute';
 const String addMasterKategoriRoute = '/addMasterKategoriRoute';
+const String masterSatuanRoute = '/masterSatuanRoute';
+const String addMasterSatuanRoute = '/addMasterSatuanRoute';
