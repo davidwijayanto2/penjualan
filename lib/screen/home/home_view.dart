@@ -97,7 +97,9 @@ class HomeView extends HomeController {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                goToTransaksiPenjualan(context: context);
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:penjualan/model/customer.dart';
+import 'package:penjualan/model/penjualan.dart';
 import 'package:penjualan/model/kategori.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/model/satuan.dart';
@@ -11,6 +12,7 @@ import 'package:penjualan/screen/master/barang/form/add_master_barang_controller
 import 'package:penjualan/screen/master/customer/form/add_master_customer_controller.dart';
 import 'package:penjualan/screen/master/kategori/form/add_master_kategori_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
+import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 
 goToHome(BuildContext context) async {
   Navigator.pushNamed(context, homeRoute);
@@ -140,6 +142,35 @@ goToAddMasterSatuan<R>({
     Navigator.pushNamed(context, addMasterSatuanRoute,
         arguments: AddMasterSatuan(
           editSatuan: editsatuan,
+        ));
+  }
+}
+
+goToTransaksiPenjualan<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, penjualanRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, penjualanRoute);
+  }
+}
+
+goToAddTransaksiPenjualan<R>({
+  required BuildContext context,
+  HJual? editHJual,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, addMasterKategoriRoute,
+        arguments: AddPenjualan(
+          editHJual: editHJual,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, addMasterKategoriRoute,
+        arguments: AddPenjualan(
+          editHJual: editHJual,
         ));
   }
 }

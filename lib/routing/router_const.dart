@@ -10,3 +10,5 @@ const String masterKategoriRoute = '/masterKategoriRoute';
 const String addMasterKategoriRoute = '/addMasterKategoriRoute';
 const String masterSatuanRoute = '/masterSatuanRoute';
 const String addMasterSatuanRoute = '/addMasterSatuanRoute';
+const String penjualanRoute = '/penjualanRoute';
+const String addPenjualanRoute = '/addPenjualanRoute';

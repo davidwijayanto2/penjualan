@@ -13,6 +13,8 @@ import 'package:penjualan/screen/master/kategori/form/add_master_kategori_contro
 import 'package:penjualan/screen/master/kategori/master_kategori_controller.dart';
 import 'package:penjualan/screen/master/satuan/master_satuan_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
+import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
+import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -40,6 +42,11 @@ class MyRouter {
         return routeTransition(screen: MasterSatuan());
       case addMasterSatuanRoute:
         var args = settings.arguments as AddMasterSatuan;
+        return routeTransition(screen: args);
+      case penjualanRoute:
+        return routeTransition(screen: TransaksiPenjualan());
+      case addPenjualanRoute:
+        var args = settings.arguments as AddPenjualan;
         return routeTransition(screen: args);
       default:
         return routeTransition(

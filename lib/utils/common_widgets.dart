@@ -280,4 +280,86 @@ class CommonWidgets {
       color: color == null ? MyColors.dementialGray : color,
     );
   }
+
+  static textIconButton({
+    required String? text,
+    required Function() onPressed,
+    double? width,
+    double height = 45,
+    double borderWidth = 1.0,
+    Color borderColor = MyColors.dementialGray,
+    Color backgroundColor = MyColors.white,
+    Color textColor = MyColors.black,
+    BorderRadius? borderRadius,
+    Icon? prefixIcon,
+    Icon? suffixIcon,
+    Function()? prefixPress,
+    Function()? suffixPress,
+    bool expandedText = true,
+    bool allBorder = true,
+    TextStyle? textStyle,
+  }) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+          width: width ?? double.infinity,
+          height: height,
+          decoration: BoxDecoration(
+            borderRadius:
+                !allBorder ? null : borderRadius ?? BorderRadius.circular(8),
+            color: backgroundColor,
+            border: allBorder
+                ? Border.all(
+                    width: borderWidth,
+                    color: borderColor,
+                  )
+                : Border(
+                    bottom: BorderSide(
+                      width: borderWidth,
+                      color: borderColor,
+                    ),
+                  ),
+          ),
+          padding: allBorder
+              ? EdgeInsets.symmetric(
+                  horizontal: 16,
+                )
+              : EdgeInsets.only(
+                  left: 0,
+                  right: 0,
+                  bottom: 6,
+                  top: 18,
+                ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if (prefixIcon != null)
+                GestureDetector(onTap: prefixPress, child: prefixIcon),
+              if (prefixIcon != null)
+                SizedBox(
+                  width: 8,
+                ),
+              expandedText
+                  ? Expanded(
+                      child: CommonText.text(
+                        text: text!,
+                        maxLines: 1,
+                        style: textStyle ?? CommonText.body1(color: textColor),
+                      ),
+                    )
+                  : CommonText.text(
+                      text: text!,
+                      maxLines: 1,
+                      style: textStyle ?? CommonText.body1(color: textColor),
+                    ),
+              if (suffixIcon != null)
+                SizedBox(
+                  width: 8,
+                ),
+              if (suffixIcon != null)
+                GestureDetector(onTap: suffixPress, child: suffixIcon),
+            ],
+          )),
+    );
+  }
 }

@@ -62,6 +62,7 @@ abstract class AddMasterCustomerController extends State<AddMasterCustomer> {
               alamatController.text.trim(),
               emailController.text.trim(),
               hargaKhusus,
+              widget.editCustomer?.idCustomer
             ]).then((value) {
           Navigator.pop(context);
         }).catchError((onError) {

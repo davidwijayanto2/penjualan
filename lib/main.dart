@@ -6,6 +6,7 @@ import 'package:penjualan/routing/router.dart';
 import 'package:penjualan/screen/home/home_controller.dart';
 import 'package:penjualan/screen/login/login_controller.dart';
 import 'package:penjualan/utils/my_colors.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   await GetStorage.init();
@@ -39,6 +40,15 @@ class MyApp extends StatelessWidget {
           backgroundColor: MyColors.white,
         ),
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('id', ''),
+      ],
       onGenerateRoute: MyRouter.generateRoute,
       home: initPage,
     );
