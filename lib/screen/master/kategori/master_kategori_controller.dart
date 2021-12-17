@@ -77,7 +77,6 @@ abstract class MasterKategoriController extends State<MasterKategori> {
 
     await db?.rawDelete(
         "UPDATE kategori SET STATUS = 0 WHERE ID_KATEGORI = ?", [_idKategori]);
-
     fetchDataKategori();
   }
 }

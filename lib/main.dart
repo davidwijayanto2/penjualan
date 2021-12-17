@@ -7,6 +7,9 @@ import 'package:penjualan/screen/home/home_controller.dart';
 import 'package:penjualan/screen/login/login_controller.dart';
 import 'package:penjualan/utils/my_colors.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 void main() async {
   await GetStorage.init();
