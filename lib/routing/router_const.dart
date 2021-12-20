@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 /// This file contains all the routing constants used within the app
 
 const String loginRoute = '/loginRoute';
@@ -13,3 +15,6 @@ const String addMasterSatuanRoute = '/addMasterSatuanRoute';
 const String penjualanRoute = '/penjualanRoute';
 const String addPenjualanRoute = '/addPenjualanRoute';
 const String detailJualRoute = '/detailJualRoute';
+const String pembelianRoute = '/pembelianRoute';
+const String addPembelianRoute = '/addPembelianRoute';
+const String penjualanDetailRoute = '/penjualanDetailRoute';

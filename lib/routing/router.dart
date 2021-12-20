@@ -16,6 +16,8 @@ import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
+import 'package:penjualan/screen/transaksi/pembelian/pembelian_controller.dart';
+import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -52,6 +54,8 @@ class MyRouter {
       case detailJualRoute:
         var args = settings.arguments as DetailJual;
         return routeTransition(screen: args);
+      case pembelianRoute:
+        return routeTransition(screen: TransaksiPembelian());
       default:
         return routeTransition(
           screen: Scaffold(

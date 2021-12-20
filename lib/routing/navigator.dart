@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:penjualan/model/customer.dart';
 import 'package:penjualan/model/penjualan.dart';
+import 'package:penjualan/model/pembelian.dart';
 import 'package:penjualan/model/kategori.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/model/satuan.dart';
@@ -14,6 +15,7 @@ import 'package:penjualan/screen/master/kategori/form/add_master_kategori_contro
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
+import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
 
 goToHome(BuildContext context) async {
   Navigator.pushNamed(context, homeRoute);
@@ -191,5 +193,16 @@ goToAddDetailJual<R>({
         arguments: DetailJual(
           editDJual: editDJual,
         ));
+  }
+}
+
+goToTransaksiPembelian<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, pembelianRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, pembelianRoute);
   }
 }
