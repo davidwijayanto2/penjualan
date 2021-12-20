@@ -155,7 +155,9 @@ class HomeView extends HomeController {
               height: 5,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                goToTransaksiDetailPenjualan(context: context);
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(

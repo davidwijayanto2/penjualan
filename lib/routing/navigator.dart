@@ -196,6 +196,17 @@ goToAddDetailJual<R>({
   }
 }
 
+goToTransaksiDetailPenjualan<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, penjualanDetailRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, penjualanDetailRoute);
+  }
+}
+
 goToTransaksiPembelian<R>({
   required BuildContext context,
   FutureOr<R> Function(dynamic)? afterOpen,
