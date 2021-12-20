@@ -35,7 +35,7 @@ class HJual {
         nmKaryawan = map['NM_KARYAWAN'],
         nmCustomer = map['NM_CUSTOMER'],
         quantityTotal = map['QUANTITY_TOTAL'],
-        grandTotal = map['GRANTOTAL'],
+        grandTotal = map['GRANDTOTAL'],
         dibayarkan = map['DIBAYARKAN'],
         sisa = map['SISA'],
         nonota = map['NONOTA'],
@@ -45,16 +45,26 @@ class HJual {
         rekening = map['REKENING'];
 }
 
-class Djual {
+class DJual {
   int? idDjual;
   String? idHjual;
   String? nmBarang;
   String? satuan;
-  String? quantity;
-  String? hargaBarang;
-  String? subtotal;
+  int? quantity;
+  int? hargaBarang;
+  int? subtotal;
 
-  Djual.fromMap(Map<String, dynamic> map)
+  DJual({
+    this.idDjual,
+    this.idHjual,
+    this.nmBarang,
+    this.satuan,
+    this.quantity,
+    this.hargaBarang,
+    this.subtotal,
+  });
+
+  DJual.fromMap(Map<String, dynamic> map)
       : idDjual = map['ID_DJUAL'],
         idHjual = map['ID_HJUAL'],
         nmBarang = map['NM_BARANG'],

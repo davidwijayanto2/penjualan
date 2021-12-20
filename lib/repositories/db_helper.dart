@@ -312,5 +312,15 @@ class DatabaseHelper {
 ('79', '0002/07/2020', 'PISAU CIGARETTE', 'PCS', '100', '12500', '1250000'),
 ('80', '0002/07/2020', 'PISAU FILTER', 'PCS', '100', '16000', '1600000'),
 ('285', '0003/01/2021', 'CUT OFF', 'UNIT', '1', '13500000', '13500000')''');
+    await database.execute('''INSERT INTO `satuan` VALUES ('2', 'PCS'),
+('3', 'KG'),
+('4', 'SET'),
+('5', 'UNIT'),
+('6', 'METER'),
+('7', 'KALENG'),
+('8', 'ROLL'),
+('9', 'PACK'),
+('10', 'KOTAK'),
+('11', 'BOX')''');
   }
 }

@@ -108,8 +108,9 @@ class MasterCustomerView extends MasterCustomerController {
                   ),
                   CommonText.text(
                     text: "${customer?.nmCustomer}",
-                    style: CommonText.title(
+                    style: CommonText.body1(
                       color: MyColors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(

@@ -43,4 +43,24 @@ class DateFormatter {
     var dateF = DateFormat('yyyy-MM-dd ').format(DateTime.now());
     return DateTime.parse(dateF + time);
   }
+
+  static String dateTimeToDBFormat(DateTime dt) {
+    return DateFormat('yyyy-MM-dd 00:00:00').format(dt);
+  }
+
+  static String getDate(DateTime dt) {
+    return DateFormat('dd').format(dt);
+  }
+
+  static String getMonth(DateTime dt) {
+    return DateFormat('MM').format(dt);
+  }
+
+  static String getMonthLong(DateTime dt) {
+    return DateFormat('MMMM').format(dt);
+  }
+
+  static String getYear(DateTime dt) {
+    return DateFormat('yyyy').format(dt);
+  }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:penjualan/utils/common_helper.dart';
 import 'package:penjualan/utils/common_text.dart';
 import 'package:penjualan/utils/my_colors.dart';
 
@@ -129,6 +132,46 @@ class CommonWidgets {
                     )
                   : textStyle,
             ),
+      ),
+    );
+  }
+
+  static outlinedIconButton({
+    required IconData icon,
+    required Function() onPressed,
+    Color iconColor = MyColors.textGray,
+    double iconSize = 17,
+    Color backgroundColor = MyColors.white,
+    Color borderColor = MyColors.textGray,
+    double borderWidth = 0.5,
+    double width = 34,
+    double height = 34,
+    double radius = 100,
+  }) {
+    return Container(
+      width: width,
+      height: height,
+      child: new RawMaterialButton(
+        fillColor: backgroundColor,
+        shape: new RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radius),
+          side: BorderSide(
+            color: borderColor,
+            width: borderWidth,
+          ),
+        ),
+        elevation: 0.0,
+        child: Center(
+          child: Transform.translate(
+            offset: Offset(0.25, 0),
+            child: Icon(
+              icon,
+              color: iconColor,
+              size: iconSize,
+            ),
+          ),
+        ),
+        onPressed: onPressed,
       ),
     );
   }
@@ -298,6 +341,7 @@ class CommonWidgets {
     bool expandedText = true,
     bool allBorder = true,
     TextStyle? textStyle,
+    EdgeInsets? padding,
   }) {
     return GestureDetector(
       onTap: onPressed,
@@ -320,16 +364,18 @@ class CommonWidgets {
                     ),
                   ),
           ),
-          padding: allBorder
-              ? EdgeInsets.symmetric(
-                  horizontal: 16,
-                )
-              : EdgeInsets.only(
-                  left: 0,
-                  right: 0,
-                  bottom: 6,
-                  top: 18,
-                ),
+          padding: padding != null
+              ? padding
+              : allBorder
+                  ? EdgeInsets.symmetric(
+                      horizontal: 16,
+                    )
+                  : EdgeInsets.only(
+                      left: 0,
+                      right: 0,
+                      bottom: 6,
+                      top: 18,
+                    ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -360,6 +406,599 @@ class CommonWidgets {
                 GestureDetector(onTap: suffixPress, child: suffixIcon),
             ],
           )),
+    );
+  }
+
+  static errorMessage(
+    context, {
+    String? fieldName,
+    String? message = 'This field is required',
+    TextStyle? textStyle,
+    double iconSize = 15.0,
+  }) {
+    if (fieldName != null &&
+        (message == null ||
+            message == "" ||
+            message == "This field is required")) {
+      message = "$fieldName is required";
+    } else {
+      message = message;
+    }
+
+    return Container(
+      padding: EdgeInsets.only(
+        top: 8,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            FontAwesomeIcons.exclamationCircle,
+            color: MyColors.red,
+            size: iconSize,
+          ),
+          SizedBox(width: 4),
+          Flexible(
+            child: CommonText.text(
+              text: message ?? '',
+              style: textStyle ?? CommonText.body2(color: MyColors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+typedef void CounterChangeCallback(num value);
+
+// ignore: must_be_immutable
+class CustomStepper extends StatelessWidget {
+  final CounterChangeCallback onChanged;
+
+  CustomStepper({
+    Key? key,
+    required num? initialValue,
+    required this.minValue,
+    required this.maxValue,
+    required this.onChanged,
+    required this.decimalPlaces,
+    this.color,
+    this.textStyle,
+    this.step = 1,
+    this.buttonSize = 25,
+    this.enableText = true,
+  })  : assert(initialValue != null),
+        assert(maxValue > minValue),
+        assert(initialValue! >= minValue && initialValue <= maxValue),
+        assert(step > 0),
+        selectedValue = initialValue!,
+        super(key: key);
+
+  ///min value user can pick
+  final num minValue;
+
+  ///max value user can pick
+  final num maxValue;
+
+  /// decimal places required by the counter
+  final int decimalPlaces;
+
+  ///Currently selected integer value
+  num selectedValue;
+
+  bool enableText;
+
+  /// if min=0, max=5, step=3, then items will be 0 and 3.
+  final num step;
+
+  /// indicates the color of fab used for increment and decrement
+  Color? color;
+
+  /// text syle
+  TextStyle? textStyle;
+
+  final double buttonSize;
+
+  void _incrementCounter() {
+    if (selectedValue + step <= maxValue) {
+      onChanged((selectedValue + step));
+    }
+  }
+
+  void _decrementCounter() {
+    if (selectedValue - step >= minValue) {
+      onChanged((selectedValue - step));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    color = color ?? themeData.accentColor;
+    textStyle = textStyle ?? CommonText.body1(color: MyColors.textGray);
+
+    return new Container(
+      padding: new EdgeInsets.all(4.0),
+      child: new Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: buttonSize,
+            height: buttonSize,
+            child: new RawMaterialButton(
+              fillColor: MyColors.white,
+              shape: new RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+                side: BorderSide(
+                  color: selectedValue > minValue
+                      ? MyColors.textGray
+                      : MyColors.dementialGray,
+                  width: 2.0,
+                ),
+              ),
+              elevation: 0.0,
+              child: Icon(
+                Icons.remove,
+                color: selectedValue > minValue
+                    ? MyColors.textGray
+                    : MyColors.dementialGray,
+                size: 20,
+              ),
+              onPressed: _decrementCounter,
+            ),
+          ),
+          if (enableText)
+            SizedBox(
+              width: 12,
+            ),
+          if (enableText)
+            new Container(
+              padding: EdgeInsets.all(4.0),
+              child: new Text(
+                '${num.parse((selectedValue).toStringAsFixed(decimalPlaces))}',
+                style: textStyle,
+              ),
+            ),
+          SizedBox(
+            width: 12,
+          ),
+          Container(
+            width: buttonSize,
+            height: buttonSize,
+            child: new RawMaterialButton(
+              fillColor: MyColors.white,
+              shape: new RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+                side: BorderSide(
+                  color: selectedValue < maxValue
+                      ? MyColors.textGray
+                      : MyColors.dementialGray,
+                  width: 2.0,
+                ),
+              ),
+              elevation: 0.0,
+              child: Icon(
+                Icons.add,
+                color: selectedValue < maxValue
+                    ? MyColors.textGray
+                    : MyColors.dementialGray,
+                size: 20,
+              ),
+              onPressed: _incrementCounter,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class CustomStepperWithBorder extends StatelessWidget {
+  final CounterChangeCallback onChanged;
+
+  CustomStepperWithBorder({
+    Key? key,
+    required num initialValue,
+    required this.minValue,
+    required this.maxValue,
+    required this.onChanged,
+    required this.decimalPlaces,
+    this.allBorder = true,
+    this.color,
+    this.textStyle,
+    this.step = 1,
+    this.borderWidth = 1,
+    this.buttonSize = 25,
+    this.padding,
+  })  : assert(maxValue > minValue),
+        assert(initialValue >= minValue && initialValue <= maxValue),
+        assert(step > 0),
+        selectedValue = initialValue,
+        super(key: key);
+
+  ///min value user can pick
+  final num minValue;
+
+  ///max value user can pick
+  final num maxValue;
+
+  /// decimal places required by the counter
+  final int decimalPlaces;
+
+  ///Currently selected integer value
+  num selectedValue;
+
+  final bool allBorder;
+
+  final EdgeInsets? padding;
+
+  /// if min=0, max=5, step=3, then items will be 0 and 3.
+  final num step;
+
+  /// indicates the color of fab used for increment and decrement
+  Color? color;
+
+  /// text style
+  TextStyle? textStyle;
+
+  /// border width
+  final double borderWidth;
+
+  final double buttonSize;
+
+  void _incrementCounter() {
+    if (selectedValue + step <= maxValue) {
+      onChanged((selectedValue + step));
+    }
+  }
+
+  void _decrementCounter() {
+    if (selectedValue - step >= minValue) {
+      onChanged((selectedValue - step));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    color = color ?? themeData.accentColor;
+    textStyle = textStyle ?? CommonText.body1(color: MyColors.textGray);
+
+    return new Container(
+      height: 45,
+      decoration: BoxDecoration(
+        border: allBorder
+            ? Border.all(
+                width: borderWidth,
+                color: MyColors.dementialGray,
+              )
+            : Border(
+                bottom: BorderSide(
+                  width: borderWidth,
+                  color: MyColors.dementialGray,
+                ),
+              ),
+        borderRadius: allBorder ? BorderRadius.circular(10) : null,
+      ),
+      padding: padding != null
+          ? padding
+          : EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
+      child: new Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CommonText.text(
+            text:
+                '${num.parse((selectedValue).toStringAsFixed(decimalPlaces))}',
+            maxLines: 1,
+            style: CommonText.body1(color: MyColors.black),
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                width: buttonSize,
+                height: buttonSize,
+                child: new RawMaterialButton(
+                  fillColor: MyColors.white,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    side: BorderSide(
+                      color: selectedValue > 0
+                          ? MyColors.textGray
+                          : MyColors.dementialGray,
+                      width: 2.0,
+                    ),
+                  ),
+                  elevation: 0.0,
+                  child: Icon(
+                    Icons.remove,
+                    color: selectedValue > 0
+                        ? MyColors.textGray
+                        : MyColors.dementialGray,
+                    size: 20,
+                  ),
+                  onPressed: _decrementCounter,
+                ),
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Container(
+                width: buttonSize,
+                height: buttonSize,
+                child: new RawMaterialButton(
+                  fillColor: MyColors.white,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    side: BorderSide(
+                      color: MyColors.textGray,
+                      width: 2.0,
+                    ),
+                  ),
+                  elevation: 0.0,
+                  child: Icon(
+                    Icons.add,
+                    color: MyColors.textGray,
+                    size: 20,
+                  ),
+                  onPressed: _incrementCounter,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class CustomStepperStringValue extends StatelessWidget {
+  final CounterChangeCallback onChanged;
+
+  CustomStepperStringValue({
+    Key? key,
+    required num initialValue,
+    this.prefix,
+    this.zeroValue,
+    required this.minValue,
+    required this.maxValue,
+    required this.onChanged,
+    required this.decimalPlaces,
+    this.color,
+    this.textStyle,
+    this.step = 1,
+    this.buttonSize = 25,
+    this.enableText = true,
+  })  : assert(maxValue > minValue),
+        assert(initialValue >= minValue && initialValue <= maxValue),
+        assert(step > 0),
+        selectedValue = initialValue,
+        super(key: key);
+
+  ///min value user can pick
+  final num minValue;
+
+  ///max value user can pick
+  final num maxValue;
+
+  /// decimal places required by the counter
+  final int decimalPlaces;
+
+  ///Currently selected integer value
+  num selectedValue;
+
+  bool enableText;
+
+  final String? prefix;
+
+  final String? zeroValue;
+
+  /// if min=0, max=5, step=3, then items will be 0 and 3.
+  final num step;
+
+  /// indicates the color of fab used for increment and decrement
+  Color? color;
+
+  /// text syle
+  TextStyle? textStyle;
+
+  final double buttonSize;
+
+  void _incrementCounter() {
+    if (selectedValue + step <= maxValue) {
+      onChanged((selectedValue + step));
+    }
+  }
+
+  void _decrementCounter() {
+    if (selectedValue - step >= minValue) {
+      onChanged((selectedValue - step));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    color = color ?? themeData.accentColor;
+    textStyle = textStyle ?? CommonText.body1(color: MyColors.textGray);
+
+    return new Container(
+      padding: new EdgeInsets.all(4.0),
+      child: new Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: buttonSize,
+            height: buttonSize,
+            child: new RawMaterialButton(
+              fillColor: MyColors.white,
+              shape: new RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+                side: BorderSide(
+                  color: selectedValue > minValue
+                      ? MyColors.textGray
+                      : MyColors.dementialGray,
+                  width: 2.0,
+                ),
+              ),
+              elevation: 0.0,
+              child: Icon(
+                Icons.remove,
+                color: selectedValue > minValue
+                    ? MyColors.textGray
+                    : MyColors.dementialGray,
+                size: 20,
+              ),
+              onPressed: _decrementCounter,
+            ),
+          ),
+          // if (enableText)
+          //   SizedBox(
+          //     width: 12,
+          //   ),
+          // if (enableText)
+          new Container(
+            padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+            width: 60,
+            alignment: Alignment.center,
+            child: new Text(
+              int.parse(selectedValue.toString()) > 0
+                  ? '${prefix ?? ''} ${num.parse((selectedValue).toStringAsFixed(decimalPlaces))}'
+                  : zeroValue!,
+              style: textStyle,
+            ),
+          ),
+          // SizedBox(
+          //   width: 12,
+          // ),
+          Container(
+            width: buttonSize,
+            height: buttonSize,
+            child: new RawMaterialButton(
+              fillColor: MyColors.white,
+              shape: new RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+                side: BorderSide(
+                  color: MyColors.textGray,
+                  width: 2.0,
+                ),
+              ),
+              elevation: 0.0,
+              child: Icon(
+                Icons.add,
+                color: MyColors.textGray,
+                size: 20,
+              ),
+              onPressed: _incrementCounter,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomMoneyField extends StatefulWidget {
+  final TextEditingController controller;
+  final InputDecoration decoration;
+  final TextStyle? style;
+  final int maxLines;
+  final String? initialValue;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool enableZero;
+  final ThousandSeparator separator;
+  final Widget? errorWidget;
+  final Function(String)? onChange;
+  final List<Widget> validators;
+  final Function(bool)? onFieldValid;
+  final int? maxLength;
+
+  const CustomMoneyField({
+    Key? key,
+    required this.controller,
+    this.decoration = const InputDecoration(),
+    this.style,
+    this.maxLines = 1,
+    this.initialValue,
+    this.inputFormatters,
+    this.enableZero = false,
+    this.separator = ThousandSeparator.Comma,
+    this.errorWidget,
+    this.onChange,
+    this.validators = const [],
+    this.onFieldValid,
+    this.maxLength,
+  }) : super(key: key);
+
+  @override
+  _CustomMoneyFieldState createState() => _CustomMoneyFieldState();
+}
+
+class _CustomMoneyFieldState extends State<CustomMoneyField> {
+  final _isValid = ValueNotifier<bool>(true);
+  Widget? _errorMessage;
+
+  @override
+  void initState() {
+    if (widget.initialValue != null) {
+      widget.controller.text = toCurrencyString(
+        widget.initialValue!,
+        mantissaLength: 0,
+        thousandSeparator: widget.separator,
+      );
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: widget.controller,
+          decoration: widget.decoration,
+          style: widget.style,
+          maxLines: widget.maxLines,
+          maxLength: widget.maxLength,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.deny('-'),
+            MoneyInputFormatter(
+              thousandSeparator: widget.separator,
+              mantissaLength: 0,
+            ),
+            if (widget.inputFormatters != null) ...widget.inputFormatters!,
+          ],
+          onChanged: (val) {
+            CommonHelpers.moneyFieldNormalizer(
+              controller: widget.controller,
+              enableZero: widget.enableZero,
+              separator: widget.separator,
+              notifier: () => setState(() {}),
+            );
+
+            if (widget.onChange != null) widget.onChange!(val);
+          },
+        ),
+        ValueListenableBuilder<bool>(
+          valueListenable: _isValid,
+          builder: (_, isValid, child) => Visibility(
+            visible: !isValid,
+            child: child!,
+          ),
+          child: _errorMessage ?? Container(),
+        ),
+      ],
     );
   }
 }

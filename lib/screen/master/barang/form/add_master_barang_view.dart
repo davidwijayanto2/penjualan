@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:penjualan/routing/navigator.dart';
 import 'package:penjualan/screen/master/barang/form/add_master_barang_controller.dart';
@@ -88,13 +89,6 @@ class AddMasterBarangView extends AddMasterBarangController {
                       child: Text(data.nmKategori ?? ''));
                 }).toList(),
               ),
-              if (kategori == 0 && onError)
-                Container(
-                  padding: EdgeInsets.only(top: 4),
-                  child: CommonText.text(
-                      text: 'This field is required',
-                      style: CommonText.body1(color: Colors.red)),
-                ),
               SizedBox(
                 height: 20,
               ),
@@ -129,18 +123,14 @@ class AddMasterBarangView extends AddMasterBarangController {
               SizedBox(
                 height: 8,
               ),
-              FormBuilderTextField(
-                name: 'quantity',
+              CustomMoneyField(
                 maxLines: 1,
                 maxLength: 10,
                 controller: quantityController,
-                validator: FormBuilderValidators.compose(
-                  [
-                    FormBuilderValidators.required(context),
-                  ],
-                ),
-                keyboardType: TextInputType.number,
+                separator: ThousandSeparator.Period,
               ),
+              if (onError && quantityController.text.isEmpty)
+                CommonWidgets.errorMessage(context),
               SizedBox(
                 height: 20,
               ),
@@ -153,18 +143,14 @@ class AddMasterBarangView extends AddMasterBarangController {
               SizedBox(
                 height: 8,
               ),
-              FormBuilderTextField(
-                name: 'harga',
+              CustomMoneyField(
                 maxLines: 1,
                 maxLength: 10,
                 controller: hargaController,
-                validator: FormBuilderValidators.compose(
-                  [
-                    FormBuilderValidators.required(context),
-                  ],
-                ),
-                keyboardType: TextInputType.number,
+                separator: ThousandSeparator.Period,
               ),
+              if (onError && hargaController.text.isEmpty)
+                CommonWidgets.errorMessage(context),
               SizedBox(
                 height: 30,
               ),

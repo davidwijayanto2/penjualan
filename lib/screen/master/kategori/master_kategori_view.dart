@@ -108,8 +108,9 @@ class MasterKategoriView extends MasterKategoriController {
                   ),
                   CommonText.text(
                     text: "${kategori?.nmKategori}",
-                    style: CommonText.title(
+                    style: CommonText.body1(
                       color: MyColors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],

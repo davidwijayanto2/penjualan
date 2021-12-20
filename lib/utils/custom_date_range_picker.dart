@@ -50,6 +50,8 @@ class _DatePickerHeader extends StatelessWidget {
     Key? key,
     required this.selectedFirstDate,
     this.selectedLastDate,
+    required this.initialFirstDate,
+    this.initialLastDate,
     required this.mode,
     required this.onModeChanged,
 //    @required this.orientation,
@@ -60,6 +62,8 @@ class _DatePickerHeader extends StatelessWidget {
 
   final DateTime selectedFirstDate;
   final DateTime? selectedLastDate;
+  final DateTime initialFirstDate;
+  final DateTime? initialLastDate;
   final DatePickerMode mode;
   final ValueChanged<DatePickerMode> onModeChanged;
   //final Orientation orientation;
@@ -181,7 +185,8 @@ class _DatePickerHeader extends StatelessWidget {
         text: textDate, style: CommonText.body1(color: MyColors.black));
     final Widget iconHeader = GestureDetector(
         onTap: () {
-          Navigator.pop(context);
+          Navigator.pop(
+              context, [initialFirstDate, initialLastDate ?? DateTime.now()]);
         },
         child: CommonText.text(
             text: 'X', style: CommonText.title(color: MyColors.black)));
@@ -1204,6 +1209,8 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
     final Widget header = new _DatePickerHeader(
       selectedFirstDate: _selectedFirstDate!,
       selectedLastDate: _selectedLastDate,
+      initialFirstDate: widget.initialFirstDate!,
+      initialLastDate: widget.initialLastDate,
       mode: _mode!,
       onModeChanged: _handleModeChanged,
       //orientation: orientation,

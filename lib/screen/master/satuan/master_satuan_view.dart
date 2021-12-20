@@ -108,8 +108,9 @@ class MasterSatuanView extends MasterSatuanController {
                   ),
                   CommonText.text(
                     text: "${satuan?.nmSatuan}",
-                    style: CommonText.title(
+                    style: CommonText.body1(
                       color: MyColors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],

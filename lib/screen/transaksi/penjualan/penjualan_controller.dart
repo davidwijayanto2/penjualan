@@ -102,26 +102,36 @@ abstract class PenjualanController extends State<TransaksiPenjualan> {
             DateTime.parse(DateFormat('2010-01-01').format(DateTime.now())),
         lastDate: DateTime.parse("2100-01-01"));
     if (picked != null) {
-      setState(() {
-        filterStartDate = DateFormat('yyyy-MM-dd').format(picked[0]);
-        if (picked.length < 2)
-          filterEndDate = DateFormat('yyyy-MM-dd').format(picked[0]);
-        else
-          filterEndDate = DateFormat('yyyy-MM-dd').format(picked[1]);
-        setScheduleDateText();
-        fetchDataPenjualan(
-            filterStart: filterStartDate, filterEnd: filterEndDate);
-      });
+      var formattedPicked1 = DateFormat('yyyy-MM-dd').format(picked[0]);
+      var formattedPicked2 = picked.length < 2
+          ? DateFormat('yyyy-MM-dd').format(picked[0])
+          : DateFormat('yyyy-MM-dd').format(picked[1]);
+      if (formattedPicked1 != filterStartDate ||
+          formattedPicked2 != filterEndDate)
+        setState(() {
+          filterStartDate = DateFormat('yyyy-MM-dd').format(picked[0]);
+          if (picked.length < 2)
+            filterEndDate = DateFormat('yyyy-MM-dd').format(picked[0]);
+          else
+            filterEndDate = DateFormat('yyyy-MM-dd').format(picked[1]);
+          setScheduleDateText();
+          fetchDataPenjualan(
+              filterStart: filterStartDate, filterEnd: filterEndDate);
+        });
     } else {
-      fetchDataPenjualan();
+      setState(() {
+        filterStartDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        filterEndDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        setScheduleDateText();
+        fetchDataPenjualan();
+      });
     }
   }
 
   deletePenjualan(_idHjual) async {
     Database? db = await DatabaseHelper.instance.database;
 
-    await db?.rawDelete(
-        "UPDATE h_jual SET STATUS = 0 WHERE ID_HJUAL = ?", [_idHjual]);
+    await db?.rawDelete("DELETE FROM h_jual WHERE ID_HJUAL = ?", [_idHjual]);
 
     fetchDataPenjualan();
   }

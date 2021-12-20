@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:penjualan/utils/common_widgets.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 
 import 'common_text.dart';
+import 'device_size.dart';
 import 'my_colors.dart';
 
 class PopupDialog {
@@ -421,4 +423,21 @@ class _PopupDialogWithWidgetSubtitleBuilderState
       ]),
     );
   }
+}
+
+YYDialog popupDialogAutoComplete(
+  context, {
+  required Widget selectWidget,
+}) {
+  return YYDialog().build(context)
+    ..width = deviceWidth(context) - 32
+    ..borderRadius = 15
+    ..divider(color: MyColors.dementialGray)
+    ..widget(
+      Container(
+        height: deviceHeight(context) - (deviceHeight(context) / 4),
+        child: selectWidget,
+      ),
+    )
+    ..show();
 }

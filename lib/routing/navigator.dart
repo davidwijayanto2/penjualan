@@ -13,6 +13,7 @@ import 'package:penjualan/screen/master/customer/form/add_master_customer_contro
 import 'package:penjualan/screen/master/kategori/form/add_master_kategori_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
+import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 
 goToHome(BuildContext context) async {
   Navigator.pushNamed(context, homeRoute);
@@ -163,14 +164,32 @@ goToAddTransaksiPenjualan<R>({
   FutureOr<R> Function(dynamic)? afterOpen,
 }) {
   if (afterOpen != null) {
-    Navigator.pushNamed(context, addMasterKategoriRoute,
+    Navigator.pushNamed(context, addPenjualanRoute,
         arguments: AddPenjualan(
           editHJual: editHJual,
         )).then(afterOpen);
   } else {
-    Navigator.pushNamed(context, addMasterKategoriRoute,
+    Navigator.pushNamed(context, addPenjualanRoute,
         arguments: AddPenjualan(
           editHJual: editHJual,
+        ));
+  }
+}
+
+goToAddDetailJual<R>({
+  required BuildContext context,
+  DJual? editDJual,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, detailJualRoute,
+        arguments: DetailJual(
+          editDJual: editDJual,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, detailJualRoute,
+        arguments: DetailJual(
+          editDJual: editDJual,
         ));
   }
 }

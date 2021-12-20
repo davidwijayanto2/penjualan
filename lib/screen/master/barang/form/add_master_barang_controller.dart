@@ -58,8 +58,18 @@ abstract class AddMasterBarangController extends State<AddMasterBarang> {
     }
   }
 
+  bool validateForm() {
+    bool flag = true;
+    if (!formKey.currentState!.validate()) flag = false;
+
+    if (quantityController.text.isEmpty) flag = false;
+    if (hargaController.text.isEmpty) flag = false;
+
+    return flag;
+  }
+
   submitForm() async {
-    if (formKey.currentState!.validate()) {
+    if (validateForm()) {
       Database? db = await DatabaseHelper.instance.database;
       if (widget.editStok != null) {
         await db?.rawUpdate(

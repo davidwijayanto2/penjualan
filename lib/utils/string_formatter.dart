@@ -2,8 +2,8 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 String formatMoney({required num value}) {
   return value.toCurrencyString(
-    leadingSymbol: 'Rp. ',
-    thousandSeparator: ThousandSeparator.Comma,
+    leadingSymbol: 'Rp',
+    thousandSeparator: ThousandSeparator.Period,
     mantissaLength: 0,
     useSymbolPadding: false,
   );
@@ -20,4 +20,8 @@ String thousandSeparator(var number, {separator = ','}) {
       result.write(separator);
   }
   return result.toString();
+}
+
+String extractNumber({required String value}) {
+  return value.replaceAll(RegExp(r'[^\s\w]'), '');
 }

@@ -110,8 +110,9 @@ class MasterBarangView extends MasterBarangController {
                   ),
                   CommonText.text(
                     text: "${stok?.namaBarang}",
-                    style: CommonText.title(
+                    style: CommonText.body1(
                       color: MyColors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(

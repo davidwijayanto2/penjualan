@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_custom_dialog:
+    path: ./lib/ext_libraries/flutter-custom-dialog
   cupertino_icons: ^1.0.3
   sqflite: ^2.0.0+4
   path_provider: ^2.0.4
