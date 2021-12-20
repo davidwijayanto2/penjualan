@@ -15,6 +15,7 @@ import 'package:penjualan/screen/master/satuan/master_satuan_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
+import 'package:penjualan/screen/transaksi/detailpenjualan/detailpenjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/pembelian_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
 
@@ -52,6 +53,8 @@ class MyRouter {
         return routeTransition(screen: args);
       case pembelianRoute:
         return routeTransition(screen: TransaksiPembelian());
+      case penjualanDetailRoute:
+        return routeTransition(screen: DetailTransaksiPenjualan());
       default:
         return routeTransition(
           screen: Scaffold(

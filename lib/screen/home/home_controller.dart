@@ -3,7 +3,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:penjualan/model/user.dart';
 import 'package:penjualan/repositories/local_storage.dart';
 import 'package:penjualan/routing/navigator.dart';
-
 import 'home_view.dart';
 
 class Home extends StatefulWidget {
