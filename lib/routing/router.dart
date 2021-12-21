@@ -15,6 +15,7 @@ import 'package:penjualan/screen/master/satuan/master_satuan_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
+import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
 import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/pembelian_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
@@ -50,6 +51,9 @@ class MyRouter {
         return routeTransition(screen: TransaksiPenjualan());
       case addPenjualanRoute:
         var args = settings.arguments as AddPenjualan;
+        return routeTransition(screen: args);
+      case printNotaRoute:
+        var args = settings.arguments as PrintNota;
         return routeTransition(screen: args);
       case detailJualRoute:
         var args = settings.arguments as DetailJual;

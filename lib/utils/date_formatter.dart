@@ -2,6 +2,10 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class DateFormatter {
+  static String toNumberDateText(context, DateTime date) {
+    return DateFormat('dd-MM-yyyy').format(date);
+  }
+
   static String toShortDateText(context, DateTime date) {
     initializeDateFormatting('id', null);
     return DateFormat('dd ').format(date) +

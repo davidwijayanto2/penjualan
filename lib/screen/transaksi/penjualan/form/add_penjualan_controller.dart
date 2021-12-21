@@ -11,7 +11,9 @@ import 'package:penjualan/repositories/db_helper.dart';
 import 'package:penjualan/repositories/local_storage.dart';
 import 'package:penjualan/utils/common_dialog.dart';
 import 'package:penjualan/utils/date_formatter.dart';
-import 'package:penjualan/utils/select_barang.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 import 'package:penjualan/utils/select_customer.dart';
 import 'package:penjualan/utils/string_formatter.dart';
 import 'package:sqflite/sqflite.dart';
@@ -363,6 +365,33 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
         calculateTotal();
       },
       rightButtonColor: Colors.red,
+    );
+  }
+
+  HJual getHjualFromForm() {
+    var user = LocalStorage.userLogin();
+    return HJual(
+      idHjual: null,
+      tglTransaksi: DateFormatter.dateTimeToDBFormat(datePicked),
+      nmKaryawan: user?.nmKaryawan ?? '',
+      nmCustomer: customer?.nmCustomer ?? '',
+      quantityTotal: quantityTotal,
+      grandTotal: grandTotalController.text.isEmpty
+          ? 0
+          : int.parse(extractNumber(value: grandTotalController.text)),
+      dibayarkan: dibayarkanController.text.isEmpty
+          ? 0
+          : int.parse(extractNumber(value: dibayarkanController.text)),
+      sisa: sisaController.text.isEmpty
+          ? 0
+          : int.parse(extractNumber(value: sisaController.text)),
+      nonota: noNotaController.text.trim(),
+      keterangan: keteranganController.text.trim(),
+      kota: kotaController.text.trim(),
+      potongan: discountController.text.isEmpty
+          ? 0
+          : int.parse(extractNumber(value: discountController.text)),
+      rekening: keterangan2Controller.text.trim(),
     );
   }
 }

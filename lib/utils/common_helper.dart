@@ -42,4 +42,8 @@ class CommonHelpers {
     }
     if (notifier != null) notifier();
   }
+
+  static double convertMMtoPx({required double mm}) {
+    return mm * 3.7795275591;
+  }
 }

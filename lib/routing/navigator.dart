@@ -16,6 +16,7 @@ import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
+import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
 
 goToHome(BuildContext context) async {
   Navigator.pushNamed(context, homeRoute);
@@ -204,5 +205,26 @@ goToTransaksiPembelian<R>({
     Navigator.pushNamed(context, pembelianRoute).then(afterOpen);
   } else {
     Navigator.pushNamed(context, pembelianRoute);
+  }
+}
+
+goToPrintNota<R>({
+  required BuildContext context,
+  required HJual hJual,
+  required List<DJual> dJualList,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, printNotaRoute,
+        arguments: PrintNota(
+          hJual,
+          dJualList,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, printNotaRoute,
+        arguments: PrintNota(
+          hJual,
+          dJualList,
+        ));
   }
 }
