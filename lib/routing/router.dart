@@ -19,6 +19,7 @@ import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
 import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/pembelian_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
+import 'package:penjualan/screen/transaksi/detailpenjualan/detailpenjualan_controller.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -60,6 +61,8 @@ class MyRouter {
         return routeTransition(screen: args);
       case pembelianRoute:
         return routeTransition(screen: TransaksiPembelian());
+      case penjualanDetailRoute:
+        return routeTransition(screen: TransaksiPenjualanDetail());
       default:
         return routeTransition(
           screen: Scaffold(
