@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:penjualan/model/penjualan.dart';
 import 'package:penjualan/routing/navigator.dart';
+
 import 'package:penjualan/utils/common_text.dart';
 import 'package:penjualan/utils/common_widgets.dart';
 import 'package:penjualan/utils/date_formatter.dart';
@@ -307,9 +310,29 @@ class AddPenjualanView extends AddPenjualanController {
                 style: CommonText.body1(color: MyColors.gray),
               ),
               SizedBox(height: 15),
-              CommonWidgets.containedButton(
-                text: widget.editHJual == null ? 'Add' : 'Edit',
-                onPressed: submitForm,
+              Row(
+                children: [
+                  Expanded(
+                    child: CommonWidgets.outlinedButton(
+                      text: 'Cetak',
+                      onPressed: () {
+                        goToPrintNota(
+                            context: context,
+                            hJual: getHjualFromForm(),
+                            dJualList: djualList ?? <DJual>[]);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(
+                    child: CommonWidgets.containedButton(
+                      text: widget.editHJual == null ? 'Add' : 'Edit',
+                      onPressed: submitForm,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

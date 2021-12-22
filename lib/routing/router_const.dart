@@ -17,4 +17,6 @@ const String addPenjualanRoute = '/addPenjualanRoute';
 const String detailJualRoute = '/detailJualRoute';
 const String pembelianRoute = '/pembelianRoute';
 const String addPembelianRoute = '/addPembelianRoute';
+const String penjualanDetailRoute = '/penjualanDetailRoute';
+const String printNotaRoute = '/printNotaRoute';
 const String detailBeliRoute = '/detailBeliRoute';

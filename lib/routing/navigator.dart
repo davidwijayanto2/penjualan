@@ -17,6 +17,7 @@ import 'package:penjualan/screen/transaksi/pembelian/form/detail_beli/detail_bel
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
+import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
 
 goToHome(BuildContext context) async {
   Navigator.pushNamed(context, homeRoute);
@@ -240,6 +241,27 @@ goToAddDetailBeli<R>({
     Navigator.pushNamed(context, detailBeliRoute,
         arguments: DetailBeli(
           editDBeli: editDBeli,
+        ));
+  }
+}
+
+goToPrintNota<R>({
+  required BuildContext context,
+  required HJual hJual,
+  required List<DJual> dJualList,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, printNotaRoute,
+        arguments: PrintNota(
+          hJual,
+          dJualList,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, printNotaRoute,
+        arguments: PrintNota(
+          hJual,
+          dJualList,
         ));
   }
 }
