@@ -13,6 +13,7 @@ import 'package:penjualan/screen/master/barang/form/add_master_barang_controller
 import 'package:penjualan/screen/master/customer/form/add_master_customer_controller.dart';
 import 'package:penjualan/screen/master/kategori/form/add_master_kategori_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
+import 'package:penjualan/screen/transaksi/pembelian/form/detail_beli/detail_beli_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
@@ -196,17 +197,6 @@ goToAddDetailJual<R>({
   }
 }
 
-goToTransaksiDetailPenjualan<R>({
-  required BuildContext context,
-  FutureOr<R> Function(dynamic)? afterOpen,
-}) {
-  if (afterOpen != null) {
-    Navigator.pushNamed(context, penjualanDetailRoute).then(afterOpen);
-  } else {
-    Navigator.pushNamed(context, penjualanDetailRoute);
-  }
-}
-
 goToTransaksiPembelian<R>({
   required BuildContext context,
   FutureOr<R> Function(dynamic)? afterOpen,
@@ -215,5 +205,41 @@ goToTransaksiPembelian<R>({
     Navigator.pushNamed(context, pembelianRoute).then(afterOpen);
   } else {
     Navigator.pushNamed(context, pembelianRoute);
+  }
+}
+
+goToAddTransaksiPembelian<R>({
+  required BuildContext context,
+  HBeli? editHBeli,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, addPembelianRoute,
+        arguments: AddPembelian(
+          editHBeli: editHBeli,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, addPembelianRoute,
+        arguments: AddPembelian(
+          editHBeli: editHBeli,
+        ));
+  }
+}
+
+goToAddDetailBeli<R>({
+  required BuildContext context,
+  Dbeli? editDBeli,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, detailBeliRoute,
+        arguments: DetailBeli(
+          editDBeli: editDBeli,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, detailBeliRoute,
+        arguments: DetailBeli(
+          editDBeli: editDBeli,
+        ));
   }
 }
