@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       initPage = Login();
     }
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Call Of Duty',
       theme: ThemeData(
         primaryColor: MyColors.dementialGray,
         colorScheme: ColorScheme.fromSwatch(

@@ -65,10 +65,21 @@ class AddPembelianView extends AddPembelianController {
                 height: 15,
               ),
               CommonText.text(
-                text: "Pelanggan",
+                text: "Supplier",
                 style: CommonText.body1(
                   color: MyColors.textGray,
                 ),
+              ),
+              CommonWidgets.textIconButton(
+                allBorder: false,
+                borderColor: MyColors.formColor,
+                suffixIcon: Icon(
+                  FontAwesomeIcons.chevronDown,
+                  size : 12,
+                  color: MyColors.themeColor1,
+                ),
+                padding: EdgeInsets.zero
+                text: supplier?.nmSupplier ??'',
               ),
             ],
           ),

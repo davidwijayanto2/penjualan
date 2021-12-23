@@ -32,4 +32,23 @@ abstract class AddPembelianController extends State<AddPembelian> {
   final dibayarDebouncer =
       Debouncer<String>(Duration(milliseconds: 250), initialValue: '');
   final TextEditingController noNotaController = TextEditingController();
+
+  final TextEditingController keteranganController = TextEditingController();
+  final TextEditingController kotaController = TextEditingController();
+  final TextEditingController keterangan2Controller = TextEditingController();
+  final TextEditingController totalController = TextEditingController();
+  final TextEditingController discountController = TextEditingController();
+  final TextEditingController grandTotalController = TextEditingController();
+  final TextEditingController dibayarkanController = TextEditingController();
+  final TextEditingController sisaController = TextEditingController();
+
+  bool onError = false;
+  bool showFormBarang = false;
+  List<DJual>? djualList = <DJual>[];
+  int? kategori = 0;
+  int quantityTotal = 0;
+  String dateTextStr = '';
+  DateTime datePicked = DateTime.now();
+  Supllier? supllier;
+  List<Kategori>? listKategori;
 }
