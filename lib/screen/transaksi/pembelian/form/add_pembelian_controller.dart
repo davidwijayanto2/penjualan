@@ -49,6 +49,13 @@ abstract class AddPembelianController extends State<AddPembelian> {
   int quantityTotal = 0;
   String dateTextStr = '';
   DateTime datePicked = DateTime.now();
-  Supllier? supllier;
+  HBeli? supllier;
   List<Kategori>? listKategori;
+
+  showDialogSupplier(BuildContext context) {
+    FocusScope.of(context).requestFocus(FocusNode());
+    return popupDialogAutoComplete(context, 
+      selectWidget: selectWidget
+      )
+  }
 }

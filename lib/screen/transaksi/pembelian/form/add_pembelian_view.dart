@@ -71,16 +71,16 @@ class AddPembelianView extends AddPembelianController {
                 ),
               ),
               CommonWidgets.textIconButton(
-                allBorder: false,
-                borderColor: MyColors.formColor,
-                suffixIcon: Icon(
-                  FontAwesomeIcons.chevronDown,
-                  size : 12,
-                  color: MyColors.themeColor1,
-                ),
-                padding: EdgeInsets.zero
-                text: supplier?.nmSupplier ??'',
-              ),
+                  allBorder: false,
+                  borderColor: MyColors.formColor,
+                  suffixIcon: Icon(
+                    FontAwesomeIcons.chevronDown,
+                    size: 12,
+                    color: MyColors.themeColor1,
+                  ),
+                  padding: EdgeInsets.zero,
+                  text: supllier?.nmSupplier ?? '',
+                  onPressed: () => showDialogSupplier(context: context)),
             ],
           ),
         ),
