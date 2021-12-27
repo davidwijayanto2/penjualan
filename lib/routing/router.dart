@@ -63,6 +63,9 @@ class MyRouter {
         return routeTransition(screen: TransaksiPembelian());
       case laporanStokKeluarRoute:
         return routeTransition(screen: LaporanStokKeluar());
+      case addPembelianRoute:
+        var args = settings.arguments as AddPembelian;
+        return routeTransition(screen: args);
       default:
         return routeTransition(
           screen: Scaffold(

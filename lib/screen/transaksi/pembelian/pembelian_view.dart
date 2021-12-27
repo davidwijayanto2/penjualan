@@ -32,7 +32,7 @@ class PembelianView extends PembelianController {
                 size: 24,
               ),
               onPressed: () {
-                goToAddTransaksiPenjualan(
+                goToAddTransaksiPembelian(
                     context: context,
                     afterOpen: (value) {
                       fetchDataPembelian();

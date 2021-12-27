@@ -151,6 +151,9 @@ class HomeView extends HomeController {
                 ),
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
           ],
         ),
       ),
