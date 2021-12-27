@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:penjualan/screen/home/home_controller.dart';
+import 'package:penjualan/screen/laporan/stok_keluar/laporan_stok_keluar_controller.dart';
 import 'package:penjualan/screen/login/login_controller.dart';
 import 'package:penjualan/routing/router_const.dart';
 import 'package:penjualan/screen/master/barang/form/add_master_barang_controller.dart';
@@ -19,7 +20,6 @@ import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
 import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/pembelian_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
-import 'package:penjualan/screen/transaksi/detailpenjualan/detailpenjualan_controller.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -61,8 +61,8 @@ class MyRouter {
         return routeTransition(screen: args);
       case pembelianRoute:
         return routeTransition(screen: TransaksiPembelian());
-      case penjualanDetailRoute:
-        return routeTransition(screen: TransaksiPenjualanDetail());
+      case laporanStokKeluarRoute:
+        return routeTransition(screen: LaporanStokKeluar());
       default:
         return routeTransition(
           screen: Scaffold(
