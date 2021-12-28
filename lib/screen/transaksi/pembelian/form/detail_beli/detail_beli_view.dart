@@ -178,6 +178,24 @@ class DetailBeliView extends DetailBeliController {
                 inputFormatters: [
                   FilteringTextInputFormatter.deny('-'),
                 ],
+                onChange: (value) {
+                  calculateSubtotal(
+                    harga: hargaController.text.isEmpty
+                        ? 0
+                        : int.parse(
+                            extractNumber(
+                              value: hargaController.text,
+                            ),
+                          ),
+                    qty: value.isEmpty
+                        ? 0
+                        : int.parse(
+                            extractNumber(
+                              value: value,
+                            ),
+                          ),
+                  );
+                },
                 separator: ThousandSeparator.Period,
               ),
               if (onError && hargaController.text.isEmpty)

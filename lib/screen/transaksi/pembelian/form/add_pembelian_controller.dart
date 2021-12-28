@@ -210,7 +210,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
       var user = LocalStorage.userLogin();
       if (widget.editHbeli != null) {
         await db?.rawUpdate(
-            'UPDATE h_beli set TANGGAL_BELI = ?, NM_KARYAWAN = ?, NM_SUPPLIER = ?, QUANTITY_TOTAL = ?, GRANDTOTAL = ?, , NONOTA = ?, KETERANGAN = ?,  WHERE ID_HBELI = ?',
+            'UPDATE h_beli set TANGGAL_BELI = ?, NM_KARYAWAN = ?, NM_SUPPLIER = ?, QUANTITY_TOTAL = ?, GRANDTOTAL = ?, BUKTI_NOTA = ?, KETERANGAN = ? WHERE ID_HBELI = ?',
             [
               DateFormatter.dateTimeToDBFormat(datePicked),
               user?.nmKaryawan ?? '',
@@ -224,14 +224,14 @@ abstract class AddPembelianController extends State<AddPembelian> {
           await db.rawDelete('DELETE FROM d_beli WHERE ID_HBELI = ?',
               [widget.editHbeli?.idHbeli]);
           Batch batch = db.batch();
-          dbeliList?.forEach((djual) {
-            batch.insert('d_jual', {
-              'ID_HJUAL': widget.editHbeli?.idHbeli ?? '',
-              'NM_BARANG': djual.nmBarang,
-              'SATUAN': djual.satuan,
-              'QUANTITY': djual.quantity,
-              'HARGA_BARANG': djual.hargaBarang,
-              'SUBTOTAL': djual.subtotal,
+          dbeliList?.forEach((dbeli) {
+            batch.insert('d_beli', {
+              'ID_HBELI': widget.editHbeli?.idHbeli ?? '',
+              'NM_BARANG': dbeli.nmBarang,
+              'SATUAN': dbeli.satuan,
+              'QUANTITY': dbeli.quantity,
+              'HARGA_BARANG': dbeli.hargaBarang,
+              'SUBTOTAL': dbeli.subtotal,
             });
           });
           batch.commit();

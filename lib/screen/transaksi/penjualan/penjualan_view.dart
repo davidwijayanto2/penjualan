@@ -178,7 +178,11 @@ class PenjualanView extends PenjualanController {
                   InkWell(
                     onTap: () {
                       goToAddTransaksiPenjualan(
-                          context: context, editHJual: hJual);
+                          context: context,
+                          editHJual: hJual,
+                          afterOpen: (value) {
+                            fetchDataPenjualan();
+                          });
                     },
                     child: CommonText.text(
                       text: 'View',
