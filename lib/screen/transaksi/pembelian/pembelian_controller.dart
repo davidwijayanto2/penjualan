@@ -54,17 +54,19 @@ abstract class PembelianController extends State<TransaksiPembelian> {
     var result;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT * FROM h_beli WHERE (ID_HBELI like ? OR lower(NM_SUPPLIER) like ? OR TANGGAL_BELI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?) Order By TANGGAL_BELI",
+          "SELECT * FROM h_beli WHERE (ID_HBELI like ? OR lower(NM_SUPPLIER) like ? OR TANGGAL_BELI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?) Order By TANGGAL_BELI DESC",
           ["%$text%", "%$text%", "%$text%", "%$text%", "%$text%"]);
       print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
-          "SELECT * FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ?", [
-        "$filterStart",
-        "$filterEnd",
-      ]);
+          "SELECT * FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ? Order By TANGGAL_BELI DESC",
+          [
+            "$filterStart",
+            "$filterEnd",
+          ]);
     } else {
-      result = await db?.rawQuery("SELECT * FROM h_beli");
+      result =
+          await db?.rawQuery("SELECT * FROM h_beli Order By TANGGAL_BELI DESC");
     }
 
     // if ((result?.length ?? 0) > 0) {
@@ -82,7 +84,7 @@ abstract class PembelianController extends State<TransaksiPembelian> {
       iconColor: Colors.red,
       rightButtonAction: (_) async {
         Navigator.pop(context);
-        deletePenjualan(_idHbeli);
+        deletePembelian(_idHbeli);
       },
       rightButtonColor: Colors.red,
     );
@@ -117,11 +119,10 @@ abstract class PembelianController extends State<TransaksiPembelian> {
     }
   }
 
-  deletePenjualan(_idHbeli) async {
+  deletePembelian(_idHbeli) async {
     Database? db = await DatabaseHelper.instance.database;
 
-    await db?.rawDelete(
-        "UPDATE h_jual SET STATUS = 0 WHERE ID_HJUAL = ?", [_idHbeli]);
+    await db?.rawDelete("DELETE FROM h_beli WHERE ID_HBeli = ?", [_idHbeli]);
 
     fetchDataPembelian();
   }

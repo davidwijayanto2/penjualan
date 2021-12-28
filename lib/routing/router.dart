@@ -13,6 +13,7 @@ import 'package:penjualan/screen/master/kategori/form/add_master_kategori_contro
 import 'package:penjualan/screen/master/kategori/master_kategori_controller.dart';
 import 'package:penjualan/screen/master/satuan/master_satuan_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
+import 'package:penjualan/screen/transaksi/pembelian/form/detail_beli/detail_beli_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
@@ -62,6 +63,9 @@ class MyRouter {
         return routeTransition(screen: TransaksiPembelian());
       case addPembelianRoute:
         var args = settings.arguments as AddPembelian;
+        return routeTransition(screen: args);
+      case detailBeliRoute:
+        var args = settings.arguments as DetailBeli;
         return routeTransition(screen: args);
       default:
         return routeTransition(

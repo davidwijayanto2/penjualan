@@ -176,9 +176,12 @@ class PembelianView extends PembelianController {
                     width: 12,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      goToAddTransaksiPembelian(
+                          context: context, editHBeli: hBeli);
+                    },
                     child: CommonText.text(
-                      text: 'Edit',
+                      text: 'View',
                       style: CommonText.body1(
                         color: Colors.black,
                       ),

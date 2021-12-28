@@ -25,7 +25,7 @@ class HBeli {
         nmKaryawan = map['NM_KARYAWAN'],
         nmSupplier = map['NM_SUPPLIER'],
         quantityTotal = map['QUANTITY_TOTAL'],
-        grandTotal = map['GRANTOTAL'],
+        grandTotal = map['GRANDTOTAL'],
         nonota = map['BUKTI_NOTA'],
         keterangan = map['KETERANGAN'];
 }
@@ -35,9 +35,19 @@ class Dbeli {
   String? idHbeli;
   String? nmBarang;
   String? satuan;
-  String? quantity;
-  String? hargaBarang;
-  String? subtotal;
+  int? quantity;
+  int? hargaBarang;
+  int? subtotal;
+
+  Dbeli({
+    this.idDbeli,
+    this.idHbeli,
+    this.nmBarang,
+    this.satuan,
+    this.quantity,
+    this.hargaBarang,
+    this.subtotal,
+  });
 
   Dbeli.fromMap(Map<String, dynamic> map)
       : idDbeli = map['ID_DBELI'],

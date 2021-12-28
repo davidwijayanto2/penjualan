@@ -38,16 +38,15 @@ class _SelectSupplierState extends State<SelectSupplier> {
     var result;
     if (query != null && query != '') {
       result = await db?.rawQuery(
-          "SELECT * FROM CUSTOMER WHERE lower(NM_CUSTOMER) like ?",
+          "SELECT DISTINCT NM_SUPPLIER FROM h_beli WHERE lower(NM_SUPPLIER) like ?",
           ["%$query%"]);
     } else {
-      result = await db?.rawQuery("SELECT * FROM CUSTOMER");
+      result = await db?.rawQuery("SELECT DISTINCT NM_SUPPLIER FROM h_beli");
     }
 
     // if ((result?.length ?? 0) > 0) {
     setState(() {
-      customerList =
-          List<Customer>.from(result.map((map) => Customer.fromMap(map)));
+      supplierList = List<HBeli>.from(result.map((map) => HBeli.fromMap(map)));
     });
   }
 
@@ -70,7 +69,7 @@ class _SelectSupplierState extends State<SelectSupplier> {
             vertical: 16,
           ),
           child: CommonText.text(
-            text: "Select customer:",
+            text: "Select Supplier:",
             style: CommonText.body1(
               color: MyColors.black,
               fontWeight: FontWeight.bold,
@@ -112,19 +111,19 @@ class _SelectSupplierState extends State<SelectSupplier> {
                       if (textController.text.length > 0)
                         setState(() {
                           textController.text = "";
-                          customerList.clear();
+                          supplierList.clear();
                           _getData();
                         });
                       else {
-                        customerList.clear();
+                        supplierList.clear();
                         _getData();
                       }
                     },
                   ),
-                  placeholder: 'Nama Customer',
+                  placeholder: 'Nama Supplier',
                   placeholderStyle: CommonText.body1(color: MyColors.gray),
                   onChanged: (val) {
-                    customerList.clear();
+                    supplierList.clear();
                     debouncer.value = val;
                     // EasyDebounce.debounce(
                     //   'debounce',
@@ -140,13 +139,13 @@ class _SelectSupplierState extends State<SelectSupplier> {
               CommonWidgets.outlinedIconButton(
                 icon: FontAwesomeIcons.check,
                 onPressed: () {
-                  if (customerList.isEmpty) {
+                  if (supplierList.isEmpty) {
                     onSelected(
-                      Customer(
-                          nmCustomer: textController.text.trim().toUpperCase()),
+                      HBeli(
+                          nmSupplier: textController.text.trim().toUpperCase()),
                     );
                   } else {
-                    onSelected(customerList.first);
+                    onSelected(supplierList.first);
                   }
                 },
               ),
@@ -163,25 +162,25 @@ class _SelectSupplierState extends State<SelectSupplier> {
                       new AlwaysStoppedAnimation<Color>(MyColors.silver),
                 )
               : ListView.separated(
-                  itemCount: customerList.length,
+                  itemCount: supplierList.length,
                   padding: EdgeInsets.symmetric(
                     horizontal: 16,
                   ),
                   separatorBuilder: (context, index) {
                     return CommonWidgets.horizontalDivider();
                   },
-                  itemBuilder: (c, i) => _item(customerList[i]),
+                  itemBuilder: (c, i) => _item(supplierList[i]),
                 ),
         ),
       ],
     );
   }
 
-  _item(Customer customer) {
+  _item(HBeli supplier) {
     return ListTile(
-      onTap: () => onSelected(customer),
+      onTap: () => onSelected(supplier),
       title: CommonText.text(
-        text: customer.nmCustomer ?? '',
+        text: supplier.nmSupplier ?? '',
         style: CommonText.body1(color: MyColors.black),
       ),
     );
