@@ -217,12 +217,12 @@ goToAddTransaksiPembelian<R>({
   if (afterOpen != null) {
     Navigator.pushNamed(context, addPembelianRoute,
         arguments: AddPembelian(
-          editHBeli: editHBeli,
+          editHbeli: editHBeli,
         )).then(afterOpen);
   } else {
     Navigator.pushNamed(context, addPembelianRoute,
         arguments: AddPembelian(
-          editHBeli: editHBeli,
+          editHbeli: editHBeli,
         ));
   }
 }

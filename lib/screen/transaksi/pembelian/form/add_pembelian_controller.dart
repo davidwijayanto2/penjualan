@@ -22,7 +22,7 @@ import 'add_pembelian_view.dart';
 
 class AddPembelian extends StatefulWidget {
   final HBeli? editHbeli;
-  AddPembelian({this.editHbeli, HBeli? editHBeli});
+  AddPembelian({this.editHbeli});
   @override
   State<StatefulWidget> createState() => AddPembelianView();
 }
