@@ -433,7 +433,9 @@ class HomeView extends HomeController {
               height: 5,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                goToLaporanPenjualan(context: context);
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(
@@ -526,7 +528,9 @@ class HomeView extends HomeController {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                goToBackupRestore(context: context);
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(

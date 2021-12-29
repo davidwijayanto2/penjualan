@@ -121,7 +121,7 @@ class PenjualanView extends PenjualanController {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CommonText.text(
-                    text: "NONOTA: ${hJual?.idHjual}",
+                    text: "NONOTA: ${hJual?.nonota}",
                     style: CommonText.body1(
                       color: MyColors.textGray,
                     ),

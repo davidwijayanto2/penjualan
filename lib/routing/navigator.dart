@@ -298,3 +298,25 @@ goToLaporanStokKeluar<R>({
     Navigator.pushNamed(context, laporanStokKeluarRoute);
   }
 }
+
+goToLaporanPenjualan<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, laporanPenjualanRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, laporanPenjualanRoute);
+  }
+}
+
+goToBackupRestore<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, backupRestoreRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, backupRestoreRoute);
+  }
+}
