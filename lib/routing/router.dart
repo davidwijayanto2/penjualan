@@ -24,6 +24,7 @@ import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/pembelian_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
 import 'package:penjualan/screen/utilities/backup_restore/backup_restore_controller.dart';
+import 'package:penjualan/screen/utilities/backup_restore_sebagian/backup_restore_sebagian_controller.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -80,6 +81,8 @@ class MyRouter {
       case printNotaBeliRoute:
         var args = settings.arguments as PrintNotaBeli;
         return routeTransition(screen: args);
+      case backupRestoreSebagianRoute:
+        return routeTransition(screen: BackupRestoreSebagian());
       default:
         return routeTransition(
           screen: Scaffold(

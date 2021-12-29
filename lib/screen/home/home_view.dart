@@ -553,6 +553,35 @@ class HomeView extends HomeController {
                 ),
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
+            InkWell(
+              onTap: () {
+                goToBackupRestoreSebagian(context: context);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.circle,
+                      size: 18,
+                      color: MyColors.black,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    CommonText.text(
+                      text: 'Backup & Restore Sebagian',
+                      style: CommonText.body1(
+                        color: MyColors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

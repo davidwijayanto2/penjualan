@@ -17,11 +17,13 @@ class BackupRestore extends StatefulWidget {
 abstract class BackupRestoreController extends State<BackupRestore> {
   static const platform = const MethodChannel('database');
   backupDatabase() async {
-    try {
-      var message = await platform.invokeMethod('backupdatabase');
-      Fluttertoast.showToast(msg: message);
-    } on PlatformException catch (e) {
-      print("Failed to backup: '${e.message}'.");
+    if (await Permission.storage.request().isGranted) {
+      try {
+        var message = await platform.invokeMethod('backupdatabase');
+        Fluttertoast.showToast(msg: message);
+      } on PlatformException catch (e) {
+        print("Failed to backup: '${e.message}'.");
+      }
     }
   }
 

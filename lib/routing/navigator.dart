@@ -320,3 +320,14 @@ goToBackupRestore<R>({
     Navigator.pushNamed(context, backupRestoreRoute);
   }
 }
+
+goToBackupRestoreSebagian<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, backupRestoreSebagianRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, backupRestoreSebagianRoute);
+  }
+}

@@ -170,10 +170,22 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
               keterangan2Controller.text.trim(),
               widget.editHJual?.idHjual ?? '',
             ]).then((value) async {
+          if (customer?.idCustomer == null) {
+            await db.rawInsert(
+                'INSERT INTO customer(NM_CUSTOMER,NO_TLP,ALAMAT,EMAIL,STATUS,HARGA_KHUSUS) VALUES(?,?,?,?,?,?)',
+                [
+                  customer?.nmCustomer ?? '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  'TIDAK',
+                ]);
+          }
           await db.rawDelete('DELETE FROM d_jual WHERE ID_HJUAL = ?',
               [widget.editHJual?.idHjual]);
           Batch batch = db.batch();
-          djualList?.forEach((djual) {
+          djualList?.forEach((djual) async {
             batch.insert('d_jual', {
               'ID_HJUAL': widget.editHJual?.idHjual ?? '',
               'NM_BARANG': djual.nmBarang,
@@ -182,6 +194,17 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
               'HARGA_BARANG': djual.hargaBarang,
               'SUBTOTAL': djual.subtotal,
             });
+            var result = await db.rawQuery(
+                "SELECT * FROM stok WHERE NAMA_BARANG = ?", [djual.nmBarang]);
+            if (result.isEmpty) {
+              batch.insert('stok', {
+                'ID_KATEGORI': '0',
+                'NAMA_BARANG': djual.nmBarang,
+                'QUANTITY': 0,
+                'HARGA': djual.hargaBarang,
+                'STATUS': '1',
+              });
+            }
           });
           batch.commit();
           Fluttertoast.showToast(msg: 'Transaction has been saved');
@@ -234,8 +257,20 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
               : int.parse(extractNumber(value: discountController.text)),
           keterangan2Controller.text.trim(),
         ]).then((value) async {
+          if (customer?.idCustomer == null) {
+            await db.rawInsert(
+                'INSERT INTO customer(NM_CUSTOMER,NO_TLP,ALAMAT,EMAIL,STATUS,HARGA_KHUSUS) VALUES(?,?,?,?,?,?)',
+                [
+                  customer?.nmCustomer ?? '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  'TIDAK',
+                ]);
+          }
           Batch batch = db.batch();
-          djualList?.forEach((djual) {
+          djualList?.forEach((djual) async {
             batch.insert('d_jual', {
               'ID_HJUAL': idHjual,
               'NM_BARANG': djual.nmBarang,
@@ -244,6 +279,17 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
               'HARGA_BARANG': djual.hargaBarang,
               'SUBTOTAL': djual.subtotal,
             });
+            var result = await db.rawQuery(
+                "SELECT * FROM stok WHERE NAMA_BARANG = ?", [djual.nmBarang]);
+            if (result.isEmpty) {
+              batch.insert('stok', {
+                'ID_KATEGORI': '0',
+                'NAMA_BARANG': djual.nmBarang,
+                'QUANTITY': 0,
+                'HARGA': djual.hargaBarang,
+                'STATUS': '1',
+              });
+            }
           });
           batch.commit();
           Fluttertoast.showToast(msg: 'Transaction has been saved');
