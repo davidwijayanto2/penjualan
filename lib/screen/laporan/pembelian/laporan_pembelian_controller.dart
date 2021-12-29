@@ -25,7 +25,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
   String? filterStartDate;
   String? filterEndDate;
   String? filterPeriode;
-  List<HBeli>? listPenjualan = <HBeli>[];
+  List<HBeli>? listPembelian = <HBeli>[];
   String? yearPicked = '0';
   String? monthPicked = '0';
   List<String>? listYear;
@@ -69,7 +69,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     Database? db = await DatabaseHelper.instance.database;
 
     var resultYear = await db?.rawQuery(
-        "SELECT DISTINCT strftime('%Y',TGL_TRANSAKSI) as tahun FROM h_jual ORDER BY tahun ASC");
+        "SELECT DISTINCT strftime('%Y',TANGGAL_BELI) as tahun FROM h_beli ORDER BY tahun ASC");
 
     if ((resultYear?.length ?? 0) > 0) {
       setState(() {
@@ -160,7 +160,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
 
     // if ((result?.length ?? 0) > 0) {
     setState(() {
-      listPenjualan = List<HJual>.from(result.map((map) => HJual.fromMap(map)));
+      listPembelian = List<HBeli>.from(result.map((map) => HBeli.fromMap(map)));
       total = resultTotal[0]['JUMLAH'];
     });
   }
