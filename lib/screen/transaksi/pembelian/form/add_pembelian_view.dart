@@ -210,10 +210,10 @@ class AddPembelianView extends AddPembelianController {
                     child: CommonWidgets.outlinedButton(
                       text: 'Cetak',
                       onPressed: () {
-                        // goToPrintNota(
-                        //     context: context,
-                        //     hBeli: getHjualFromForm(),
-                        //     dJualList: djualList ?? <DJual>[]);
+                        goToPrintNotaBeli(
+                            context: context,
+                            hBeli: getHbeliFromForm(),
+                            dBeliList: dbeliList ?? <Dbeli>[]);
                       },
                     ),
                   ),

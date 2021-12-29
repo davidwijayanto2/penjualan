@@ -180,7 +180,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
     );
   }
 
-  HBeli getHjualFromForm() {
+  HBeli getHbeliFromForm() {
     var user = LocalStorage.userLogin();
     return HBeli(
       idHbeli: null,
