@@ -41,7 +41,9 @@ class BackupRestoreView extends BackupRestoreController {
               height: 10,
             ),
             CommonWidgets.containedButton(
-              onPressed: () {},
+              onPressed: () {
+                backupDatabase();
+              },
               text: 'BACKUP',
             ),
             SizedBox(

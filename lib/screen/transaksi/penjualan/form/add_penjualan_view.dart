@@ -284,10 +284,26 @@ class AddPenjualanView extends AddPenjualanController {
               SizedBox(
                 height: 10,
               ),
-              CustomMoneyField(
-                maxLines: 1,
-                controller: dibayarkanController,
-                separator: ThousandSeparator.Period,
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomMoneyField(
+                      maxLines: 1,
+                      controller: dibayarkanController,
+                      separator: ThousandSeparator.Period,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  CommonWidgets.outlinedButton(
+                    width: 50,
+                    text: '=',
+                    onPressed: () {
+                      dibayarkanController.text = grandTotalController.text;
+                    },
+                  ),
+                ],
               ),
               if (onError && dibayarkanController.text.trim().isEmpty)
                 CommonWidgets.errorMessage(context),

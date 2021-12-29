@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:external_path/external_path.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:penjualan/repositories/db_helper.dart';
 import 'package:penjualan/utils/custom_datetime_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:sqflite/sqflite.dart';
 import 'backup_restore_sebagian_view.dart';
 
 class BackupRestoreSebagian extends StatefulWidget {
@@ -81,15 +85,70 @@ abstract class BackupRestoreSebagianController
     }
   }
 
-  restoreDatabase() async {
+  restoreDatabasePenjualan() async {
     if (await Permission.storage.request().isGranted) {
-      final path = await ExternalPath.getExternalStorageDirectories();
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-      final File file = File('${path[0]}/backup_penjualan.txt');
-      final line = await file.readAsLines();
-      final string = await file.readAsString();
-      print(line);
-      print(string);
+      if (result != null) {
+        if ((result.files.single.path ?? '').contains('.txt')) {
+          File file = File(result.files.single.path ?? '');
+
+          final line = await file.readAsLines();
+          // print(line);
+          Database? db = await DatabaseHelper.instance.database;
+          if ((result.files.single.path ?? '').contains('Header')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db?.rawQuery(
+                  "SELECT * FROM h_jual WHERE ID_HJUAL = ?", [list[0]]);
+              if ((result ?? []).isEmpty) {
+                await db?.rawInsert(
+                    'INSERT INTO h_jual VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)', [
+                  list[0],
+                  list[1],
+                  list[2],
+                  list[3],
+                  list[4],
+                  list[5],
+                  list[6],
+                  list[7],
+                  list[8],
+                  list[9],
+                  list[10],
+                  list[11],
+                  list[12],
+                ]);
+              }
+            }
+          } else if ((result.files.single.path ?? '').contains('Detail')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db?.rawQuery(
+                  "SELECT * FROM d_jual WHERE ID_DJUAL = ?", [list[0]]);
+              if ((result ?? []).isEmpty) {
+                await db
+                    ?.rawInsert('INSERT INTO d_jual VALUES(?,?,?,?,?,?,?)', [
+                  list[0],
+                  list[1],
+                  list[2],
+                  list[3],
+                  list[4],
+                  list[5],
+                  list[6],
+                ]);
+              }
+            }
+          }
+        } else {
+          Fluttertoast.showToast(msg: 'Format salah');
+        }
+      } else {
+        // User canceled the picker
+      }
     }
   }
+
+  restoreDatabasePembelian() async {}
 }

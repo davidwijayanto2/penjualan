@@ -53,11 +53,26 @@ class BackupRestoreSebagianView extends BackupRestoreSebagianController {
               onPressed: onPressDate,
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
-            CommonWidgets.containedButton(
-              onPressed: () {},
-              text: 'BACKUP',
+            Row(
+              children: [
+                Expanded(
+                  child: CommonWidgets.containedButton(
+                    onPressed: () {},
+                    text: 'BACKUP PENJUALAN',
+                  ),
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Expanded(
+                  child: CommonWidgets.containedButton(
+                    onPressed: () {},
+                    text: 'BACKUP PEMBELIAN',
+                  ),
+                )
+              ],
             ),
             SizedBox(
               height: 30,
@@ -71,11 +86,28 @@ class BackupRestoreSebagianView extends BackupRestoreSebagianController {
             SizedBox(
               height: 10,
             ),
-            CommonWidgets.containedButton(
-              text: 'RESTORE',
-              onPressed: () {
-                restoreDatabase();
-              },
+            Row(
+              children: [
+                Expanded(
+                  child: CommonWidgets.containedButton(
+                    text: 'RESTORE PENJUALAN',
+                    onPressed: () {
+                      restoreDatabasePenjualan();
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Expanded(
+                  child: CommonWidgets.containedButton(
+                    text: 'RESTORE PEMBELIAN',
+                    onPressed: () {
+                      restoreDatabasePembelian();
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),
