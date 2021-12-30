@@ -113,6 +113,24 @@ class BackupRestoreSebagianView extends BackupRestoreSebagianController {
                 ),
               ],
             ),
+            SizedBox(
+              height: 30,
+            ),
+            CommonText.text(
+              text: "Restore Master",
+              style: CommonText.title(
+                color: MyColors.black,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CommonWidgets.containedButton(
+              text: 'RESTORE MASTER',
+              onPressed: () {
+                restoreDatabaseMaster();
+              },
+            ),
           ],
         ),
       ),

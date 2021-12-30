@@ -18,10 +18,10 @@ class Stok {
 
   Stok.fromMap(Map<String, dynamic> map)
       : idStok = map['ID_STOK'],
-        idKategori = map['ID_KATEGORI'],
+        idKategori = map['ID_KATEGORI'] == '' ? 0 : map['ID_KATEGORI'],
         nmKategori = map['NM_KATEGORI'],
         namaBarang = map['NAMA_BARANG'],
         harga = map['HARGA'],
-        quantity = map['QUANTITY'],
+        quantity = map['QUANTITY'] as int,
         status = map['STATUS'];
 }

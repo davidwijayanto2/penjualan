@@ -128,6 +128,8 @@ abstract class BackupRestoreSebagianController
         await fileHeader.writeAsString(queryHeader);
         await fileDetail.writeAsString(queryDetail);
         Fluttertoast.showToast(msg: 'Data berhasil di backup');
+      } else {
+        Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
       loading.dismiss();
     }
@@ -172,6 +174,8 @@ abstract class BackupRestoreSebagianController
         await fileHeader.writeAsString(queryHeader);
         await fileDetail.writeAsString(queryDetail);
         Fluttertoast.showToast(msg: 'Data berhasil di backup');
+      } else {
+        Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
       loading.dismiss();
     }
@@ -186,17 +190,22 @@ abstract class BackupRestoreSebagianController
           File file = File(result.files.single.path ?? '');
 
           final line = await file.readAsLines();
-          print(line);
+          bool onError = false;
           Database? db = await DatabaseHelper.instance.database;
-          if ((result.files.single.path ?? '').contains('Header') &&
-              (result.files.single.path ?? '').contains('Penjualan')) {
+          Batch batch = db!.batch();
+          if ((result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('header') &&
+              (result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('penjualan')) {
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split(',');
 
-              var result = await db?.rawQuery(
+              var result = await db.rawQuery(
                   "SELECT * FROM h_jual WHERE ID_HJUAL = ?", [list[0]]);
-              if ((result ?? []).isEmpty) {
-                await db?.rawInsert(
+              if (result.isEmpty) {
+                batch.rawInsert(
                     'INSERT INTO h_jual VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)', [
                   list[0],
                   list[1],
@@ -212,18 +221,27 @@ abstract class BackupRestoreSebagianController
                   list[11],
                   list[12],
                 ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
               }
             }
-          } else if ((result.files.single.path ?? '').contains('Detail') &&
-              (result.files.single.path ?? '').contains('Penjualan')) {
+            if (!onError) batch.commit();
+          } else if ((result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('detail') &&
+              (result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('penjualan')) {
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split(',');
 
-              var result = await db?.rawQuery(
+              var result = await db.rawQuery(
                   "SELECT * FROM d_jual WHERE ID_DJUAL = ?", [list[0]]);
-              if ((result ?? []).isEmpty) {
-                await db
-                    ?.rawInsert('INSERT INTO d_jual VALUES(?,?,?,?,?,?,?)', [
+              if (result.isEmpty) {
+                batch.rawInsert('INSERT INTO d_jual VALUES(?,?,?,?,?,?,?)', [
                   list[0],
                   list[1],
                   list[2],
@@ -232,8 +250,16 @@ abstract class BackupRestoreSebagianController
                   list[5],
                   list[6],
                 ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
               }
             }
+            if (!onError) batch.commit();
+          } else {
+            Fluttertoast.showToast(msg: 'File backup salah');
           }
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
@@ -254,17 +280,22 @@ abstract class BackupRestoreSebagianController
 
           final line = await file.readAsLines();
           // print(line);
+          bool onError = false;
           Database? db = await DatabaseHelper.instance.database;
-          if ((result.files.single.path ?? '').contains('Header') &&
-              (result.files.single.path ?? '').contains('Pembelian')) {
+          Batch batch = db!.batch();
+          if ((result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('header') &&
+              (result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('pembelian')) {
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split(',');
 
-              var result = await db?.rawQuery(
+              var result = await db.rawQuery(
                   "SELECT * FROM h_beli WHERE ID_HBELI = ?", [list[0]]);
-              if ((result ?? []).isEmpty) {
-                await db
-                    ?.rawInsert('INSERT INTO h_beli VALUES(?,?,?,?,?,?,?,?)', [
+              if (result.isEmpty) {
+                batch.rawInsert('INSERT INTO h_beli VALUES(?,?,?,?,?,?,?,?)', [
                   list[0],
                   list[1],
                   list[2],
@@ -274,18 +305,27 @@ abstract class BackupRestoreSebagianController
                   list[6],
                   list[7],
                 ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
               }
             }
-          } else if ((result.files.single.path ?? '').contains('Detail') &&
-              (result.files.single.path ?? '').contains('Pembelian')) {
+            if (!onError) batch.commit();
+          } else if ((result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('detail') &&
+              (result.files.single.path ?? '')
+                  .toLowerCase()
+                  .contains('pembelian')) {
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split(',');
 
-              var result = await db?.rawQuery(
+              var result = await db.rawQuery(
                   "SELECT * FROM d_jual WHERE ID_DBELI = ?", [list[0]]);
-              if ((result ?? []).isEmpty) {
-                await db
-                    ?.rawInsert('INSERT INTO d_beli VALUES(?,?,?,?,?,?,?)', [
+              if (result.isEmpty) {
+                batch.rawInsert('INSERT INTO d_beli VALUES(?,?,?,?,?,?,?)', [
                   list[0],
                   list[1],
                   list[2],
@@ -294,8 +334,142 @@ abstract class BackupRestoreSebagianController
                   list[5],
                   list[6],
                 ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
               }
             }
+            if (!onError) batch.commit();
+          } else {
+            Fluttertoast.showToast(msg: 'File backup salah');
+          }
+        } else {
+          Fluttertoast.showToast(msg: 'Format salah');
+        }
+      } else {
+        // User canceled the picker
+      }
+    }
+  }
+
+  restoreDatabaseMaster() async {
+    if (await Permission.storage.request().isGranted) {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+      if (result != null) {
+        if ((result.files.single.path ?? '').contains('.txt')) {
+          File file = File(result.files.single.path ?? '');
+
+          final line = await file.readAsLines();
+          print(line);
+          bool onError = false;
+          Database? db = await DatabaseHelper.instance.database;
+          Batch batch = db!.batch();
+          if ((result.files.single.path ?? '')
+              .toLowerCase()
+              .contains('customer')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db.rawQuery(
+                  "SELECT * FROM customer WHERE ID_CUSTOMER = ?", [list[0]]);
+              if (result.isEmpty) {
+                batch.rawInsert('INSERT INTO customer VALUES(?,?,?,?,?,?,?)', [
+                  list[0],
+                  list[1],
+                  list[2],
+                  list[3],
+                  list[4],
+                  list[5],
+                  list[6],
+                ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
+              }
+            }
+            if (!onError) batch.commit();
+          } else if ((result.files.single.path ?? '')
+              .toLowerCase()
+              .contains('stok')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db
+                  .rawQuery("SELECT * FROM stok WHERE ID_STOK = ?", [list[0]]);
+              if (result.isEmpty) {
+                batch.rawInsert('INSERT INTO stok VALUES(?,?,?,?,?,?)', [
+                  list[0],
+                  list[1],
+                  list[2],
+                  list[3],
+                  list[4],
+                  list[5],
+                ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
+              }
+            }
+            if (!onError) batch.commit();
+          } else if ((result.files.single.path ?? '')
+              .toLowerCase()
+              .contains('satuan')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db
+                  .rawQuery("SELECT * FROM satuan WHERE ID = ?", [list[0]]);
+              if (result.isEmpty) {
+                batch.rawInsert('INSERT INTO satuan VALUES(?,?)', [
+                  list[0],
+                  list[1],
+                ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
+              }
+            }
+            if (!onError) batch.commit();
+          } else if ((result.files.single.path ?? '')
+              .toLowerCase()
+              .contains('karyawan')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db.rawQuery(
+                  "SELECT * FROM karyawan WHERE ID_KARYAWAN = ?", [list[0]]);
+              if (result.isEmpty) {
+                batch.rawInsert(
+                    'INSERT INTO karyawan VALUES(?,?,?,?,?,?,?,?,?)', [
+                  list[0],
+                  list[1],
+                  list[2],
+                  list[3],
+                  list[4],
+                  list[5],
+                  list[6],
+                  list[7],
+                  list[8],
+                ]);
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Backup error, terdapat data yang sama.');
+                onError = true;
+                break;
+              }
+            }
+            if (!onError) batch.commit();
+          } else {
+            Fluttertoast.showToast(msg: 'File backup salah');
           }
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
