@@ -9,6 +9,7 @@ import 'package:penjualan/model/kategori.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/model/satuan.dart';
 import 'package:penjualan/routing/router_const.dart';
+import 'package:penjualan/screen/laporan/penjualan/print_laporan.dart';
 import 'package:penjualan/screen/master/barang/form/add_master_barang_controller.dart';
 import 'package:penjualan/screen/master/customer/form/add_master_customer_controller.dart';
 import 'package:penjualan/screen/master/kategori/form/add_master_kategori_controller.dart';
@@ -351,5 +352,26 @@ goToLaporanPembelian<R>({
     Navigator.pushNamed(context, laporanPembelianRoute).then(afterOpen);
   } else {
     Navigator.pushNamed(context, laporanPembelianRoute);
+  }
+}
+
+goToPrintLaporanPenjualan<R>({
+  required BuildContext context,
+  required String total,
+  required List<HJual> hJualList,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, printLaporanPenjualanRoute,
+        arguments: PrintLaporanPenjualan(
+          hJualList,
+          total,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, printLaporanPenjualanRoute,
+        arguments: PrintLaporanPenjualan(
+          hJualList,
+          total,
+        ));
   }
 }

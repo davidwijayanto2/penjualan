@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:penjualan/screen/home/home_controller.dart';
 import 'package:penjualan/screen/laporan/penjualan/laporan_penjualan_controller.dart';
 import 'package:penjualan/screen/laporan/pembelian/laporan_pembelian_controller.dart';
+import 'package:penjualan/screen/laporan/penjualan/print_laporan.dart';
 import 'package:penjualan/screen/laporan/stok_keluar/laporan_stok_keluar_controller.dart';
 import 'package:penjualan/screen/laporan/stok_masuk/laporan_stok_masuk_controller.dart';
 import 'package:penjualan/screen/login/login_controller.dart';
@@ -89,6 +90,9 @@ class MyRouter {
         return routeTransition(screen: LaporanPembelian());
       case laporanStokMasukRoute:
         return routeTransition(screen: LaporanStokMasuk());
+      case printLaporanPenjualanRoute:
+        var args = settings.arguments as PrintLaporanPenjualan;
+        return routeTransition(screen: args);
       default:
         return routeTransition(
           screen: Scaffold(

@@ -5,13 +5,17 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:penjualan/model/penjualan.dart';
 import 'package:penjualan/repositories/db_helper.dart';
+import 'package:penjualan/utils/common_widgets.dart';
 import 'package:penjualan/utils/custom_datetime_picker.dart';
+import 'package:penjualan/utils/date_formatter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:sqflite/sqflite.dart';
 import 'backup_restore_sebagian_view.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 
 class BackupRestoreSebagian extends StatefulWidget {
   @override
@@ -85,6 +89,94 @@ abstract class BackupRestoreSebagianController
     }
   }
 
+  backupDatabasePembelian() async {
+    if (await Permission.storage.request().isGranted) {
+      final loading = loadingDialog(context);
+      Database? db = await DatabaseHelper.instance.database;
+      var result = await db?.rawQuery(
+          "SELECT * FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ?", [
+        "$filterStartDate",
+        "$filterEndDate",
+      ]);
+      if (result != null && result.isNotEmpty) {
+        final path = await ExternalPath.getExternalStorageDirectories();
+        final File fileHeader = File(
+            "${path[0]}/Backup_Header_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+        final File fileDetail = File(
+            "${path[0]}/Backup_Detail_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+        String queryHeader = '';
+        String queryDetail = '';
+        for (int i = 0; i < result.length; i++) {
+          var mapValue = result[i].entries.map((e) => e.value).toList();
+          var resultDetail = await db?.rawQuery(
+              "SELECT * FROM d_beli WHERE ID_HBELI = ?", ["${mapValue[0]}"]);
+          if (resultDetail != null && resultDetail.isNotEmpty) {
+            for (int a = 0; a < resultDetail.length; a++) {
+              var mapValueDetail =
+                  resultDetail[a].entries.map((e) => e.value).toList();
+              for (int b = 0; b < mapValueDetail.length; b++) {
+                queryDetail = queryDetail + mapValueDetail[b].toString() + ',';
+              }
+              queryDetail = queryDetail + '\n';
+            }
+          }
+          for (int j = 0; j < mapValue.length; j++) {
+            queryHeader = queryHeader + mapValue[j].toString() + ',';
+          }
+          queryHeader = queryHeader + '\n';
+        }
+        await fileHeader.writeAsString(queryHeader);
+        await fileDetail.writeAsString(queryDetail);
+        Fluttertoast.showToast(msg: 'Data berhasil di backup');
+      }
+      loading.dismiss();
+    }
+  }
+
+  backupDatabasePenjualan() async {
+    if (await Permission.storage.request().isGranted) {
+      final loading = loadingDialog(context);
+      Database? db = await DatabaseHelper.instance.database;
+      var result = await db?.rawQuery(
+          "SELECT * FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ?", [
+        "$filterStartDate",
+        "$filterEndDate",
+      ]);
+      if (result != null && result.isNotEmpty) {
+        final path = await ExternalPath.getExternalStorageDirectories();
+        final File fileHeader = File(
+            "${path[0]}/Backup_Header_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+        final File fileDetail = File(
+            "${path[0]}/Backup_Detail_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+        String queryHeader = '';
+        String queryDetail = '';
+        for (int i = 0; i < result.length; i++) {
+          var mapValue = result[i].entries.map((e) => e.value).toList();
+          var resultDetail = await db?.rawQuery(
+              "SELECT * FROM d_jual WHERE ID_HJUAL = ?", ["${mapValue[0]}"]);
+          if (resultDetail != null && resultDetail.isNotEmpty) {
+            for (int a = 0; a < resultDetail.length; a++) {
+              var mapValueDetail =
+                  resultDetail[a].entries.map((e) => e.value).toList();
+              for (int b = 0; b < mapValueDetail.length; b++) {
+                queryDetail = queryDetail + mapValueDetail[b].toString() + ',';
+              }
+              queryDetail = queryDetail + '\n';
+            }
+          }
+          for (int j = 0; j < mapValue.length; j++) {
+            queryHeader = queryHeader + mapValue[j].toString() + ',';
+          }
+          queryHeader = queryHeader + '\n';
+        }
+        await fileHeader.writeAsString(queryHeader);
+        await fileDetail.writeAsString(queryDetail);
+        Fluttertoast.showToast(msg: 'Data berhasil di backup');
+      }
+      loading.dismiss();
+    }
+  }
+
   restoreDatabasePenjualan() async {
     if (await Permission.storage.request().isGranted) {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -94,9 +186,10 @@ abstract class BackupRestoreSebagianController
           File file = File(result.files.single.path ?? '');
 
           final line = await file.readAsLines();
-          // print(line);
+          print(line);
           Database? db = await DatabaseHelper.instance.database;
-          if ((result.files.single.path ?? '').contains('Header')) {
+          if ((result.files.single.path ?? '').contains('Header') &&
+              (result.files.single.path ?? '').contains('Penjualan')) {
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split(',');
 
@@ -121,7 +214,8 @@ abstract class BackupRestoreSebagianController
                 ]);
               }
             }
-          } else if ((result.files.single.path ?? '').contains('Detail')) {
+          } else if ((result.files.single.path ?? '').contains('Detail') &&
+              (result.files.single.path ?? '').contains('Penjualan')) {
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split(',');
 
@@ -150,5 +244,65 @@ abstract class BackupRestoreSebagianController
     }
   }
 
-  restoreDatabasePembelian() async {}
+  restoreDatabasePembelian() async {
+    if (await Permission.storage.request().isGranted) {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+      if (result != null) {
+        if ((result.files.single.path ?? '').contains('.txt')) {
+          File file = File(result.files.single.path ?? '');
+
+          final line = await file.readAsLines();
+          // print(line);
+          Database? db = await DatabaseHelper.instance.database;
+          if ((result.files.single.path ?? '').contains('Header') &&
+              (result.files.single.path ?? '').contains('Pembelian')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db?.rawQuery(
+                  "SELECT * FROM h_beli WHERE ID_HBELI = ?", [list[0]]);
+              if ((result ?? []).isEmpty) {
+                await db
+                    ?.rawInsert('INSERT INTO h_beli VALUES(?,?,?,?,?,?,?,?)', [
+                  list[0],
+                  list[1],
+                  list[2],
+                  list[3],
+                  list[4],
+                  list[5],
+                  list[6],
+                  list[7],
+                ]);
+              }
+            }
+          } else if ((result.files.single.path ?? '').contains('Detail') &&
+              (result.files.single.path ?? '').contains('Pembelian')) {
+            for (int i = 0; i < line.length; i++) {
+              final list = line[i].split(',');
+
+              var result = await db?.rawQuery(
+                  "SELECT * FROM d_jual WHERE ID_DBELI = ?", [list[0]]);
+              if ((result ?? []).isEmpty) {
+                await db
+                    ?.rawInsert('INSERT INTO d_beli VALUES(?,?,?,?,?,?,?)', [
+                  list[0],
+                  list[1],
+                  list[2],
+                  list[3],
+                  list[4],
+                  list[5],
+                  list[6],
+                ]);
+              }
+            }
+          }
+        } else {
+          Fluttertoast.showToast(msg: 'Format salah');
+        }
+      } else {
+        // User canceled the picker
+      }
+    }
+  }
 }
