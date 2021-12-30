@@ -140,7 +140,7 @@ class PrintNotaBeli extends StatelessWidget {
   }
 
   Future<Uint8List> _generatePdf(
-      PdfPageFormat format, HBeli hJual, List<Dbeli> dbeliList) async {
+      PdfPageFormat format, HBeli hBeli, List<Dbeli> dbeliList) async {
     final pdf = pw.Document(version: PdfVersion.pdf_1_4, compress: true);
     final ttf = await fontFromAssetBundle('assets/fonts/arial/arial.ttf');
 
@@ -189,7 +189,7 @@ class PrintNotaBeli extends StatelessWidget {
                           children: [
                             pw.Text(
                               DateFormatter.toNumberDateText(context,
-                                  DateTime.parse(hJual.tglTransaksi ?? '')),
+                                  DateTime.parse(hBeli.tglTransaksi ?? '')),
                               style: pw.TextStyle(fontSize: 7, font: ttf),
                             ),
                             pw.SizedBox(
@@ -210,7 +210,7 @@ class PrintNotaBeli extends StatelessWidget {
                     padding: pw.EdgeInsets.only(
                         left: CommonHelpers.convertMMtoPx(mm: 1)),
                     child: pw.Text(
-                      "Nomor Nota : ${hJual.nonota}",
+                      "Nomor Nota : ${hBeli.nonota}",
                       style: pw.TextStyle(font: ttf, fontSize: 7),
                     ),
                   ),
@@ -410,14 +410,14 @@ class PrintNotaBeli extends StatelessWidget {
                                           ),
                                           alignment: pw.Alignment.topRight,
                                           child: pw.Text(
-                                            thousandSeparator(hJual.grandTotal,
+                                            thousandSeparator(hBeli.grandTotal,
                                                 separator: '.'),
                                             style: pw.TextStyle(
                                               fontSize: 7,
                                               font: ttf,
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ],
