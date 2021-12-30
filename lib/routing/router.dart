@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:penjualan/screen/home/home_controller.dart';
 import 'package:penjualan/screen/laporan/penjualan/laporan_penjualan_controller.dart';
+import 'package:penjualan/screen/laporan/pembelian/laporan_pembelian_controller.dart';
 import 'package:penjualan/screen/laporan/stok_keluar/laporan_stok_keluar_controller.dart';
+import 'package:penjualan/screen/laporan/stok_masuk/laporan_stok_masuk_controller.dart';
 import 'package:penjualan/screen/login/login_controller.dart';
 import 'package:penjualan/routing/router_const.dart';
 import 'package:penjualan/screen/master/barang/form/add_master_barang_controller.dart';
@@ -83,6 +85,10 @@ class MyRouter {
         return routeTransition(screen: args);
       case backupRestoreSebagianRoute:
         return routeTransition(screen: BackupRestoreSebagian());
+      case laporanPembelianRoute:
+        return routeTransition(screen: LaporanPembelian());
+      case laporanStokMasukRoute:
+        return routeTransition(screen: LaporanStokMasuk());
       default:
         return routeTransition(
           screen: Scaffold(

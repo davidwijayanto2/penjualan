@@ -299,6 +299,17 @@ goToLaporanStokKeluar<R>({
   }
 }
 
+goToLaporanStokMasuk<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, laporanStokMasukRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, laporanStokMasukRoute);
+  }
+}
+
 goToLaporanPenjualan<R>({
   required BuildContext context,
   FutureOr<R> Function(dynamic)? afterOpen,
@@ -329,5 +340,16 @@ goToBackupRestoreSebagian<R>({
     Navigator.pushNamed(context, backupRestoreSebagianRoute).then(afterOpen);
   } else {
     Navigator.pushNamed(context, backupRestoreSebagianRoute);
+  }
+}
+
+goToLaporanPembelian<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, laporanPembelianRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, laporanPembelianRoute);
   }
 }

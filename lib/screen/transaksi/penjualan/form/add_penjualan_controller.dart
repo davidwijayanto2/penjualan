@@ -230,13 +230,15 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
               '/' +
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
-              DateFormatter.getYear(DateTime.now());
+              DateFormatter.getYear(DateTime.now()) +
+              'AR';
         } else {
           idHjual = '0001' +
               '/' +
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
-              DateFormatter.getYear(DateTime.now());
+              DateFormatter.getYear(DateTime.now()) +
+              'AR';
         }
 
         await db?.rawInsert(

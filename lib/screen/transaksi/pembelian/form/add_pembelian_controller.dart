@@ -259,14 +259,14 @@ abstract class AddPembelianController extends State<AddPembelian> {
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
               DateFormatter.getYear(DateTime.now()) +
-              'AN';
+              'AR';
         } else {
           idHbeli = '0001' +
               '/' +
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
               DateFormatter.getYear(DateTime.now()) +
-              'AN';
+              'AR';
         }
 
         await db?.rawInsert('INSERT INTO h_beli VALUES(?,?,?,?,?,?,?,?)', [

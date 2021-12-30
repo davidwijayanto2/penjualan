@@ -379,7 +379,9 @@ class HomeView extends HomeController {
               height: 5,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                goToLaporanStokMasuk(context: context);
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(
@@ -406,7 +408,9 @@ class HomeView extends HomeController {
               height: 5,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                goToLaporanPembelian(context: context);
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(

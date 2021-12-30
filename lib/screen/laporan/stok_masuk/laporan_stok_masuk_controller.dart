@@ -1,31 +1,30 @@
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:penjualan/model/pembelian.dart';
+import 'package:penjualan/model/penjualan.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/model/stok_masuk.dart';
 import 'package:penjualan/repositories/db_helper.dart';
-import 'package:penjualan/screen/laporan/pembelian/laporan_pembelian_view.dart';
-import 'package:penjualan/screen/laporan/stok_keluar/laporan_stok_keluar_view.dart';
+import 'package:penjualan/screen/laporan/stok_masuk/laporan_stok_masuk_view.dart';
 import 'package:penjualan/utils/common_dialog.dart';
 import 'package:penjualan/utils/custom_datetime_picker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class LaporanPembelian extends StatefulWidget {
+class LaporanStokMasuk extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => LaporanPembelianView();
+  State<StatefulWidget> createState() => LaporanStokMasukView();
 }
 
-abstract class LaporanPembelianController extends State<LaporanPembelian> {
+abstract class LaporanStokMasukController extends State<LaporanStokMasuk> {
   final debouncer =
       Debouncer<String>(Duration(milliseconds: 250), initialValue: '');
   final TextEditingController searchController = TextEditingController();
   String? filterStartDate;
   String? filterEndDate;
   String? filterPeriode;
-  List<HBeli>? listPembelian = <HBeli>[];
+  List<StokMasuk>? listStokMasuk = <StokMasuk>[];
   String? yearPicked = '0';
   String? monthPicked = '0';
   List<String>? listYear;
@@ -55,12 +54,12 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     });
     debouncer.values.listen((text) {
       if (mounted) {
-        fetchDataStokKeluar(text: text);
+        fetchDataStokMasuk(text: text);
       }
     });
     initDate();
     setScheduleDateText();
-    fetchDataStokKeluar();
+    fetchDataStokMasuk();
     fetchYearMonth();
     super.initState();
   }
@@ -84,7 +83,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     filterEndDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   }
 
-  fetchDataStokKeluar(
+  fetchDataStokMasuk(
       {String? text,
       String? filterStart,
       String? filterEnd,
@@ -95,21 +94,21 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     var result, resultTotal;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR GRANDTOTAL like ?",
-          ["%$text%", "%$text%", "%$text%"]);
+          "SELECT stok.NAMA_BARANG,IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM stok LEFT JOIN d_beli ON stok.NAMA_BARANG = d_beli.NM_BARANG LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE lower(NM_BARANG) like ? GROUP BY stok.NAMA_BARANG",
+          ["%$text%"]);
       resultTotal = await db?.rawQuery(
-          "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli WHERE BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR GRANDTOTAL like ?",
-          ["%$text%", "%$text%", "%$text%"]);
+          "SELECT IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM d_beli WHERE lower(NM_BARANG) like ?",
+          ["%$text%"]);
       print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
-          "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ?",
+          "SELECT stok.NAMA_BARANG,IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM stok LEFT JOIN d_beli ON stok.NAMA_BARANG = d_beli.NM_BARANG LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE date(TANGGAL_BELI) BETWEEN ? AND ? GROUP BY stok.NAMA_BARANG",
           [
             "$filterStart",
             "$filterEnd",
           ]);
       resultTotal = await db?.rawQuery(
-          "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ?",
+          "SELECT IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM d_beli LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE date(TANGGAL_BELI) BETWEEN ? AND ?",
           [
             "$filterStart",
             "$filterEnd",
@@ -117,55 +116,56 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     } else if (year != null && month != null) {
       if (year != '0' && month != '0') {
         result = await db?.rawQuery(
-            "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ? AND strftime('%m', TANGGAL_BELI) = ?",
+            "SELECT stok.NAMA_BARANG,IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM stok LEFT JOIN d_beli ON stok.NAMA_BARANG = d_beli.NM_BARANG LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE strftime('%Y',TANGGAL_BELI) = ? AND strftime('%m', TANGGAL_BELI) = ? GROUP BY stok.NAMA_BARANG",
             [
               "$year",
               "$month",
             ]);
         resultTotal = await db?.rawQuery(
-            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ? AND strftime('%m', TANGGAL_BELI) = ?",
+            "SELECT IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM d_beli LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE strftime('%Y',TANGGAL_BELI) = ? AND strftime('%m', TANGGAL_BELI) = ?",
             [
               "$year",
               "$month",
             ]);
       } else if (year != '0' && month == '0') {
         result = await db?.rawQuery(
-            "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ?",
+            "SELECT stok.NAMA_BARANG,IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM stok LEFT JOIN d_beli ON stok.NAMA_BARANG = d_beli.NM_BARANG LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE strftime('%Y',TANGGAL_BELI) = ? GROUP BY stok.NAMA_BARANG",
             [
               "$year",
             ]);
         resultTotal = await db?.rawQuery(
-            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ?",
+            "SELECT IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM d_beli LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE strftime('%Y',TANGGAL_BELI) = ?",
             [
               "$year",
             ]);
       } else if (year == '0' && month != '0') {
         result = await db?.rawQuery(
-            "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%m', TANGGAL_BELI) = ?",
+            "SELECT stok.NAMA_BARANG,IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM stok LEFT JOIN d_beli ON stok.NAMA_BARANG = d_beli.NM_BARANG LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE strftime('%m', TANGGAL_BELI) = ? GROUP BY stok.NAMA_BARANG",
             [
               "$month",
             ]);
         resultTotal = await db?.rawQuery(
-            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli WHERE strftime('%m', TANGGAL_BELI) = ?",
+            "SELECT IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM d_beli LEFT JOIN h_beli ON d_beli.ID_HBELI = h_beli.ID_HBELI WHERE strftime('%m', TANGGAL_BELI) = ?",
             [
               "$month",
             ]);
       }
     } else {
       result = await db?.rawQuery(
-          "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli");
-      resultTotal = await db
-          ?.rawQuery("SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli");
+          "SELECT stok.NAMA_BARANG,IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM stok LEFT JOIN d_beli ON stok.NAMA_BARANG = d_beli.NM_BARANG GROUP BY stok.NAMA_BARANG");
+      resultTotal = await db?.rawQuery(
+          "SELECT IFNULL(SUM(d_beli.quantity),0) as JUMLAH FROM d_beli");
     }
 
     // if ((result?.length ?? 0) > 0) {
     setState(() {
-      listPembelian = List<HBeli>.from(result.map((map) => HBeli.fromMap(map)));
+      listStokMasuk =
+          List<StokMasuk>.from(result.map((map) => StokMasuk.fromMap(map)));
       total = resultTotal[0]['JUMLAH'];
     });
   }
 
-  showDialogDelete(_idHjual) {
+  showDialogDelete(_idHbeli) {
     PopupDialog(
       context: context,
       titleText: 'Hapus Data',
@@ -174,7 +174,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
       iconColor: Colors.red,
       rightButtonAction: (_) async {
         Navigator.pop(context);
-        deletePenjualan(_idHjual);
+        deletePenjualan(_idHbeli);
       },
       rightButtonColor: Colors.red,
     );
@@ -207,7 +207,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
           else
             filterEndDate = DateFormat('yyyy-MM-dd').format(picked[1]);
           setScheduleDateText();
-          fetchDataStokKeluar(
+          fetchDataStokMasuk(
               filterStart: filterStartDate, filterEnd: filterEndDate);
         });
     } else {
@@ -215,17 +215,17 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
         filterStartDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
         filterEndDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
         setScheduleDateText();
-        fetchDataStokKeluar();
+        fetchDataStokMasuk();
       });
     }
   }
 
-  deletePenjualan(_idHjual) async {
+  deletePenjualan(_idHbeli) async {
     Database? db = await DatabaseHelper.instance.database;
 
-    await db?.rawDelete("DELETE FROM h_jual WHERE ID_HJUAL = ?", [_idHjual]);
+    await db?.rawDelete("DELETE FROM h_beli WHERE ID_HBELI = ?", [_idHbeli]);
 
-    fetchDataStokKeluar();
+    fetchDataStokMasuk();
   }
 
   void setScheduleDateText() {
