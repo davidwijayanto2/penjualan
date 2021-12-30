@@ -20,7 +20,7 @@ class PrintNotaBeli extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar:
-            CommonWidgets.customAppBar(context, titleText: 'Nota Penjualan'),
+            CommonWidgets.customAppBar(context, titleText: 'Nota Pembelian'),
         body: PdfPreview(
           build: (format) => _generatePdf(format, hBeli, dbeliList),
         ),
@@ -198,8 +198,6 @@ class PrintNotaBeli extends StatelessWidget {
                               hBeli.nmSupplier ?? '-',
                               style: pw.TextStyle(fontSize: 7, font: ttf),
                             ),
-                            pw.SizedBox(
-                                height: CommonHelpers.convertMMtoPx(mm: 1)),
                           ],
                         ),
                       ],
@@ -417,7 +415,7 @@ class PrintNotaBeli extends StatelessWidget {
                                               font: ttf,
                                             ),
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
                                   ],
