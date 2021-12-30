@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -1001,4 +1002,21 @@ class _CustomMoneyFieldState extends State<CustomMoneyField> {
       ],
     );
   }
+}
+
+YYDialog loadingDialog(BuildContext context) {
+  return YYDialog().build(context)
+    ..barrierDismissible = false
+    ..borderRadius = 24.0
+    ..widget(
+      Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Container(
+          height: 60,
+          width: 60,
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    )
+    ..show();
 }

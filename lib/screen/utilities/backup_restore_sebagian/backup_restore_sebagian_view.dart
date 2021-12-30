@@ -59,7 +59,9 @@ class BackupRestoreSebagianView extends BackupRestoreSebagianController {
               children: [
                 Expanded(
                   child: CommonWidgets.containedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      backupDatabasePenjualan();
+                    },
                     text: 'BACKUP PENJUALAN',
                   ),
                 ),
@@ -68,7 +70,9 @@ class BackupRestoreSebagianView extends BackupRestoreSebagianController {
                 ),
                 Expanded(
                   child: CommonWidgets.containedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      backupDatabasePembelian();
+                    },
                     text: 'BACKUP PEMBELIAN',
                   ),
                 )

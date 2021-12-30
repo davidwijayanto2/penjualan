@@ -186,7 +186,13 @@ class LaporanPenjualanView extends LaporanPenjualanController {
                       ),
                       Expanded(
                         child: CommonWidgets.outlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            goToPrintLaporanPenjualan(
+                              context: context,
+                              hJualList: listPenjualan ?? <HJual>[],
+                              total: thousandSeparator(total, separator: '.'),
+                            );
+                          },
                           text: 'Cetak',
                         ),
                       ),
