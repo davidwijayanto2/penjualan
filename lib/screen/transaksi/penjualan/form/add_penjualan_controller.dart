@@ -214,7 +214,7 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
         });
       } else {
         var res = await db?.rawQuery(
-            "SELECT * FROM h_jual WHERE strftime('%m',TGL_TRANSAKSI) = ? AND strftime('%Y',TGL_TRANSAKSI) = ? ORDER BY ID_HJUAL DESC LIMIT 1",
+            "SELECT MAX(substr(ID_HJUAL,1,4)) || '/' as ID_HJUAL FROM h_jual WHERE strftime('%m',TGL_TRANSAKSI) = ? AND strftime('%Y',TGL_TRANSAKSI) = ?",
             [
               DateFormatter.getMonth(DateTime.now()),
               DateFormatter.getYear(DateTime.now())
@@ -223,9 +223,10 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
         List<HJual> hjuallist =
             List<HJual>.from((res ?? []).map((map) => HJual.fromMap(map)));
         String idHjual = '';
-        if (hjuallist.length > 0) {
+        if (hjuallist[0].idHjual != null) {
           HJual hjual = hjuallist.first;
           var id = hjual.idHjual?.split('/');
+
           idHjual = (int.parse(id![0]) + 1).toString().padLeft(4, '0') +
               '/' +
               DateFormatter.getMonth(DateTime.now()) +
