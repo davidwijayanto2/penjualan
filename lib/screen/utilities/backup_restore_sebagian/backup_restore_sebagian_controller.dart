@@ -4,9 +4,11 @@ import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:penjualan/model/penjualan.dart';
 import 'package:penjualan/repositories/db_helper.dart';
+import 'package:penjualan/utils/common_dialog.dart';
 import 'package:penjualan/utils/common_widgets.dart';
 import 'package:penjualan/utils/custom_datetime_picker.dart';
 import 'package:penjualan/utils/date_formatter.dart';
@@ -478,5 +480,59 @@ abstract class BackupRestoreSebagianController
         // User canceled the picker
       }
     }
+  }
+
+  showDialogDelete(_param) {
+    if (_param == "beli") {
+      PopupDialog(
+        context: context,
+        titleText: 'Hapus Data Pembelian sebagian',
+        subtitleText:
+            'Apakah Anda yakin akan menghapus data ? Lakukan Backup data dahulu ',
+        icon: FontAwesomeIcons.exclamationCircle,
+        iconColor: Colors.red,
+        rightButtonAction: (_) async {
+          Navigator.pop(context);
+          deletePembelian(filterStartDate, filterEndDate);
+        },
+        rightButtonColor: Colors.red,
+      );
+    } else {
+      PopupDialog(
+        context: context,
+        titleText: 'Hapus Data Penjualan sebagian',
+        subtitleText:
+            'Apakah Anda yakin akan menghapus data ? Lakukan Backup data dahulu ',
+        icon: FontAwesomeIcons.exclamationCircle,
+        iconColor: Colors.red,
+        rightButtonAction: (_) async {
+          Navigator.pop(context);
+          deletePenjualan(filterStartDate, filterEndDate);
+        },
+        rightButtonColor: Colors.red,
+      );
+    }
+  }
+
+  deletePembelian(startdate, enddate) async {
+    Database? db = await DatabaseHelper.instance.database;
+
+    await db?.rawDelete(
+        "DELETE hb, db FROM h_beli hb JOIN d_beli dj ON db.ID_HBELI = hb.ID_HBELI WHERE date(TANGGAL_BELI,'%Y-%m-%d') BETWEEN ? AND ?",
+        [
+          "$filterStartDate",
+          "$filterEndDate",
+        ]);
+  }
+
+  deletePenjualan(startdate, enddate) async {
+    Database? db = await DatabaseHelper.instance.database;
+
+    await db?.rawDelete(
+        "DELETE hj, dj FROM h_jual hj JOIN d_jual dj ON dj.ID_HJUAL = hj.ID_HJUAL WHERE date(TGL_TRANSAKSI,'%Y-%m-%d') BETWEEN  ? AND ?",
+        [
+          "$filterStartDate",
+          "$filterEndDate",
+        ]);
   }
 }

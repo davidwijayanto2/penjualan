@@ -242,7 +242,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
         });
       } else {
         var res = await db?.rawQuery(
-            "SELECT * FROM h_beli WHERE strftime('%m',TANGGAL_BELI) = ? AND strftime('%Y',TANGGAL_BELI) = ? ORDER BY ID_HBELI DESC LIMIT 1",
+            "SELECT max(SUBSTR(ID_HBELI,1,4)) 'ID_HBELI' FROM h_beli WHERE strftime('%m',TANGGAL_BELI) = ? AND strftime('%Y',TANGGAL_BELI) = ?",
             [
               DateFormatter.getMonth(DateTime.now()),
               DateFormatter.getYear(DateTime.now())

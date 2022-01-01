@@ -131,6 +131,44 @@ class BackupRestoreSebagianView extends BackupRestoreSebagianController {
                 restoreDatabaseMaster();
               },
             ),
+            SizedBox(
+              height: 30,
+            ),
+            CommonText.text(
+              text: "Delete data pembelian sebagian",
+              style: CommonText.title(
+                color: MyColors.black,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CommonWidgets.containedButton(
+              text: 'Delete Pembelian',
+              onPressed: () {
+                //restoreDatabaseMaster();
+                showDialogDelete("beli");
+              },
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            CommonText.text(
+              text: "Delete data penjualan sebagian",
+              style: CommonText.title(
+                color: MyColors.black,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CommonWidgets.containedButton(
+              text: 'Delete Penjualan',
+              onPressed: () {
+                //restoreDatabaseMaster();
+                showDialogDelete("jual");
+              },
+            ),
           ],
         ),
       ),
