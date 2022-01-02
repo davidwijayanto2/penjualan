@@ -54,19 +54,20 @@ abstract class PembelianController extends State<TransaksiPembelian> {
     var result;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT * FROM h_beli WHERE (ID_HBELI like ? OR lower(NM_SUPPLIER) like ? OR TANGGAL_BELI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?) Order By TANGGAL_BELI DESC",
+          "SELECT * FROM h_beli WHERE (BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR TANGGAL_BELI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?) Order By date(TANGGAL_BELI) DESC",
           ["%$text%", "%$text%", "%$text%", "%$text%", "%$text%"]);
       //print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
-          "SELECT * FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ? Order By TANGGAL_BELI DESC",
+          "SELECT * FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ? Order By date(TANGGAL_BELI) DESC",
           [
             "$filterStart",
             "$filterEnd",
           ]);
     } else {
-      result =
-          await db?.rawQuery("SELECT * FROM h_beli Order By TANGGAL_BELI DESC");
+      result = await db
+          ?.rawQuery("SELECT * FROM h_beli ORDER BY date(TANGGAL_BELI) DESC");
+      //print(result);
     }
 
     // if ((result?.length ?? 0) > 0) {
