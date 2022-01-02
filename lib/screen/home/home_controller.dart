@@ -24,7 +24,9 @@ abstract class HomeController extends State<Home> {
     });
   }
 
-  logoutDialog() {}
+  logoutDialog() {
+    logout();
+  }
 
   logout() {
     LocalStorage().setIsLogin(false);

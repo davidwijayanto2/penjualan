@@ -242,7 +242,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
         });
       } else {
         var res = await db?.rawQuery(
-            "SELECT max(SUBSTR(ID_HBELI,1,4)) 'ID_HBELI' FROM h_beli WHERE strftime('%m',TANGGAL_BELI) = ? AND strftime('%Y',TANGGAL_BELI) = ?",
+            "SELECT MAX(substr(ID_HBELI,1,4)) || '/' as ID_HBELI FROM h_beli WHERE strftime('%m',TANGGAL_BELI) = ? AND strftime('%Y',TANGGAL_BELI) = ?",
             [
               DateFormatter.getMonth(DateTime.now()),
               DateFormatter.getYear(DateTime.now())
@@ -251,7 +251,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
         List<HBeli> hbelilist =
             List<HBeli>.from((res ?? []).map((map) => HBeli.fromMap(map)));
         String idHbeli = '';
-        if (hbelilist.length > 0) {
+        if (hbelilist[0].idHbeli != null) {
           HBeli hbeli = hbelilist.first;
           var id = hbeli.idHbeli?.split('/');
           idHbeli = (int.parse(id![0]) + 1).toString().padLeft(4, '0') +

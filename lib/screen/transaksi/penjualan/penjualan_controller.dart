@@ -56,7 +56,7 @@ abstract class PenjualanController extends State<TransaksiPenjualan> {
       result = await db?.rawQuery(
           "SELECT * FROM h_jual WHERE (ID_HJUAL like ? OR lower(NM_CUSTOMER) like ? OR TGL_TRANSAKSI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?)",
           ["%$text%", "%$text%", "%$text%", "%$text%", "%$text%"]);
-      print(result);
+      //print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
           "SELECT * FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ?", [
@@ -64,7 +64,8 @@ abstract class PenjualanController extends State<TransaksiPenjualan> {
         "$filterEnd",
       ]);
     } else {
-      result = await db?.rawQuery("SELECT * FROM h_jual");
+      result = await db
+          ?.rawQuery("SELECT * FROM h_jual Order By TGL_TRANSAKSI DESC");
     }
 
     // if ((result?.length ?? 0) > 0) {

@@ -325,7 +325,7 @@ abstract class BackupRestoreSebagianController
               final list = line[i].split(',');
 
               var result = await db.rawQuery(
-                  "SELECT * FROM d_jual WHERE ID_DBELI = ?", [list[0]]);
+                  "SELECT * FROM d_beli WHERE ID_DBELI = ?", [list[0]]);
               if (result.isEmpty) {
                 batch.rawInsert('INSERT INTO d_beli VALUES(?,?,?,?,?,?,?)', [
                   list[0],
@@ -344,6 +344,7 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
@@ -420,6 +421,7 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else if ((result.files.single.path ?? '')
               .toLowerCase()
               .contains('satuan')) {
@@ -441,6 +443,7 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else if ((result.files.single.path ?? '')
               .toLowerCase()
               .contains('karyawan')) {
@@ -470,6 +473,7 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
@@ -518,21 +522,35 @@ abstract class BackupRestoreSebagianController
     Database? db = await DatabaseHelper.instance.database;
 
     await db?.rawDelete(
-        "DELETE hb, db FROM h_beli hb JOIN d_beli dj ON db.ID_HBELI = hb.ID_HBELI WHERE date(TANGGAL_BELI,'%Y-%m-%d') BETWEEN ? AND ?",
+        "DELETE FROM d_beli WHERE ID_HBELI IN ( SELECT ID_HBELI FROM h_beli where strftime('%Y-%m-%d',TANGGAL_BELI) BETWEEN  ? AND ?)",
         [
-          "$filterStartDate",
-          "$filterEndDate",
+          "$startdate",
+          "$enddate",
         ]);
+    await db?.rawDelete(
+        "DELETE FROM h_beli WHERE strftime('%Y-%m-%d',TANGGAL_BELI) BETWEEN  ? AND ?",
+        [
+          "$startdate",
+          "$enddate",
+        ]);
+    Fluttertoast.showToast(msg: 'Data berhasil dihapus');
   }
 
   deletePenjualan(startdate, enddate) async {
     Database? db = await DatabaseHelper.instance.database;
 
     await db?.rawDelete(
-        "DELETE hj, dj FROM h_jual hj JOIN d_jual dj ON dj.ID_HJUAL = hj.ID_HJUAL WHERE date(TGL_TRANSAKSI,'%Y-%m-%d') BETWEEN  ? AND ?",
+        "DELETE FROM d_jual WHERE ID_HJUAL IN ( SELECT ID_HJUAL FROM h_jual where strftime('%Y-%m-%d',TGL_TRANSAKSI) BETWEEN  ? AND ?)",
         [
-          "$filterStartDate",
-          "$filterEndDate",
+          "$startdate",
+          "$enddate",
         ]);
+    await db?.rawDelete(
+        "DELETE FROM h_jual WHERE strftime('%Y-%m-%d',TGL_TRANSAKSI) BETWEEN  ? AND ?",
+        [
+          "$startdate",
+          "$enddate",
+        ]);
+    Fluttertoast.showToast(msg: 'Data berhasil dihapus');
   }
 }
