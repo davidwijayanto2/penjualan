@@ -111,7 +111,7 @@ abstract class BackupRestoreSebagianController
         for (int i = 0; i < result.length; i++) {
           var mapValue = result[i].entries.map((e) => e.value).toList();
           var resultDetail = await db?.rawQuery(
-              "SELECT * FROM d_beli WHERE ID_HBELI = ?", ["${mapValue[0]}"]);
+              "SELECT * FROM d_beli WHERE ID_HBELI = ?", ["${mapValue[i]}"]);
           if (resultDetail != null && resultDetail.isNotEmpty) {
             for (int a = 0; a < resultDetail.length; a++) {
               var mapValueDetail =
@@ -157,7 +157,7 @@ abstract class BackupRestoreSebagianController
         for (int i = 0; i < result.length; i++) {
           var mapValue = result[i].entries.map((e) => e.value).toList();
           var resultDetail = await db?.rawQuery(
-              "SELECT * FROM d_jual WHERE ID_HJUAL = ?", ["${mapValue[0]}"]);
+              "SELECT * FROM d_jual WHERE ID_HJUAL = ?", ["${mapValue[i]}"]);
           if (resultDetail != null && resultDetail.isNotEmpty) {
             for (int a = 0; a < resultDetail.length; a++) {
               var mapValueDetail =
@@ -202,7 +202,7 @@ abstract class BackupRestoreSebagianController
                   .toLowerCase()
                   .contains('penjualan')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db.rawQuery(
                   "SELECT * FROM h_jual WHERE ID_HJUAL = ?", [list[0]]);
@@ -231,6 +231,7 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else if ((result.files.single.path ?? '')
                   .toLowerCase()
                   .contains('detail') &&
@@ -238,7 +239,7 @@ abstract class BackupRestoreSebagianController
                   .toLowerCase()
                   .contains('penjualan')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db.rawQuery(
                   "SELECT * FROM d_jual WHERE ID_DJUAL = ?", [list[0]]);
@@ -260,6 +261,7 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
@@ -292,7 +294,7 @@ abstract class BackupRestoreSebagianController
                   .toLowerCase()
                   .contains('pembelian')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db.rawQuery(
                   "SELECT * FROM h_beli WHERE ID_HBELI = ?", [list[0]]);
@@ -315,6 +317,7 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else if ((result.files.single.path ?? '')
                   .toLowerCase()
                   .contains('detail') &&
@@ -322,7 +325,7 @@ abstract class BackupRestoreSebagianController
                   .toLowerCase()
                   .contains('pembelian')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db.rawQuery(
                   "SELECT * FROM d_beli WHERE ID_DBELI = ?", [list[0]]);
@@ -374,7 +377,7 @@ abstract class BackupRestoreSebagianController
               .toLowerCase()
               .contains('customer')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db.rawQuery(
                   "SELECT * FROM customer WHERE ID_CUSTOMER = ?", [list[0]]);
@@ -396,11 +399,12 @@ abstract class BackupRestoreSebagianController
               }
             }
             if (!onError) batch.commit();
+            Fluttertoast.showToast(msg: 'Data berhasil direstore');
           } else if ((result.files.single.path ?? '')
               .toLowerCase()
               .contains('stok')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db
                   .rawQuery("SELECT * FROM stok WHERE ID_STOK = ?", [list[0]]);
@@ -426,7 +430,7 @@ abstract class BackupRestoreSebagianController
               .toLowerCase()
               .contains('satuan')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db
                   .rawQuery("SELECT * FROM satuan WHERE ID = ?", [list[0]]);
@@ -448,7 +452,7 @@ abstract class BackupRestoreSebagianController
               .toLowerCase()
               .contains('karyawan')) {
             for (int i = 0; i < line.length; i++) {
-              final list = line[i].split(',');
+              final list = line[i].split('|');
 
               var result = await db.rawQuery(
                   "SELECT * FROM karyawan WHERE ID_KARYAWAN = ?", [list[0]]);
