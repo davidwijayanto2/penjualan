@@ -111,7 +111,7 @@ abstract class BackupRestoreSebagianController
         for (int i = 0; i < result.length; i++) {
           var mapValue = result[i].entries.map((e) => e.value).toList();
           var resultDetail = await db?.rawQuery(
-              "SELECT * FROM d_beli WHERE ID_HBELI = ?", ["${mapValue[i]}"]);
+              "SELECT * FROM d_beli WHERE ID_HBELI = ?", ["${mapValue[0]}"]);
           if (resultDetail != null && resultDetail.isNotEmpty) {
             for (int a = 0; a < resultDetail.length; a++) {
               var mapValueDetail =
@@ -157,7 +157,7 @@ abstract class BackupRestoreSebagianController
         for (int i = 0; i < result.length; i++) {
           var mapValue = result[i].entries.map((e) => e.value).toList();
           var resultDetail = await db?.rawQuery(
-              "SELECT * FROM d_jual WHERE ID_HJUAL = ?", ["${mapValue[i]}"]);
+              "SELECT * FROM d_jual WHERE ID_HJUAL = ?", ["${mapValue[0]}"]);
           if (resultDetail != null && resultDetail.isNotEmpty) {
             for (int a = 0; a < resultDetail.length; a++) {
               var mapValueDetail =
