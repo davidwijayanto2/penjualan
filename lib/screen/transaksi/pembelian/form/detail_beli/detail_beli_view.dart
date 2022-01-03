@@ -180,18 +180,18 @@ class DetailBeliView extends DetailBeliController {
                 ],
                 onChange: (value) {
                   calculateSubtotal(
-                    harga: hargaController.text.isEmpty
-                        ? 0
-                        : int.parse(
-                            extractNumber(
-                              value: hargaController.text,
-                            ),
-                          ),
-                    qty: value.isEmpty
+                    harga: value.isEmpty
                         ? 0
                         : int.parse(
                             extractNumber(
                               value: value,
+                            ),
+                          ),
+                    qty: quantityController.text.isEmpty
+                        ? 0
+                        : int.parse(
+                            extractNumber(
+                              value: quantityController.text,
                             ),
                           ),
                   );

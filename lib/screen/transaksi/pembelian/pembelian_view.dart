@@ -121,7 +121,7 @@ class PembelianView extends PembelianController {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CommonText.text(
-                    text: "NO NOTA: ${hBeli?.nonota}",
+                    text: "NONOTA: ${hBeli?.nonota}",
                     style: CommonText.body1(
                       color: MyColors.textGray,
                     ),

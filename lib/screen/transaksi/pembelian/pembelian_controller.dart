@@ -54,20 +54,18 @@ abstract class PembelianController extends State<TransaksiPembelian> {
     var result;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT * FROM h_beli WHERE (BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR TANGGAL_BELI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?) Order By date(TANGGAL_BELI) DESC",
+          "SELECT * FROM h_beli WHERE (BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR TANGGAL_BELI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?)",
           ["%$text%", "%$text%", "%$text%", "%$text%", "%$text%"]);
       //print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
-          "SELECT * FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ? Order By date(TANGGAL_BELI) DESC",
-          [
-            "$filterStart",
-            "$filterEnd",
-          ]);
+          "SELECT * FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ?", [
+        "$filterStart",
+        "$filterEnd",
+      ]);
     } else {
       result = await db
-          ?.rawQuery("SELECT * FROM h_beli ORDER BY date(TANGGAL_BELI) DESC");
-      //print(result);
+          ?.rawQuery("SELECT * FROM h_beli Order By date(TANGGAL_BELI) DESC");
     }
 
     // if ((result?.length ?? 0) > 0) {
@@ -105,26 +103,35 @@ abstract class PembelianController extends State<TransaksiPembelian> {
             DateTime.parse(DateFormat('2010-01-01').format(DateTime.now())),
         lastDate: DateTime.parse("2100-01-01"));
     if (picked != null) {
-      setState(() {
-        filterStartDate = DateFormat('yyyy-MM-dd').format(picked[0]);
-        if (picked.length < 2)
-          filterEndDate = DateFormat('yyyy-MM-dd').format(picked[0]);
-        else
-          filterEndDate = DateFormat('yyyy-MM-dd').format(picked[1]);
-        setScheduleDateText();
-        fetchDataPembelian(
-            filterStart: filterStartDate, filterEnd: filterEndDate);
-      });
+      var formattedPicked1 = DateFormat('yyyy-MM-dd').format(picked[0]);
+      var formattedPicked2 = picked.length < 2
+          ? DateFormat('yyyy-MM-dd').format(picked[0])
+          : DateFormat('yyyy-MM-dd').format(picked[1]);
+      if (formattedPicked1 != filterStartDate ||
+          formattedPicked2 != filterEndDate)
+        setState(() {
+          filterStartDate = DateFormat('yyyy-MM-dd').format(picked[0]);
+          if (picked.length < 2)
+            filterEndDate = DateFormat('yyyy-MM-dd').format(picked[0]);
+          else
+            filterEndDate = DateFormat('yyyy-MM-dd').format(picked[1]);
+          setScheduleDateText();
+          fetchDataPembelian(
+              filterStart: filterStartDate, filterEnd: filterEndDate);
+        });
     } else {
-      fetchDataPembelian();
+      setState(() {
+        filterStartDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        filterEndDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        setScheduleDateText();
+        fetchDataPembelian();
+      });
     }
   }
 
   deletePembelian(_idHbeli) async {
     Database? db = await DatabaseHelper.instance.database;
-
-    await db?.rawDelete("DELETE FROM h_beli WHERE ID_HBeli = ?", [_idHbeli]);
-
+    await db?.rawDelete("DELETE FROM h_beli WHERE ID_HBELI = ?", [_idHbeli]);
     fetchDataPembelian();
   }
 
