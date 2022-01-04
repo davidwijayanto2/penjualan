@@ -36,7 +36,7 @@ class PrintLaporanPenjualan extends StatelessWidget {
       children: [
         pw.Container(
           padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 2),
-          width: CommonHelpers.convertMMtoPx(mm: 4),
+          width: CommonHelpers.convertMMtoPx(mm: 6),
           decoration: pw.BoxDecoration(
             border: pw.Border(
               left: pw.BorderSide(),
@@ -108,7 +108,7 @@ class PrintLaporanPenjualan extends StatelessWidget {
         ),
         pw.Container(
           padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 2),
-          width: CommonHelpers.convertMMtoPx(mm: 20),
+          width: CommonHelpers.convertMMtoPx(mm: 16),
           decoration: pw.BoxDecoration(
             border: pw.Border(
               right: pw.BorderSide(),
@@ -386,6 +386,7 @@ class PrintLaporanPenjualan extends StatelessWidget {
     // }
     pdf.addPage(
       pw.MultiPage(
+        maxPages: 999,
         pageFormat: format.landscape,
         build: (context) {
           return [
@@ -396,142 +397,33 @@ class PrintLaporanPenjualan extends StatelessWidget {
                 CommonHelpers.convertMMtoPx(mm: 25),
                 CommonHelpers.convertMMtoPx(mm: 13),
               ),
-              child: pw.ListView.builder(
-                itemBuilder: (context, index) {
-                  return index == 0
-                      ? pw.Column(
-                          children: [
-                            pw.Row(
-                              children: [
-                                pw.Container(
-                                  padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                  width: CommonHelpers.convertMMtoPx(mm: 4),
-                                  decoration: pw.BoxDecoration(
-                                    border: pw.Border(
-                                      top: pw.BorderSide(),
-                                      left: pw.BorderSide(),
-                                      bottom: pw.BorderSide(width: 0.5),
-                                      right: pw.BorderSide(width: 0.5),
-                                    ),
-                                  ),
-                                  alignment: pw.Alignment.centerLeft,
-                                  child: pw.Text(
-                                    'No',
-                                    style: pw.TextStyle(
-                                      fontSize: 7,
-                                      font: ttf,
-                                    ),
-                                  ),
-                                ),
-                                pw.Expanded(
-                                  child: pw.Container(
-                                    padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border(
-                                        top: pw.BorderSide(),
-                                        bottom: pw.BorderSide(width: 0.5),
-                                        right: pw.BorderSide(width: 0.5),
-                                      ),
-                                    ),
-                                    alignment: pw.Alignment.centerLeft,
-                                    child: pw.Text(
-                                      'Nomor Nota',
-                                      style: pw.TextStyle(
-                                        fontSize: 7,
-                                        font: ttf,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                pw.Container(
-                                  padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                  width: CommonHelpers.convertMMtoPx(mm: 15),
-                                  decoration: pw.BoxDecoration(
-                                    border: pw.Border(
-                                      top: pw.BorderSide(),
-                                      bottom: pw.BorderSide(width: 0.5),
-                                      right: pw.BorderSide(width: 0.5),
-                                    ),
-                                  ),
-                                  alignment: pw.Alignment.center,
-                                  child: pw.Text(
-                                    'Tanggal',
-                                    style: pw.TextStyle(
-                                      fontSize: 7,
-                                      font: ttf,
-                                    ),
-                                  ),
-                                ),
-                                pw.Expanded(
-                                  child: pw.Container(
-                                    padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                    width: CommonHelpers.convertMMtoPx(mm: 12),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border(
-                                        top: pw.BorderSide(),
-                                        bottom: pw.BorderSide(width: 0.5),
-                                        right: pw.BorderSide(width: 0.5),
-                                      ),
-                                    ),
-                                    alignment: pw.Alignment.centerLeft,
-                                    child: pw.Text(
-                                      'Customer',
-                                      style: pw.TextStyle(
-                                        fontSize: 7,
-                                        font: ttf,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                pw.Container(
-                                  padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                  width: CommonHelpers.convertMMtoPx(mm: 20),
-                                  decoration: pw.BoxDecoration(
-                                    border: pw.Border(
-                                      top: pw.BorderSide(),
-                                      bottom: pw.BorderSide(width: 0.5),
-                                      right: pw.BorderSide(),
-                                    ),
-                                  ),
-                                  alignment: pw.Alignment.centerRight,
-                                  child: pw.Text(
-                                    'Grand Total',
-                                    style: pw.TextStyle(
-                                      fontSize: 7,
-                                      font: ttf,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            rowItem(hJualList, index, ttf, context),
-                          ],
-                        )
-                      : index == hJualList.length - 1
+              child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    for (int index = 0; index < hJualList.length; index++)
+                      index == 0
                           ? pw.Column(
                               children: [
-                                rowItem(hJualList, index, ttf, context),
                                 pw.Row(
                                   children: [
                                     pw.Container(
                                       padding:
                                           pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                      width: CommonHelpers.convertMMtoPx(mm: 4),
+                                      width: CommonHelpers.convertMMtoPx(mm: 6),
                                       decoration: pw.BoxDecoration(
                                         border: pw.Border(
-                                          top: pw.BorderSide(width: 0.5),
+                                          top: pw.BorderSide(),
                                           left: pw.BorderSide(),
-                                          bottom: pw.BorderSide(),
+                                          bottom: pw.BorderSide(width: 0.5),
                                           right: pw.BorderSide(width: 0.5),
                                         ),
                                       ),
                                       alignment: pw.Alignment.centerLeft,
                                       child: pw.Text(
-                                        'a',
+                                        'No',
                                         style: pw.TextStyle(
                                           fontSize: 7,
                                           font: ttf,
-                                          color: PdfColors.white,
                                         ),
                                       ),
                                     ),
@@ -541,18 +433,17 @@ class PrintLaporanPenjualan extends StatelessWidget {
                                             pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
                                         decoration: pw.BoxDecoration(
                                           border: pw.Border(
-                                            top: pw.BorderSide(width: 0.5),
-                                            bottom: pw.BorderSide(),
+                                            top: pw.BorderSide(),
+                                            bottom: pw.BorderSide(width: 0.5),
                                             right: pw.BorderSide(width: 0.5),
                                           ),
                                         ),
                                         alignment: pw.Alignment.centerLeft,
                                         child: pw.Text(
-                                          'a',
+                                          'Nomor Nota',
                                           style: pw.TextStyle(
                                             fontSize: 7,
                                             font: ttf,
-                                            color: PdfColors.white,
                                           ),
                                         ),
                                       ),
@@ -564,18 +455,17 @@ class PrintLaporanPenjualan extends StatelessWidget {
                                           CommonHelpers.convertMMtoPx(mm: 15),
                                       decoration: pw.BoxDecoration(
                                         border: pw.Border(
-                                          top: pw.BorderSide(width: 0.5),
-                                          bottom: pw.BorderSide(),
+                                          top: pw.BorderSide(),
+                                          bottom: pw.BorderSide(width: 0.5),
                                           right: pw.BorderSide(width: 0.5),
                                         ),
                                       ),
                                       alignment: pw.Alignment.center,
                                       child: pw.Text(
-                                        'a',
+                                        'Tanggal',
                                         style: pw.TextStyle(
                                           fontSize: 7,
                                           font: ttf,
-                                          color: PdfColors.white,
                                         ),
                                       ),
                                     ),
@@ -583,16 +473,18 @@ class PrintLaporanPenjualan extends StatelessWidget {
                                       child: pw.Container(
                                         padding:
                                             pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+                                        width:
+                                            CommonHelpers.convertMMtoPx(mm: 12),
                                         decoration: pw.BoxDecoration(
                                           border: pw.Border(
-                                            top: pw.BorderSide(width: 0.5),
-                                            bottom: pw.BorderSide(),
+                                            top: pw.BorderSide(),
+                                            bottom: pw.BorderSide(width: 0.5),
                                             right: pw.BorderSide(width: 0.5),
                                           ),
                                         ),
-                                        alignment: pw.Alignment.centerRight,
+                                        alignment: pw.Alignment.centerLeft,
                                         child: pw.Text(
-                                          'Grand Total',
+                                          'Customer',
                                           style: pw.TextStyle(
                                             fontSize: 7,
                                             font: ttf,
@@ -604,17 +496,17 @@ class PrintLaporanPenjualan extends StatelessWidget {
                                       padding:
                                           pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
                                       width:
-                                          CommonHelpers.convertMMtoPx(mm: 20),
+                                          CommonHelpers.convertMMtoPx(mm: 16),
                                       decoration: pw.BoxDecoration(
                                         border: pw.Border(
-                                          top: pw.BorderSide(width: 0.5),
-                                          bottom: pw.BorderSide(),
+                                          top: pw.BorderSide(),
+                                          bottom: pw.BorderSide(width: 0.5),
                                           right: pw.BorderSide(),
                                         ),
                                       ),
                                       alignment: pw.Alignment.centerRight,
                                       child: pw.Text(
-                                        total,
+                                        'Grand Total',
                                         style: pw.TextStyle(
                                           fontSize: 7,
                                           font: ttf,
@@ -623,12 +515,132 @@ class PrintLaporanPenjualan extends StatelessWidget {
                                     ),
                                   ],
                                 ),
+                                rowItem(hJualList, index, ttf, context),
                               ],
                             )
-                          : rowItem(hJualList, index, ttf, context);
-                },
-                itemCount: hJualList.length,
-              ),
+                          : index == hJualList.length - 1
+                              ? pw.Column(
+                                  children: [
+                                    rowItem(hJualList, index, ttf, context),
+                                    pw.Row(
+                                      children: [
+                                        pw.Container(
+                                          padding: pw.EdgeInsets.fromLTRB(
+                                              2, 2, 2, 6),
+                                          width: CommonHelpers.convertMMtoPx(
+                                              mm: 6),
+                                          decoration: pw.BoxDecoration(
+                                            border: pw.Border(
+                                              top: pw.BorderSide(width: 0.5),
+                                              left: pw.BorderSide(),
+                                              bottom: pw.BorderSide(),
+                                              right: pw.BorderSide(width: 0.5),
+                                            ),
+                                          ),
+                                          alignment: pw.Alignment.centerLeft,
+                                          child: pw.Text(
+                                            'a',
+                                            style: pw.TextStyle(
+                                              fontSize: 7,
+                                              font: ttf,
+                                              color: PdfColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        pw.Expanded(
+                                          child: pw.Container(
+                                            padding: pw.EdgeInsets.fromLTRB(
+                                                2, 2, 2, 6),
+                                            decoration: pw.BoxDecoration(
+                                              border: pw.Border(
+                                                top: pw.BorderSide(width: 0.5),
+                                                bottom: pw.BorderSide(),
+                                                right:
+                                                    pw.BorderSide(width: 0.5),
+                                              ),
+                                            ),
+                                            alignment: pw.Alignment.centerLeft,
+                                            child: pw.Text(
+                                              'a',
+                                              style: pw.TextStyle(
+                                                fontSize: 7,
+                                                font: ttf,
+                                                color: PdfColors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        pw.Container(
+                                          padding: pw.EdgeInsets.fromLTRB(
+                                              2, 2, 2, 6),
+                                          width: CommonHelpers.convertMMtoPx(
+                                              mm: 15),
+                                          decoration: pw.BoxDecoration(
+                                            border: pw.Border(
+                                              top: pw.BorderSide(width: 0.5),
+                                              bottom: pw.BorderSide(),
+                                              right: pw.BorderSide(width: 0.5),
+                                            ),
+                                          ),
+                                          alignment: pw.Alignment.center,
+                                          child: pw.Text(
+                                            'a',
+                                            style: pw.TextStyle(
+                                              fontSize: 7,
+                                              font: ttf,
+                                              color: PdfColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        pw.Expanded(
+                                          child: pw.Container(
+                                            padding: pw.EdgeInsets.fromLTRB(
+                                                2, 2, 2, 6),
+                                            decoration: pw.BoxDecoration(
+                                              border: pw.Border(
+                                                top: pw.BorderSide(width: 0.5),
+                                                bottom: pw.BorderSide(),
+                                                right:
+                                                    pw.BorderSide(width: 0.5),
+                                              ),
+                                            ),
+                                            alignment: pw.Alignment.centerRight,
+                                            child: pw.Text(
+                                              'Grand Total',
+                                              style: pw.TextStyle(
+                                                fontSize: 7,
+                                                font: ttf,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        pw.Container(
+                                          padding: pw.EdgeInsets.fromLTRB(
+                                              2, 2, 2, 6),
+                                          width: CommonHelpers.convertMMtoPx(
+                                              mm: 16),
+                                          decoration: pw.BoxDecoration(
+                                            border: pw.Border(
+                                              top: pw.BorderSide(width: 0.5),
+                                              bottom: pw.BorderSide(),
+                                              right: pw.BorderSide(),
+                                            ),
+                                          ),
+                                          alignment: pw.Alignment.centerRight,
+                                          child: pw.Text(
+                                            total,
+                                            style: pw.TextStyle(
+                                              fontSize: 7,
+                                              font: ttf,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              : rowItem(hJualList, index, ttf, context)
+                  ]),
             )
           ];
         },
