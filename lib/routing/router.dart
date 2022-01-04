@@ -26,6 +26,7 @@ import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
 import 'package:penjualan/screen/transaksi/penjualan/penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/pembelian_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
+import 'package:penjualan/screen/utilities/account/account_controller.dart';
 import 'package:penjualan/screen/utilities/backup_restore/backup_restore_controller.dart';
 import 'package:penjualan/screen/utilities/backup_restore_sebagian/backup_restore_sebagian_controller.dart';
 
@@ -93,6 +94,8 @@ class MyRouter {
       case printLaporanPenjualanRoute:
         var args = settings.arguments as PrintLaporanPenjualan;
         return routeTransition(screen: args);
+      case accountRoute:
+        return routeTransition(screen: Account());
       default:
         return routeTransition(
           screen: Scaffold(

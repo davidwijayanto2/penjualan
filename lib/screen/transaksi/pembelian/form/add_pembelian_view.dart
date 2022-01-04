@@ -52,15 +52,7 @@ class AddPembelianView extends AddPembelianController {
                 ),
               ),
               FormBuilderTextField(
-                name: 'nonota',
-                maxLines: 1,
-                controller: noNotaController,
-                validator: FormBuilderValidators.compose(
-                  [
-                    FormBuilderValidators.required(context),
-                  ],
-                ),
-              ),
+                  name: 'nonota', maxLines: 1, controller: noNotaController),
               SizedBox(
                 height: 15,
               ),

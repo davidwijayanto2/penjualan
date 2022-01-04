@@ -375,3 +375,14 @@ goToPrintLaporanPenjualan<R>({
         ));
   }
 }
+
+goToAccount<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, accountRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, accountRoute);
+  }
+}

@@ -272,7 +272,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
         await db?.rawInsert('INSERT INTO h_beli VALUES(?,?,?,?,?,?,?,?)', [
           idHbeli,
           supllier?.nmSupplier ?? '',
-          user?.nmKaryawan ?? '',
+          user?.username ?? '',
           int.parse(extractNumber(value: grandTotalController.text)),
           quantityTotal,
           DateFormatter.dateTimeToDBFormat(datePicked),
