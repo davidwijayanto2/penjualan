@@ -129,7 +129,7 @@ abstract class BackupRestoreSebagianController
         }
         await fileHeader.writeAsString(queryHeader);
         await fileDetail.writeAsString(queryDetail);
-        Fluttertoast.showToast(msg: 'Data berhasil di backup');
+        Fluttertoast.showToast(msg: 'Data berhasil dibackup');
       } else {
         Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
@@ -175,7 +175,7 @@ abstract class BackupRestoreSebagianController
         }
         await fileHeader.writeAsString(queryHeader);
         await fileDetail.writeAsString(queryDetail);
-        Fluttertoast.showToast(msg: 'Data berhasil di backup');
+        Fluttertoast.showToast(msg: 'Data berhasil dibackup');
       } else {
         Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
@@ -189,6 +189,7 @@ abstract class BackupRestoreSebagianController
 
       if (result != null) {
         if ((result.files.single.path ?? '').contains('.txt')) {
+          final loading = loadingDialog(context);
           File file = File(result.files.single.path ?? '');
 
           final line = await file.readAsLines();
@@ -230,8 +231,10 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else if ((result.files.single.path ?? '')
                   .toLowerCase()
                   .contains('detail') &&
@@ -260,11 +263,14 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
+          loading.dismiss();
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
         }
@@ -280,6 +286,7 @@ abstract class BackupRestoreSebagianController
 
       if (result != null) {
         if ((result.files.single.path ?? '').contains('.txt')) {
+          final loading = loadingDialog(context);
           File file = File(result.files.single.path ?? '');
 
           final line = await file.readAsLines();
@@ -316,8 +323,10 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else if ((result.files.single.path ?? '')
                   .toLowerCase()
                   .contains('detail') &&
@@ -346,11 +355,14 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
+          loading.dismiss();
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
         }
@@ -366,6 +378,7 @@ abstract class BackupRestoreSebagianController
 
       if (result != null) {
         if ((result.files.single.path ?? '').contains('.txt')) {
+          final loading = loadingDialog(context);
           File file = File(result.files.single.path ?? '');
 
           final line = await file.readAsLines();
@@ -398,8 +411,10 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else if ((result.files.single.path ?? '')
               .toLowerCase()
               .contains('stok')) {
@@ -424,8 +439,10 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else if ((result.files.single.path ?? '')
               .toLowerCase()
               .contains('satuan')) {
@@ -446,8 +463,10 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else if ((result.files.single.path ?? '')
               .toLowerCase()
               .contains('karyawan')) {
@@ -476,11 +495,14 @@ abstract class BackupRestoreSebagianController
                 break;
               }
             }
-            if (!onError) batch.commit();
-            Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            if (!onError) {
+              batch.commit();
+              Fluttertoast.showToast(msg: 'Data berhasil direstore');
+            }
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
+          loading.dismiss();
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
         }
