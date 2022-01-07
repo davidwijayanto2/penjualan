@@ -19,26 +19,31 @@ abstract class BackupRestoreController extends State<BackupRestore> {
   static const platform = const MethodChannel('database');
   backupDatabase() async {
     if (await Permission.storage.request().isGranted) {
+      final loading = loadingDialog(context);
       try {
-        final loading = loadingDialog(context);
         var message = await platform.invokeMethod('backupdatabase');
-        loading.dismiss();
+
         Fluttertoast.showToast(msg: message);
       } on PlatformException catch (e) {
+        loading.dismiss();
         print("Failed to backup: '${e.message}'.");
+      } finally {
+        loading.dismiss();
       }
     }
   }
 
   restoreDatabase() async {
     if (await Permission.storage.request().isGranted) {
+      final loading = loadingDialog(context);
       try {
-        final loading = loadingDialog(context);
         var message = await platform.invokeMethod('restoredatabase');
-        loading.dismiss();
         Fluttertoast.showToast(msg: message);
       } on PlatformException catch (e) {
+        loading.dismiss();
         print("Failed to restore: '${e.message}'.");
+      } finally {
+        loading.dismiss();
       }
     }
   }

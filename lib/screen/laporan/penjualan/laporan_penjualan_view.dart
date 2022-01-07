@@ -202,7 +202,9 @@ class LaporanPenjualanView extends LaporanPenjualanController {
                       Expanded(
                         child: CommonWidgets.containedButton(
                           backgroundColor: MyColors.themeColor2,
-                          onPressed: () {},
+                          onPressed: () {
+                            exportToExcel();
+                          },
                           text: 'Export Excel',
                         ),
                       ),

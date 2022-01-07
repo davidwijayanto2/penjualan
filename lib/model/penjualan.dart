@@ -12,6 +12,7 @@ class HJual {
   String? kota;
   int? potongan;
   String? rekening;
+  List<DJual>? dJualList;
 
   HJual({
     this.idHjual,
@@ -27,6 +28,7 @@ class HJual {
     this.kota,
     this.potongan,
     this.rekening,
+    this.dJualList,
   });
 
   HJual.fromMap(Map<String, dynamic> map)
