@@ -54,18 +54,19 @@ abstract class PenjualanController extends State<TransaksiPenjualan> {
     var result;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT * FROM h_jual WHERE (ID_HJUAL like ? OR lower(NM_CUSTOMER) like ? OR TGL_TRANSAKSI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?)",
+          "SELECT * FROM h_jual WHERE (ID_HJUAL like ? OR lower(NM_CUSTOMER) like ? OR TGL_TRANSAKSI like ? OR GRANDTOTAL like ? OR KETERANGAN like ?) ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
           ["%$text%", "%$text%", "%$text%", "%$text%", "%$text%"]);
       //print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
-          "SELECT * FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ?", [
-        "$filterStart",
-        "$filterEnd",
-      ]);
+          "SELECT * FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
+          [
+            "$filterStart",
+            "$filterEnd",
+          ]);
     } else {
-      result = await db
-          ?.rawQuery("SELECT * FROM h_jual Order By TGL_TRANSAKSI DESC");
+      result = await db?.rawQuery(
+          "SELECT * FROM h_jual ORDE BY TGL_TRANSAKSI DESC, ID_HJUAL DESC");
     }
 
     // if ((result?.length ?? 0) > 0) {
