@@ -22,13 +22,15 @@ abstract class BackupRestoreController extends State<BackupRestore> {
       final loading = loadingDialog(context);
       try {
         var message = await platform.invokeMethod('backupdatabase');
-
+        await Future.delayed(Duration(seconds: 1), () {
+          loading.dismiss();
+        });
         Fluttertoast.showToast(msg: message);
       } on PlatformException catch (e) {
-        loading.dismiss();
+        await Future.delayed(Duration(seconds: 1), () {
+          loading.dismiss();
+        });
         print("Failed to backup: '${e.message}'.");
-      } finally {
-        loading.dismiss();
       }
     }
   }
@@ -38,12 +40,15 @@ abstract class BackupRestoreController extends State<BackupRestore> {
       final loading = loadingDialog(context);
       try {
         var message = await platform.invokeMethod('restoredatabase');
+        await Future.delayed(Duration(seconds: 1), () {
+          loading.dismiss();
+        });
         Fluttertoast.showToast(msg: message);
       } on PlatformException catch (e) {
-        loading.dismiss();
+        await Future.delayed(Duration(seconds: 1), () {
+          loading.dismiss();
+        });
         print("Failed to restore: '${e.message}'.");
-      } finally {
-        loading.dismiss();
       }
     }
   }
