@@ -66,7 +66,7 @@ abstract class PenjualanController extends State<TransaksiPenjualan> {
           ]);
     } else {
       result = await db?.rawQuery(
-          "SELECT * FROM h_jual ORDE BY TGL_TRANSAKSI DESC, ID_HJUAL DESC");
+          "SELECT * FROM h_jual ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC");
     }
 
     // if ((result?.length ?? 0) > 0) {

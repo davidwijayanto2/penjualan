@@ -104,21 +104,21 @@ abstract class LaporanPenjualanController extends State<LaporanPenjualan> {
     var result, resultTotal;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE NONOTA like ? OR lower(NM_CUSTOMER) like ? OR GRANDTOTAL like ?",
+          "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE NONOTA like ? OR lower(NM_CUSTOMER) like ? OR GRANDTOTAL like ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
           ["%$text%", "%$text%", "%$text%"]);
       resultTotal = await db?.rawQuery(
-          "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE NONOTA like ? OR lower(NM_CUSTOMER) like ? OR GRANDTOTAL like ?",
+          "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE NONOTA like ? OR lower(NM_CUSTOMER) like ? OR GRANDTOTAL like ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
           ["%$text%", "%$text%", "%$text%"]);
       print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
-          "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ?",
+          "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
           [
             "$filterStart",
             "$filterEnd",
           ]);
       resultTotal = await db?.rawQuery(
-          "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ?",
+          "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE date(TGL_TRANSAKSI) BETWEEN ? AND ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
           [
             "$filterStart",
             "$filterEnd",
@@ -126,43 +126,43 @@ abstract class LaporanPenjualanController extends State<LaporanPenjualan> {
     } else if (year != null && month != null) {
       if (year != '0' && month != '0') {
         result = await db?.rawQuery(
-            "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ? AND strftime('%m', TGL_TRANSAKSI) = ?",
+            "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ? AND strftime('%m', TGL_TRANSAKSI) = ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
             [
               "$year",
               "$month",
             ]);
         resultTotal = await db?.rawQuery(
-            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ? AND strftime('%m', TGL_TRANSAKSI) = ?",
+            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ? AND strftime('%m', TGL_TRANSAKSI) = ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
             [
               "$year",
               "$month",
             ]);
       } else if (year != '0' && month == '0') {
         result = await db?.rawQuery(
-            "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ?",
+            "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
             [
               "$year",
             ]);
         resultTotal = await db?.rawQuery(
-            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ?",
+            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE strftime('%Y',TGL_TRANSAKSI) = ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
             [
               "$year",
             ]);
       } else if (year == '0' && month != '0') {
         result = await db?.rawQuery(
-            "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE strftime('%m', TGL_TRANSAKSI) = ?",
+            "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual WHERE strftime('%m', TGL_TRANSAKSI) = ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
             [
               "$month",
             ]);
         resultTotal = await db?.rawQuery(
-            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE strftime('%m', TGL_TRANSAKSI) = ?",
+            "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual WHERE strftime('%m', TGL_TRANSAKSI) = ? ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC",
             [
               "$month",
             ]);
       }
     } else {
       result = await db?.rawQuery(
-          "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual");
+          "SELECT ID_HJUAL, NONOTA,TGL_TRANSAKSI,NM_CUSTOMER,GRANDTOTAL FROM h_jual ORDER BY TGL_TRANSAKSI DESC, ID_HJUAL DESC");
       resultTotal = await db
           ?.rawQuery("SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_jual");
     }
