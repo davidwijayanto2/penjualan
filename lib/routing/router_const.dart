@@ -28,4 +28,5 @@ const String laporanStokMasukRoute = '/laporanStokMasukRoute';
 const String laporanPembelianRoute = '/laporanPembelianRoute';
 const String backupRestoreSebagianRoute = '/backupRestoreSebagianRoute';
 const String printLaporanPenjualanRoute = '/printLaporanPenjualanRoute';
+const String printLaporanPembelianRoute = '/printLaporanPembelianRoute';
 const String accountRoute = '/accountRoute';

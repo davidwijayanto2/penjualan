@@ -7,6 +7,7 @@ class HBeli {
   int? grandTotal;
   String? nonota;
   String? keterangan;
+  List<Dbeli>? dBeliList;
 
   HBeli({
     this.idHbeli,
@@ -17,6 +18,7 @@ class HBeli {
     this.grandTotal,
     this.nonota,
     this.keterangan,
+    this.dBeliList,
   });
 
   HBeli.fromMap(Map<String, dynamic> map)

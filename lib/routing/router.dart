@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:penjualan/screen/home/home_controller.dart';
+import 'package:penjualan/screen/laporan/pembelian/print_laporan.dart';
 import 'package:penjualan/screen/laporan/penjualan/laporan_penjualan_controller.dart';
 import 'package:penjualan/screen/laporan/pembelian/laporan_pembelian_controller.dart';
 import 'package:penjualan/screen/laporan/penjualan/print_laporan.dart';
@@ -93,6 +94,9 @@ class MyRouter {
         return routeTransition(screen: LaporanStokMasuk());
       case printLaporanPenjualanRoute:
         var args = settings.arguments as PrintLaporanPenjualan;
+        return routeTransition(screen: args);
+      case printLaporanPembelianRoute:
+        var args = settings.arguments as PrintLaporanPembelian;
         return routeTransition(screen: args);
       case accountRoute:
         return routeTransition(screen: Account());

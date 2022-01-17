@@ -186,7 +186,13 @@ class LaporanPembelianView extends LaporanPembelianController {
                       ),
                       Expanded(
                         child: CommonWidgets.outlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            goToPrintLaporanPembelian(
+                              context: context,
+                              hBeliList: listPembelian ?? <HBeli>[],
+                              total: thousandSeparator(total, separator: '.'),
+                            );
+                          },
                           text: 'Cetak',
                         ),
                       ),
@@ -196,7 +202,9 @@ class LaporanPembelianView extends LaporanPembelianController {
                       Expanded(
                         child: CommonWidgets.containedButton(
                           backgroundColor: MyColors.themeColor2,
-                          onPressed: () {},
+                          onPressed: () {
+                            exportToExcel();
+                          },
                           text: 'Export Excel',
                         ),
                       ),
