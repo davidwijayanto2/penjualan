@@ -101,11 +101,13 @@ abstract class BackupRestoreSebagianController
         "$filterEndDate",
       ]);
       if (result != null && result.isNotEmpty) {
-        final path = await ExternalPath.getExternalStorageDirectories();
+        final path = Platform.isAndroid
+            ? (await ExternalPath.getExternalStorageDirectories()).first
+            : (await getApplicationDocumentsDirectory()).path;
         final File fileHeader = File(
-            "${path[0]}/Backup_Header_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+            "$path/Backup_Header_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
         final File fileDetail = File(
-            "${path[0]}/Backup_Detail_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+            "$path/Backup_Detail_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
         String queryHeader = '';
         String queryDetail = '';
         for (int i = 0; i < result.length; i++) {
@@ -133,7 +135,9 @@ abstract class BackupRestoreSebagianController
       } else {
         Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
-      loading.dismiss();
+      await Future.delayed(Duration(seconds: 1), () {
+        loading.dismiss();
+      });
     }
   }
 
@@ -147,11 +151,13 @@ abstract class BackupRestoreSebagianController
         "$filterEndDate",
       ]);
       if (result != null && result.isNotEmpty) {
-        final path = await ExternalPath.getExternalStorageDirectories();
+        final path = Platform.isAndroid
+            ? (await ExternalPath.getExternalStorageDirectories()).first
+            : (await getApplicationDocumentsDirectory()).path;
         final File fileHeader = File(
-            "${path[0]}/Backup_Header_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+            "$path/Backup_Header_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
         final File fileDetail = File(
-            "${path[0]}/Backup_Detail_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+            "$path/Backup_Detail_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
         String queryHeader = '';
         String queryDetail = '';
         for (int i = 0; i < result.length; i++) {
@@ -179,7 +185,9 @@ abstract class BackupRestoreSebagianController
       } else {
         Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
-      loading.dismiss();
+      await Future.delayed(Duration(seconds: 1), () {
+        loading.dismiss();
+      });
     }
   }
 
@@ -270,7 +278,9 @@ abstract class BackupRestoreSebagianController
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
-          loading.dismiss();
+          await Future.delayed(Duration(seconds: 1), () {
+            loading.dismiss();
+          });
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
         }
@@ -362,7 +372,9 @@ abstract class BackupRestoreSebagianController
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
-          loading.dismiss();
+          await Future.delayed(Duration(seconds: 1), () {
+            loading.dismiss();
+          });
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
         }
@@ -502,7 +514,9 @@ abstract class BackupRestoreSebagianController
           } else {
             Fluttertoast.showToast(msg: 'File backup salah');
           }
-          loading.dismiss();
+          await Future.delayed(Duration(seconds: 1), () {
+            loading.dismiss();
+          });
         } else {
           Fluttertoast.showToast(msg: 'Format salah');
         }
