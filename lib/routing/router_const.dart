@@ -22,6 +22,7 @@ const String printNotaRoute = '/printNotaRoute';
 const String laporanStokKeluarRoute = '/laporanStokKeluarRoute';
 const String detailBeliRoute = '/detailBeliRoute';
 const String printNotaBeliRoute = '/printNotaBeliRoute';
+const String printNotaBeliLogoRoute = '/printNotaBeliLogoRoute';
 const String laporanPenjualanRoute = '/laporanPenjualanRoute';
 const String backupRestoreRoute = '/backupRestoreRoute';
 const String laporanStokMasukRoute = '/laporanStokMasukRoute';
