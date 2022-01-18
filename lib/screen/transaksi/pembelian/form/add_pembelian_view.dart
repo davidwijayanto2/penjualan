@@ -213,6 +213,20 @@ class AddPembelianView extends AddPembelianController {
                     width: 4,
                   ),
                   Expanded(
+                    child: CommonWidgets.outlinedButton(
+                      text: 'Cetak Dengan Logo',
+                      onPressed: () {
+                        goToPrintNotaBeliLogo(
+                            context: context,
+                            hBeli: getHbeliFromForm(),
+                            dBeliList: dbeliList ?? <Dbeli>[]);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(
                     child: CommonWidgets.containedButton(
                       text: widget.editHbeli == null ? 'Add' : 'Edit',
                       onPressed: submitForm,

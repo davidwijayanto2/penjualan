@@ -21,6 +21,7 @@ import 'package:penjualan/screen/master/satuan/master_satuan_controller.dart';
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/detail_beli/detail_beli_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/print_nota_beli.dart';
+import 'package:penjualan/screen/transaksi/pembelian/form/print_nota_beli_logo.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
@@ -85,6 +86,9 @@ class MyRouter {
         return routeTransition(screen: BackupRestore());
       case printNotaBeliRoute:
         var args = settings.arguments as PrintNotaBeli;
+        return routeTransition(screen: args);
+      case printNotaBeliLogoRoute:
+        var args = settings.arguments as PrintNotaBeliLogo;
         return routeTransition(screen: args);
       case backupRestoreSebagianRoute:
         return routeTransition(screen: BackupRestoreSebagian());

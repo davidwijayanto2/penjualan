@@ -17,6 +17,7 @@ import 'package:penjualan/screen/master/kategori/form/add_master_kategori_contro
 import 'package:penjualan/screen/master/satuan/form/add_master_satuan_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/detail_beli/detail_beli_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/print_nota_beli.dart';
+import 'package:penjualan/screen/transaksi/pembelian/form/print_nota_beli_logo.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/add_penjualan_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jual_controller.dart';
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
@@ -284,6 +285,27 @@ goToPrintNotaBeli<R>({
   } else {
     Navigator.pushNamed(context, printNotaBeliRoute,
         arguments: PrintNotaBeli(
+          hBeli,
+          dBeliList,
+        ));
+  }
+}
+
+goToPrintNotaBeliLogo<R>({
+  required BuildContext context,
+  required HBeli hBeli,
+  required List<Dbeli> dBeliList,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, printNotaBeliLogoRoute,
+        arguments: PrintNotaBeliLogo(
+          hBeli,
+          dBeliList,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, printNotaBeliLogoRoute,
+        arguments: PrintNotaBeliLogo(
           hBeli,
           dBeliList,
         ));
