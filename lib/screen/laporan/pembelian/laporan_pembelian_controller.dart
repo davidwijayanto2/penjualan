@@ -104,7 +104,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     var result, resultTotal;
     if (text != null && text != '') {
       result = await db?.rawQuery(
-          "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR GRANDTOTAL like ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
+          "SELECT ID_HBELI,BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR GRANDTOTAL like ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
           ["%$text%", "%$text%", "%$text%"]);
       resultTotal = await db?.rawQuery(
           "SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli WHERE BUKTI_NOTA like ? OR lower(NM_SUPPLIER) like ? OR GRANDTOTAL like ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
@@ -112,7 +112,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
       print(result);
     } else if (filterStart != null && filterEnd != null) {
       result = await db?.rawQuery(
-          "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
+          "SELECT ID_HBELI,BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE date(TANGGAL_BELI) BETWEEN ? AND ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
           [
             "$filterStart",
             "$filterEnd",
@@ -126,7 +126,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     } else if (year != null && month != null) {
       if (year != '0' && month != '0') {
         result = await db?.rawQuery(
-            "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ? AND strftime('%m', TANGGAL_BELI) = ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
+            "SELECT ID_HBELI,BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ? AND strftime('%m', TANGGAL_BELI) = ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
             [
               "$year",
               "$month",
@@ -139,7 +139,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
             ]);
       } else if (year != '0' && month == '0') {
         result = await db?.rawQuery(
-            "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
+            "SELECT ID_HBELI,BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%Y',TANGGAL_BELI) = ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
             [
               "$year",
             ]);
@@ -150,7 +150,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
             ]);
       } else if (year == '0' && month != '0') {
         result = await db?.rawQuery(
-            "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%m', TANGGAL_BELI) = ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
+            "SELECT ID_HBELI,BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli WHERE strftime('%m', TANGGAL_BELI) = ? ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC",
             [
               "$month",
             ]);
@@ -162,7 +162,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
       }
     } else {
       result = await db?.rawQuery(
-          "SELECT BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC");
+          "SELECT ID_HBELI,BUKTI_NOTA,TANGGAL_BELI,NM_SUPPLIER,GRANDTOTAL FROM h_beli ORDER BY TANGGAL_BELI DESC, BUKTI_NOTA DESC");
       resultTotal = await db
           ?.rawQuery("SELECT IFNULL(SUM(GRANDTOTAL),0) as JUMLAH FROM h_beli");
     }
@@ -241,6 +241,7 @@ abstract class LaporanPembelianController extends State<LaporanPembelian> {
     Database? db = await DatabaseHelper.instance.database;
 
     var result;
+    print(listPembelian![index].idHbeli);
     if (listPembelian != null) {
       if (listPembelian![index].dBeliList == null) {
         result = await db?.rawQuery("SELECT * FROM d_beli WHERE ID_HBELI = ?",

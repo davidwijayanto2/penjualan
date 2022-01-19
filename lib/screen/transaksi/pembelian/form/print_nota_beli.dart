@@ -28,6 +28,189 @@ class PrintNotaBeli extends StatelessWidget {
     );
   }
 
+  rowHeader(pw.Font? ttf) {
+    return pw.Row(
+      children: [
+        pw.Container(
+          padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+          width: CommonHelpers.convertMMtoPx(mm: 6),
+          decoration: pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(),
+              left: pw.BorderSide(),
+              bottom: pw.BorderSide(),
+              right: pw.BorderSide(width: 0.5),
+            ),
+          ),
+          alignment: pw.Alignment.topCenter,
+          child: pw.Text(
+            'No',
+            style: pw.TextStyle(
+              fontSize: 7,
+              font: ttf,
+            ),
+          ),
+        ),
+        pw.Expanded(
+          child: pw.Container(
+            padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+            decoration: pw.BoxDecoration(
+              border: pw.Border(
+                top: pw.BorderSide(),
+                bottom: pw.BorderSide(),
+                right: pw.BorderSide(),
+              ),
+            ),
+            alignment: pw.Alignment.topLeft,
+            child: pw.Text(
+              'Nama Barang',
+              style: pw.TextStyle(
+                fontSize: 7,
+                font: ttf,
+              ),
+            ),
+          ),
+        ),
+        pw.Container(
+          padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+          width: CommonHelpers.convertMMtoPx(mm: 10),
+          decoration: pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(),
+              bottom: pw.BorderSide(),
+              right: pw.BorderSide(),
+            ),
+          ),
+          alignment: pw.Alignment.topRight,
+          child: pw.Text(
+            'Qty',
+            style: pw.TextStyle(
+              fontSize: 7,
+              font: ttf,
+            ),
+          ),
+        ),
+        pw.Container(
+          padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+          width: CommonHelpers.convertMMtoPx(mm: 12),
+          decoration: pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(),
+              bottom: pw.BorderSide(),
+              right: pw.BorderSide(),
+            ),
+          ),
+          alignment: pw.Alignment.topCenter,
+          child: pw.Text(
+            'Satuan',
+            style: pw.TextStyle(
+              fontSize: 7,
+              font: ttf,
+            ),
+          ),
+        ),
+        pw.Container(
+          padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+          width: CommonHelpers.convertMMtoPx(mm: 20),
+          decoration: pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(),
+              bottom: pw.BorderSide(),
+              right: pw.BorderSide(),
+            ),
+          ),
+          alignment: pw.Alignment.topRight,
+          child: pw.Text(
+            'Harga',
+            style: pw.TextStyle(
+              fontSize: 7,
+              font: ttf,
+            ),
+          ),
+        ),
+        pw.Container(
+          padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+          width: CommonHelpers.convertMMtoPx(mm: 32),
+          decoration: pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(),
+              bottom: pw.BorderSide(),
+              right: pw.BorderSide(),
+            ),
+          ),
+          alignment: pw.Alignment.topRight,
+          child: pw.Text(
+            'Subtotal',
+            style: pw.TextStyle(
+              fontSize: 7,
+              font: ttf,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  rowFooter(pw.Font? ttf) {
+    return pw.Row(
+      children: [
+        pw.Expanded(
+          child: pw.Container(
+            padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+            height: 16,
+            decoration: pw.BoxDecoration(
+              border: pw.Border(
+                top: pw.BorderSide(),
+                left: pw.BorderSide(),
+                bottom: pw.BorderSide(),
+                right: pw.BorderSide(),
+              ),
+            ),
+            alignment: pw.Alignment.topCenter,
+          ),
+        ),
+        pw.Container(
+          padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+          width: CommonHelpers.convertMMtoPx(mm: 20),
+          decoration: pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(),
+              bottom: pw.BorderSide(),
+              right: pw.BorderSide(),
+            ),
+          ),
+          alignment: pw.Alignment.topRight,
+          child: pw.Text(
+            'Grand Total',
+            style: pw.TextStyle(
+              fontSize: 7,
+              font: ttf,
+            ),
+          ),
+        ),
+        pw.Container(
+          padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
+          width: CommonHelpers.convertMMtoPx(mm: 32),
+          decoration: pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(),
+              bottom: pw.BorderSide(),
+              right: pw.BorderSide(),
+            ),
+          ),
+          alignment: pw.Alignment.topRight,
+          child: pw.Text(
+            thousandSeparator(hBeli.grandTotal, separator: '.'),
+            style: pw.TextStyle(
+              fontSize: 7,
+              font: ttf,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   rowItem(int index, pw.Font? ttf) {
     return pw.Row(
       children: [
@@ -215,203 +398,29 @@ class PrintNotaBeli extends StatelessWidget {
                   ),
                   pw.SizedBox(height: CommonHelpers.convertMMtoPx(mm: 1)),
                   for (int index = 0; index < dbeliList.length; index++)
-                    index == 0
+                    index == dbeliList.length - 1 && index == 0
                         ? pw.Column(
                             children: [
-                              pw.Row(
-                                children: [
-                                  pw.Container(
-                                    padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                    width: CommonHelpers.convertMMtoPx(mm: 6),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border(
-                                        top: pw.BorderSide(),
-                                        left: pw.BorderSide(),
-                                        bottom: pw.BorderSide(),
-                                        right: pw.BorderSide(width: 0.5),
-                                      ),
-                                    ),
-                                    alignment: pw.Alignment.topCenter,
-                                    child: pw.Text(
-                                      'No',
-                                      style: pw.TextStyle(
-                                        fontSize: 7,
-                                        font: ttf,
-                                      ),
-                                    ),
-                                  ),
-                                  pw.Expanded(
-                                    child: pw.Container(
-                                      padding:
-                                          pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                      decoration: pw.BoxDecoration(
-                                        border: pw.Border(
-                                          top: pw.BorderSide(),
-                                          bottom: pw.BorderSide(),
-                                          right: pw.BorderSide(),
-                                        ),
-                                      ),
-                                      alignment: pw.Alignment.topLeft,
-                                      child: pw.Text(
-                                        'Nama Barang',
-                                        style: pw.TextStyle(
-                                          fontSize: 7,
-                                          font: ttf,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  pw.Container(
-                                    padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                    width: CommonHelpers.convertMMtoPx(mm: 10),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border(
-                                        top: pw.BorderSide(),
-                                        bottom: pw.BorderSide(),
-                                        right: pw.BorderSide(),
-                                      ),
-                                    ),
-                                    alignment: pw.Alignment.topRight,
-                                    child: pw.Text(
-                                      'Qty',
-                                      style: pw.TextStyle(
-                                        fontSize: 7,
-                                        font: ttf,
-                                      ),
-                                    ),
-                                  ),
-                                  pw.Container(
-                                    padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                    width: CommonHelpers.convertMMtoPx(mm: 12),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border(
-                                        top: pw.BorderSide(),
-                                        bottom: pw.BorderSide(),
-                                        right: pw.BorderSide(),
-                                      ),
-                                    ),
-                                    alignment: pw.Alignment.topCenter,
-                                    child: pw.Text(
-                                      'Satuan',
-                                      style: pw.TextStyle(
-                                        fontSize: 7,
-                                        font: ttf,
-                                      ),
-                                    ),
-                                  ),
-                                  pw.Container(
-                                    padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                    width: CommonHelpers.convertMMtoPx(mm: 20),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border(
-                                        top: pw.BorderSide(),
-                                        bottom: pw.BorderSide(),
-                                        right: pw.BorderSide(),
-                                      ),
-                                    ),
-                                    alignment: pw.Alignment.topRight,
-                                    child: pw.Text(
-                                      'Harga',
-                                      style: pw.TextStyle(
-                                        fontSize: 7,
-                                        font: ttf,
-                                      ),
-                                    ),
-                                  ),
-                                  pw.Container(
-                                    padding: pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                    width: CommonHelpers.convertMMtoPx(mm: 32),
-                                    decoration: pw.BoxDecoration(
-                                      border: pw.Border(
-                                        top: pw.BorderSide(),
-                                        bottom: pw.BorderSide(),
-                                        right: pw.BorderSide(),
-                                      ),
-                                    ),
-                                    alignment: pw.Alignment.topRight,
-                                    child: pw.Text(
-                                      'Subtotal',
-                                      style: pw.TextStyle(
-                                        fontSize: 7,
-                                        font: ttf,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                              rowHeader(ttf),
                               rowItem(index, ttf),
+                              rowFooter(ttf),
                             ],
                           )
-                        : index == dbeliList.length - 1
+                        : index == 0
                             ? pw.Column(
                                 children: [
+                                  rowHeader(ttf),
                                   rowItem(index, ttf),
-                                  pw.Row(
-                                    children: [
-                                      pw.Expanded(
-                                        child: pw.Container(
-                                          padding: pw.EdgeInsets.fromLTRB(
-                                              2, 2, 2, 6),
-                                          height: 16,
-                                          decoration: pw.BoxDecoration(
-                                            border: pw.Border(
-                                              top: pw.BorderSide(),
-                                              left: pw.BorderSide(),
-                                              bottom: pw.BorderSide(),
-                                              right: pw.BorderSide(),
-                                            ),
-                                          ),
-                                          alignment: pw.Alignment.topCenter,
-                                        ),
-                                      ),
-                                      pw.Container(
-                                        padding:
-                                            pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                        width:
-                                            CommonHelpers.convertMMtoPx(mm: 20),
-                                        decoration: pw.BoxDecoration(
-                                          border: pw.Border(
-                                            top: pw.BorderSide(),
-                                            bottom: pw.BorderSide(),
-                                            right: pw.BorderSide(),
-                                          ),
-                                        ),
-                                        alignment: pw.Alignment.topRight,
-                                        child: pw.Text(
-                                          'Grand Total',
-                                          style: pw.TextStyle(
-                                            fontSize: 7,
-                                            font: ttf,
-                                          ),
-                                        ),
-                                      ),
-                                      pw.Container(
-                                        padding:
-                                            pw.EdgeInsets.fromLTRB(2, 2, 2, 6),
-                                        width:
-                                            CommonHelpers.convertMMtoPx(mm: 32),
-                                        decoration: pw.BoxDecoration(
-                                          border: pw.Border(
-                                            top: pw.BorderSide(),
-                                            bottom: pw.BorderSide(),
-                                            right: pw.BorderSide(),
-                                          ),
-                                        ),
-                                        alignment: pw.Alignment.topRight,
-                                        child: pw.Text(
-                                          thousandSeparator(hBeli.grandTotal,
-                                              separator: '.'),
-                                          style: pw.TextStyle(
-                                            fontSize: 7,
-                                            font: ttf,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
                                 ],
                               )
-                            : rowItem(index, ttf),
+                            : index == dbeliList.length - 1
+                                ? pw.Column(
+                                    children: [
+                                      rowItem(index, ttf),
+                                      rowFooter(ttf),
+                                    ],
+                                  )
+                                : rowItem(index, ttf),
                   pw.SizedBox(height: CommonHelpers.convertMMtoPx(mm: 10)),
                   pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceAround,

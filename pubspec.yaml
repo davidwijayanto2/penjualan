@@ -62,6 +62,10 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
+  assets:
+    - assets/img/
+    - assets/img/FinalLogo.png
+
   fonts:
     - family: Arial
       fonts:
