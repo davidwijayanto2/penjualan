@@ -274,7 +274,7 @@ class LaporanPenjualanView extends LaporanPenjualanController {
                 ),
                 CommonText.text(
                   text:
-                      "${DateFormatter.toLongDateText(context, DateTime.parse(hJual?.tglTransaksi ?? '00000/00/00'))} | ${formatMoney(value: (hJual?.grandTotal ?? 0))}",
+                      "${DateFormatter.toLongDateText(context, DateTime.parse(hJual?.tglTransaksi ?? '00000-00-00'))} | ${formatMoney(value: (hJual?.grandTotal ?? 0))}",
                   style: CommonText.body1(
                     color: MyColors.themeColor1,
                   ),

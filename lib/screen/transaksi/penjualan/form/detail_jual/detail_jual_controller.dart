@@ -17,7 +17,8 @@ import 'detail_jual_view.dart';
 
 class DetailJual extends StatefulWidget {
   final DJual? editDJual;
-  DetailJual({this.editDJual});
+  final Customer? customer;
+  DetailJual({this.editDJual, this.customer});
   @override
   State<StatefulWidget> createState() => DetailJualView();
 }
@@ -191,6 +192,7 @@ abstract class DetailJualController extends State<DetailJual> {
           Navigator.of(context, rootNavigator: true).pop();
           // _getAgencyInfo();
         },
+        customer: widget.customer,
       ),
     );
   }

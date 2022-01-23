@@ -164,6 +164,7 @@ class AddPenjualanView extends AddPenjualanController {
                 onPressed: () {
                   goToAddDetailJual(
                     context: context,
+                    customer: customer,
                     afterOpen: (value) {
                       if (value != null) {
                         addDjualList(value, null);
@@ -468,6 +469,7 @@ class AddPenjualanView extends AddPenjualanController {
                   goToAddDetailJual(
                     context: context,
                     editDJual: djual,
+                    customer: customer,
                     afterOpen: (value) {
                       if (value != null) {
                         addDjualList(value, index);

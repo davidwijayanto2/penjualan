@@ -9,6 +9,7 @@ import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:penjualan/model/customer.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/repositories/db_helper.dart';
 import 'package:penjualan/utils/common_text.dart';
@@ -19,18 +20,20 @@ import 'package:sqflite/sqflite.dart';
 
 class SelectBarang extends StatefulWidget {
   final ValueChanged<Stok> onSelected;
-
-  SelectBarang(this.onSelected);
+  final Customer? customer;
+  SelectBarang(this.onSelected, {this.customer});
 
   @override
-  _SelectBarangState createState() => _SelectBarangState(this.onSelected);
+  _SelectBarangState createState() =>
+      _SelectBarangState(this.onSelected, this.customer);
 }
 
 class _SelectBarangState extends State<SelectBarang> {
   final ValueChanged<Stok> onSelected;
+  final Customer? customer;
   List<Stok> stokList = [];
 
-  _SelectBarangState(this.onSelected);
+  _SelectBarangState(this.onSelected, this.customer);
 
   bool _isFetching = false;
 
@@ -43,13 +46,26 @@ class _SelectBarangState extends State<SelectBarang> {
     Database? db = await DatabaseHelper.instance.database;
 
     var result;
+
     if (query != null && query != '') {
-      result = await db?.rawQuery(
-          "SELECT stok.ID_STOK,stok.ID_KATEGORI,stok.NAMA_BARANG,stok.QUANTITY, stok.HARGA,stok.status,kategori.NM_KATEGORI FROM stok LEFT JOIN kategori ON stok.ID_KATEGORI = kategori.ID_KATEGORI WHERE stok.STATUS = 1 AND lower(stok.NAMA_BARANG) like ?",
-          ["%$query%"]);
+      if (customer?.hargaKhusus == 'YA') {
+        result = await db?.rawQuery(
+            "SELECT g.ID_STOK,g.NM_BARANG AS 'NAMA_BARANG', g.QUANTITY as 'QUANTITY', g.HARGA_BARANG as 'HARGA' FROM(SELECT s.ID_STOK,ID_KATEGORI,dj.NM_BARANG,s.QUANTITY,dj.HARGA_BARANG,s.STATUS from d_jual dj, h_jual hj, stok s WHERE dj.NM_BARANG= s.NAMA_BARANG AND dj.ID_HJUAL = hj.ID_HJUAL AND hj.NM_CUSTOMER = ? GROUP BY NM_BARANG UNION SELECT * FROM stok) AS g WHERE UPPER(g.NM_BARANG) LIKE ? GROUP BY g.ID_STOK",
+            [widget.customer?.nmCustomer, "%$query%"]);
+      } else {
+        result = await db?.rawQuery(
+            "SELECT stok.ID_STOK,stok.ID_KATEGORI,stok.NAMA_BARANG,stok.QUANTITY, stok.HARGA,stok.status,kategori.NM_KATEGORI FROM stok LEFT JOIN kategori ON stok.ID_KATEGORI = kategori.ID_KATEGORI WHERE stok.STATUS = 1 AND lower(stok.NAMA_BARANG) like ?",
+            ["%$query%"]);
+      }
     } else {
-      result = await db?.rawQuery(
-          "SELECT stok.ID_STOK,stok.ID_KATEGORI,stok.NAMA_BARANG,stok.QUANTITY, stok.HARGA,stok.status,kategori.NM_KATEGORI FROM stok LEFT JOIN kategori ON stok.ID_KATEGORI = kategori.ID_KATEGORI WHERE stok.STATUS = 1");
+      if (customer?.hargaKhusus == 'YA') {
+        result = await db?.rawQuery(
+            "SELECT g.ID_STOK,g.NM_BARANG AS 'NAMA_BARANG', g.QUANTITY as 'QUANTITY', g.HARGA_BARANG as 'HARGA' FROM(SELECT s.ID_STOK,ID_KATEGORI,dj.NM_BARANG,s.QUANTITY,dj.HARGA_BARANG,s.STATUS from d_jual dj, h_jual hj, stok s WHERE dj.NM_BARANG= s.NAMA_BARANG AND dj.ID_HJUAL = hj.ID_HJUAL AND hj.NM_CUSTOMER = ? GROUP BY NM_BARANG UNION SELECT * FROM stok) AS g GROUP BY g.ID_STOK",
+            [widget.customer?.nmCustomer]);
+      } else {
+        result = await db?.rawQuery(
+            "SELECT stok.ID_STOK,stok.ID_KATEGORI,stok.NAMA_BARANG,stok.QUANTITY, stok.HARGA,stok.status,kategori.NM_KATEGORI FROM stok LEFT JOIN kategori ON stok.ID_KATEGORI = kategori.ID_KATEGORI WHERE stok.STATUS = 1");
+      }
     }
 
     // if ((result?.length ?? 0) > 0) {

@@ -187,17 +187,20 @@ goToAddTransaksiPenjualan<R>({
 goToAddDetailJual<R>({
   required BuildContext context,
   DJual? editDJual,
+  Customer? customer,
   FutureOr<R> Function(dynamic)? afterOpen,
 }) {
   if (afterOpen != null) {
     Navigator.pushNamed(context, detailJualRoute,
         arguments: DetailJual(
           editDJual: editDJual,
+          customer: customer,
         )).then(afterOpen);
   } else {
     Navigator.pushNamed(context, detailJualRoute,
         arguments: DetailJual(
           editDJual: editDJual,
+          customer: customer,
         ));
   }
 }
