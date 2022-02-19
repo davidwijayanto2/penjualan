@@ -75,6 +75,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
         supllier = HBeli(nmSupplier: widget.editHbeli?.nmSupplier ?? '');
       }
       setState(() {
+        datePicked = DateTime.parse(widget.editHbeli?.tglTransaksi ?? '');
         dateTextStr = DateFormatter.toLongDateText(
             context, DateTime.parse(widget.editHbeli?.tglTransaksi ?? ''));
         noNotaController.text = widget.editHbeli?.nonota ?? '';
@@ -204,7 +205,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
     return flag;
   }
 
-  submitForm() async {
+  Future<void> submitForm() async {
     if (validateForm()) {
       Database? db = await DatabaseHelper.instance.database;
       var user = LocalStorage.userLogin();

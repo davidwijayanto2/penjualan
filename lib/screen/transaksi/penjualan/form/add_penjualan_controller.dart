@@ -75,6 +75,7 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
         customer = Customer(nmCustomer: widget.editHJual?.nmCustomer ?? '');
       }
       setState(() {
+        datePicked = DateTime.parse(widget.editHJual?.tglTransaksi ?? '');
         dateTextStr = DateFormatter.toLongDateText(
             context, DateTime.parse(widget.editHJual?.tglTransaksi ?? ''));
         noNotaController.text = widget.editHJual?.nonota ?? '';
@@ -148,7 +149,7 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
     return flag;
   }
 
-  submitForm() async {
+  Future<void> submitForm() async {
     if (validateForm()) {
       Database? db = await DatabaseHelper.instance.database;
       var user = LocalStorage.userLogin();

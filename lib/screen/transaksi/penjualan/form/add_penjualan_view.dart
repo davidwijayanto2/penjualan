@@ -332,11 +332,15 @@ class AddPenjualanView extends AddPenjualanController {
                   Expanded(
                     child: CommonWidgets.outlinedButton(
                       text: 'Cetak',
-                      onPressed: () {
-                        goToPrintNota(
-                            context: context,
-                            hJual: getHjualFromForm(),
-                            dJualList: djualList ?? <DJual>[]);
+                      onPressed: () async {
+                        await submitForm().then((value) {
+                          if (!onError) {
+                            goToPrintNota(
+                                context: context,
+                                hJual: getHjualFromForm(),
+                                dJualList: djualList ?? <DJual>[]);
+                          }
+                        });
                       },
                     ),
                   ),

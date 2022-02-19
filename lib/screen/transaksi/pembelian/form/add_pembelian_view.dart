@@ -201,11 +201,15 @@ class AddPembelianView extends AddPembelianController {
                   Expanded(
                     child: CommonWidgets.outlinedButton(
                       text: 'Cetak',
-                      onPressed: () {
-                        goToPrintNotaBeli(
-                            context: context,
-                            hBeli: getHbeliFromForm(),
-                            dBeliList: dbeliList ?? <Dbeli>[]);
+                      onPressed: () async {
+                        await submitForm().then((value) {
+                          if (!onError) {
+                            goToPrintNotaBeli(
+                                context: context,
+                                hBeli: getHbeliFromForm(),
+                                dBeliList: dbeliList ?? <Dbeli>[]);
+                          }
+                        });
                       },
                     ),
                   ),
@@ -215,11 +219,15 @@ class AddPembelianView extends AddPembelianController {
                   Expanded(
                     child: CommonWidgets.outlinedButton(
                       text: 'Cetak Dengan Logo',
-                      onPressed: () {
-                        goToPrintNotaBeliLogo(
-                            context: context,
-                            hBeli: getHbeliFromForm(),
-                            dBeliList: dbeliList ?? <Dbeli>[]);
+                      onPressed: () async {
+                        await submitForm().then((value) {
+                          if (!onError) {
+                            goToPrintNotaBeliLogo(
+                                context: context,
+                                hBeli: getHbeliFromForm(),
+                                dBeliList: dbeliList ?? <Dbeli>[]);
+                          }
+                        });
                       },
                     ),
                   ),
