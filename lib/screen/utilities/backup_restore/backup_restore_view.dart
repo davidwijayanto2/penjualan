@@ -42,7 +42,7 @@ class BackupRestoreView extends BackupRestoreController {
             ),
             CommonWidgets.containedButton(
               onPressed: () async {
-                await backupDatabase();
+                await backupDatabase(context);
               },
               text: 'BACKUP',
             ),
@@ -61,7 +61,7 @@ class BackupRestoreView extends BackupRestoreController {
             CommonWidgets.containedButton(
               text: 'RESTORE',
               onPressed: () async {
-                await restoreDatabase();
+                await restoreDatabase(context);
               },
             ),
           ],
