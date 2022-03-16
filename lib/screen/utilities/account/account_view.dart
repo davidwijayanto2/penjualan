@@ -6,6 +6,7 @@ import 'package:penjualan/utils/common_text.dart';
 import 'package:penjualan/utils/common_widgets.dart';
 import 'package:penjualan/utils/my_colors.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 class AccountView extends AccountController {
   @override

@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  permission_handler_windows
+  printing
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

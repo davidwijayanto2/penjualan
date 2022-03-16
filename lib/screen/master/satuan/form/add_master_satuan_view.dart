@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:penjualan/routing/navigator.dart';
 import 'package:penjualan/screen/master/barang/form/add_master_barang_controller.dart';
 import 'package:penjualan/utils/common_text.dart';
