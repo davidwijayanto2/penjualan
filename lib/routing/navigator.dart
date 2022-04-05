@@ -23,6 +23,8 @@ import 'package:penjualan/screen/transaksi/penjualan/form/detail_jual/detail_jua
 import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controller.dart';
 import 'package:penjualan/screen/transaksi/penjualan/form/print_nota.dart';
 
+import '../screen/transaksi/penjualan/form/print_nota_logo.dart';
+
 goToHome(BuildContext context) async {
   Navigator.pushNamed(context, homeRoute);
 }
@@ -267,6 +269,27 @@ goToPrintNota<R>({
   } else {
     Navigator.pushNamed(context, printNotaRoute,
         arguments: PrintNota(
+          hJual,
+          dJualList,
+        ));
+  }
+}
+
+goToPrintNotaLogo<R>({
+  required BuildContext context,
+  required HJual hJual,
+  required List<DJual> dJualList,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, printNotaLogoRoute,
+        arguments: PrintNotaLogo(
+          hJual,
+          dJualList,
+        )).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, printNotaLogoRoute,
+        arguments: PrintNotaLogo(
           hJual,
           dJualList,
         ));

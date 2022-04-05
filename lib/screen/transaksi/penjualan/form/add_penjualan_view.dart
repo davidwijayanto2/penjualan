@@ -349,6 +349,24 @@ class AddPenjualanView extends AddPenjualanController {
                     width: 4,
                   ),
                   Expanded(
+                    child: CommonWidgets.outlinedButton(
+                      text: 'Cetak Dengan Logo',
+                      onPressed: () async {
+                        await submitForm().then((value) {
+                          if (!onError) {
+                            goToPrintNotaLogo(
+                                context: context,
+                                hJual: getHjualFromForm(),
+                                dJualList: djualList ?? <DJual>[]);
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(
                     child: CommonWidgets.containedButton(
                       text: widget.editHJual == null ? 'Add' : 'Edit',
                       onPressed: submitForm,

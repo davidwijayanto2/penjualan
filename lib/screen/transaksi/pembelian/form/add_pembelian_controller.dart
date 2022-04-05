@@ -139,7 +139,8 @@ abstract class AddPembelianController extends State<AddPembelian> {
   }
 
   calculateSisa() {
-    if (dibayarkanController.text.trim().isNotEmpty) {
+    if (grandTotalController.text.trim().isNotEmpty &&
+        dibayarkanController.text.trim().isNotEmpty) {
       var grandTotal =
           int.parse(extractNumber(value: grandTotalController.text));
       sisaController.text = thousandSeparator(
