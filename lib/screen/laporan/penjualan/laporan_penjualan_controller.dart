@@ -5,6 +5,7 @@ import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:penjualan/model/penjualan.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/model/stok_keluar.dart';
@@ -473,9 +474,11 @@ abstract class LaporanPenjualanController extends State<LaporanPenjualan> {
           range.cellStyle.borders.all.lineStyle = LineStyle.thick;
         }
 
-        final path = await ExternalPath.getExternalStorageDirectories();
+        final path = Platform.isAndroid
+            ? (await ExternalPath.getExternalStorageDirectories()).first
+            : (await getApplicationDocumentsDirectory()).path;
         final List<int> bytes = workbook.saveAsStream();
-        File('${path[0]}/Detail Penjualan.xlsx').writeAsBytes(bytes);
+        File('$path/Detail Penjualan.xlsx').writeAsBytes(bytes);
       } catch (e) {
         print(e);
         Fluttertoast.showToast(
