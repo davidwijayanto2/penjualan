@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -224,6 +226,7 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
         List<HJual> hjuallist =
             List<HJual>.from((res ?? []).map((map) => HJual.fromMap(map)));
         String idHjual = '';
+        String platformCode = Platform.isIOS ? 'IO' : 'AR';
         if (hjuallist[0].idHjual != null) {
           HJual hjual = hjuallist.first;
           var id = hjual.idHjual?.split('/');
@@ -233,14 +236,14 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
               DateFormatter.getYear(DateTime.now()) +
-              'AR';
+              platformCode;
         } else {
           idHjual = '0001' +
               '/' +
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
               DateFormatter.getYear(DateTime.now()) +
-              'AR';
+              platformCode;
         }
 
         await db?.rawInsert(

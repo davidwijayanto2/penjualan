@@ -21,13 +21,21 @@ abstract class BackupRestoreController extends State<BackupRestore> {
     if (await Permission.storage.request().isGranted) {
       final loading = loadingDialog(context);
       if (Platform.isIOS) {
-        var path;
-        path = (await getApplicationDocumentsDirectory()).path;
-        String dbpath = join(path, "db_ko_stefan");
-        await File(dbpath).copy(join(path, "backup_db_ko_stefan"));
-        await Future.delayed(Duration(seconds: 1), () {
-          loading.dismiss();
-        });
+        try {
+          var path;
+          path = (await getApplicationDocumentsDirectory()).path;
+          String dbpath = join(path, "db_ko_stefan");
+          await File(dbpath).copy(join(path, "backup_db_ko_stefan"));
+          await Future.delayed(Duration(seconds: 1), () {
+            loading.dismiss();
+          });
+          Fluttertoast.showToast(msg: "Database berhasil direstore");
+        } catch (e) {
+          await Future.delayed(Duration(seconds: 1), () {
+            loading.dismiss();
+          });
+          Fluttertoast.showToast(msg: "Database gagal direstore: $e");
+        }
       } else if (Platform.isAndroid) {
         try {
           var message = await platform.invokeMethod('backupdatabase');
@@ -49,13 +57,21 @@ abstract class BackupRestoreController extends State<BackupRestore> {
     if (await Permission.storage.request().isGranted) {
       final loading = loadingDialog(context);
       if (Platform.isIOS) {
-        var path;
-        path = (await getApplicationDocumentsDirectory()).path;
-        String dbpath = join(path, "backup_db_ko_stefan");
-        await File(dbpath).copy(join(path, "db_ko_stefan"));
-        await Future.delayed(Duration(seconds: 1), () {
-          loading.dismiss();
-        });
+        try {
+          var path;
+          path = (await getApplicationDocumentsDirectory()).path;
+          String dbpath = join(path, "backup_db_ko_stefan");
+          await File(dbpath).copy(join(path, "db_ko_stefan"));
+          await Future.delayed(Duration(seconds: 1), () {
+            loading.dismiss();
+          });
+          Fluttertoast.showToast(msg: "Database berhasil direstore");
+        } catch (e) {
+          await Future.delayed(Duration(seconds: 1), () {
+            loading.dismiss();
+          });
+          Fluttertoast.showToast(msg: "Database gagal direstore: $e");
+        }
       } else if (Platform.isAndroid) {
         try {
           var message = await platform.invokeMethod('restoredatabase');

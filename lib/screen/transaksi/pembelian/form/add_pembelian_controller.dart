@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -253,6 +255,7 @@ abstract class AddPembelianController extends State<AddPembelian> {
         List<HBeli> hbelilist =
             List<HBeli>.from((res ?? []).map((map) => HBeli.fromMap(map)));
         String idHbeli = '';
+        String platformCode = Platform.isIOS ? 'IO' : 'AR';
         if (hbelilist[0].idHbeli != null) {
           HBeli hbeli = hbelilist.first;
           var id = hbeli.idHbeli?.split('/');
@@ -261,14 +264,14 @@ abstract class AddPembelianController extends State<AddPembelian> {
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
               DateFormatter.getYear(DateTime.now()) +
-              'AR';
+              platformCode;
         } else {
           idHbeli = '0001' +
               '/' +
               DateFormatter.getMonth(DateTime.now()) +
               '/' +
               DateFormatter.getYear(DateTime.now()) +
-              'AR';
+              platformCode;
         }
 
         await db?.rawInsert('INSERT INTO h_beli VALUES(?,?,?,?,?,?,?,?)', [
