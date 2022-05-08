@@ -252,24 +252,15 @@ abstract class BackupRestoreSebagianController
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split('|');
 
-              var result = await db.rawQuery(
-                  "SELECT * FROM d_jual WHERE ID_DJUAL = ?", [list[0]]);
-              if (result.isEmpty) {
-                batch.rawInsert('INSERT INTO d_jual VALUES(?,?,?,?,?,?,?)', [
-                  list[0],
-                  list[1],
-                  list[2],
-                  list[3],
-                  list[4],
-                  list[5],
-                  list[6],
-                ]);
-              } else {
-                Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
-                onError = true;
-                break;
-              }
+              batch.rawInsert('INSERT INTO d_jual VALUES(?,?,?,?,?,?,?)', [
+                list[0],
+                list[1],
+                list[2],
+                list[3],
+                list[4],
+                list[5],
+                list[6],
+              ]);
             }
             if (!onError) {
               batch.commit();
@@ -346,24 +337,15 @@ abstract class BackupRestoreSebagianController
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split('|');
 
-              var result = await db.rawQuery(
-                  "SELECT * FROM d_beli WHERE ID_DBELI = ?", [list[0]]);
-              if (result.isEmpty) {
-                batch.rawInsert('INSERT INTO d_beli VALUES(?,?,?,?,?,?,?)', [
-                  list[0],
-                  list[1],
-                  list[2],
-                  list[3],
-                  list[4],
-                  list[5],
-                  list[6],
-                ]);
-              } else {
-                Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
-                onError = true;
-                break;
-              }
+              batch.rawInsert('INSERT INTO d_beli VALUES(?,?,?,?,?,?,?)', [
+                list[0],
+                list[1],
+                list[2],
+                list[3],
+                list[4],
+                list[5],
+                list[6],
+              ]);
             }
             if (!onError) {
               batch.commit();
