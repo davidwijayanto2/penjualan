@@ -119,13 +119,13 @@ abstract class BackupRestoreSebagianController
               var mapValueDetail =
                   resultDetail[a].entries.map((e) => e.value).toList();
               for (int b = 0; b < mapValueDetail.length; b++) {
-                queryDetail = queryDetail + mapValueDetail[b].toString() + ',';
+                queryDetail = queryDetail + mapValueDetail[b].toString() + '|';
               }
               queryDetail = queryDetail + '\n';
             }
           }
           for (int j = 0; j < mapValue.length; j++) {
-            queryHeader = queryHeader + mapValue[j].toString() + ',';
+            queryHeader = queryHeader + mapValue[j].toString() + '|';
           }
           queryHeader = queryHeader + '\n';
         }
@@ -169,13 +169,13 @@ abstract class BackupRestoreSebagianController
               var mapValueDetail =
                   resultDetail[a].entries.map((e) => e.value).toList();
               for (int b = 0; b < mapValueDetail.length; b++) {
-                queryDetail = queryDetail + mapValueDetail[b].toString() + ',';
+                queryDetail = queryDetail + mapValueDetail[b].toString() + '|';
               }
               queryDetail = queryDetail + '\n';
             }
           }
           for (int j = 0; j < mapValue.length; j++) {
-            queryHeader = queryHeader + mapValue[j].toString() + ',';
+            queryHeader = queryHeader + mapValue[j].toString() + '|';
           }
           queryHeader = queryHeader + '\n';
         }

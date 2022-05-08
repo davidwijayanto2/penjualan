@@ -31,6 +31,7 @@ import 'package:penjualan/screen/transaksi/pembelian/form/add_pembelian_controll
 import 'package:penjualan/screen/utilities/account/account_controller.dart';
 import 'package:penjualan/screen/utilities/backup_restore/backup_restore_controller.dart';
 import 'package:penjualan/screen/utilities/backup_restore_sebagian/backup_restore_sebagian_controller.dart';
+import 'package:penjualan/screen/utilities/backup_selected/bakcup_selected_controller.dart';
 
 import '../screen/transaksi/penjualan/form/print_nota_logo.dart';
 
@@ -109,6 +110,8 @@ class MyRouter {
         return routeTransition(screen: args);
       case accountRoute:
         return routeTransition(screen: Account());
+      case backupSelectedRoute:
+        return routeTransition(screen: BackupSelected());
       default:
         return routeTransition(
           screen: Scaffold(

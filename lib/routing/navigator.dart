@@ -456,3 +456,14 @@ goToAccount<R>({
     Navigator.pushNamed(context, accountRoute);
   }
 }
+
+goToBackupSelected<R>({
+  required BuildContext context,
+  FutureOr<R> Function(dynamic)? afterOpen,
+}) {
+  if (afterOpen != null) {
+    Navigator.pushNamed(context, backupSelectedRoute).then(afterOpen);
+  } else {
+    Navigator.pushNamed(context, backupSelectedRoute);
+  }
+}
