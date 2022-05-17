@@ -256,6 +256,37 @@ class BackupSelectedView extends BackupSelectedController {
               },
             ),
           ),
+          CommonWidgets.horizontalDivider(),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    setAllChecked();
+                  },
+                  child: CommonText.text(
+                    text: 'Tandai Semua',
+                    style: CommonText.body1(
+                      color: MyColors.black,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    deleteAllChecked();
+                  },
+                  child: CommonText.text(
+                    text: 'Hapus Semua',
+                    style: CommonText.body1(
+                      color: MyColors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -268,35 +299,42 @@ class BackupSelectedView extends BackupSelectedController {
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CommonText.text(
-                  text: "NONOTA: ${hJual?.nonota}",
-                  style: CommonText.body1(
-                    color: MyColors.textGray,
+            child: CustomCheckbox(
+              onChanged: () {
+                toggleIsChecked(index);
+              },
+              checkBoxColor: MyColors.orange,
+              value: listIsChecked[index],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonText.text(
+                    text: "NONOTA: ${hJual?.nonota}",
+                    style: CommonText.body1(
+                      color: MyColors.textGray,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                CommonText.text(
-                  text: "${hJual?.nmCustomer}",
-                  style: CommonText.body1(
-                    color: MyColors.black,
+                  SizedBox(
+                    height: 8,
                   ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                CommonText.text(
-                  text:
-                      "${DateFormatter.toLongDateText(context, DateTime.parse(hJual?.tglTransaksi ?? '00000/00/00'))} | ${formatMoney(value: (hJual?.grandTotal ?? 0))}",
-                  style: CommonText.body1(
-                    color: MyColors.themeColor1,
+                  CommonText.text(
+                    text: "${hJual?.nmCustomer}",
+                    style: CommonText.body1(
+                      color: MyColors.black,
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 8,
+                  ),
+                  CommonText.text(
+                    text:
+                        "${DateFormatter.toLongDateText(context, DateTime.parse(hJual?.tglTransaksi ?? '00000/00/00'))} | ${formatMoney(value: (hJual?.grandTotal ?? 0))}",
+                    style: CommonText.body1(
+                      color: MyColors.themeColor1,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           CommonWidgets.horizontalDivider(),
@@ -312,35 +350,42 @@ class BackupSelectedView extends BackupSelectedController {
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CommonText.text(
-                  text: "NONOTA: ${hBeli?.nonota}",
-                  style: CommonText.body1(
-                    color: MyColors.textGray,
+            child: CustomCheckbox(
+              onChanged: () {
+                toggleIsChecked(index);
+              },
+              checkBoxColor: MyColors.orange,
+              value: listIsChecked[index],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonText.text(
+                    text: "NONOTA: ${hBeli?.nonota}",
+                    style: CommonText.body1(
+                      color: MyColors.textGray,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                CommonText.text(
-                  text: "${hBeli?.nmSupplier}",
-                  style: CommonText.body1(
-                    color: MyColors.black,
+                  SizedBox(
+                    height: 8,
                   ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                CommonText.text(
-                  text:
-                      "${DateFormatter.toLongDateText(context, DateTime.parse(hBeli?.tglTransaksi ?? '00000/00/00'))} | ${formatMoney(value: (hBeli?.grandTotal ?? 0))}",
-                  style: CommonText.body1(
-                    color: MyColors.themeColor1,
+                  CommonText.text(
+                    text: "${hBeli?.nmSupplier}",
+                    style: CommonText.body1(
+                      color: MyColors.black,
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 8,
+                  ),
+                  CommonText.text(
+                    text:
+                        "${DateFormatter.toLongDateText(context, DateTime.parse(hBeli?.tglTransaksi ?? '00000/00/00'))} | ${formatMoney(value: (hBeli?.grandTotal ?? 0))}",
+                    style: CommonText.body1(
+                      color: MyColors.themeColor1,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           CommonWidgets.horizontalDivider(),

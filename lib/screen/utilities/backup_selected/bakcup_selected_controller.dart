@@ -44,6 +44,7 @@ abstract class BackupSelectedController extends State<BackupSelected> {
   String? filterEnd;
   // String? month;
   // String? year;
+  List<bool> listIsChecked = <bool>[];
 
   List<HJual>? listPenjualan = <HJual>[];
   List<HBeli>? listPembelian = <HBeli>[];
@@ -185,6 +186,10 @@ abstract class BackupSelectedController extends State<BackupSelected> {
     // if ((result?.length ?? 0) > 0) {
     setState(() {
       listPembelian = List<HBeli>.from(result.map((map) => HBeli.fromMap(map)));
+      listIsChecked = [];
+      for (int i = 0; i < (listPembelian ?? <HJual>[]).length; i++) {
+        listIsChecked.add(false);
+      }
     });
   }
 
@@ -251,6 +256,10 @@ abstract class BackupSelectedController extends State<BackupSelected> {
     // if ((result?.length ?? 0) > 0) {
     setState(() {
       listPenjualan = List<HJual>.from(result.map((map) => HJual.fromMap(map)));
+      listIsChecked = [];
+      for (int i = 0; i < (listPenjualan ?? <HJual>[]).length; i++) {
+        listIsChecked.add(false);
+      }
     });
   }
 
@@ -359,37 +368,45 @@ abstract class BackupSelectedController extends State<BackupSelected> {
       Database? db = await DatabaseHelper.instance.database;
 
       if (result != null && result.isNotEmpty) {
-        final path = Platform.isAndroid
-            ? (await ExternalPath.getExternalStorageDirectories()).first
-            : (await getApplicationDocumentsDirectory()).path;
-        final File fileHeader = File(
-            "$path/Backup_Header_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
-        final File fileDetail = File(
-            "$path/Backup_Detail_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
-        String queryHeader = '';
-        String queryDetail = '';
-        for (int i = 0; i < result.length; i++) {
-          var mapValue = result[i].entries.map((e) => e.value).toList();
-          var resultDetail = await db?.rawQuery(
-              "SELECT * FROM d_beli WHERE ID_HBELI = ?", ["${mapValue[0]}"]);
-          if (resultDetail != null && resultDetail.isNotEmpty) {
-            for (int a = 0; a < resultDetail.length; a++) {
-              var mapValueDetail =
-                  resultDetail[a].entries.map((e) => e.value).toList();
-              for (int b = 0; b < mapValueDetail.length; b++) {
-                queryDetail = queryDetail + mapValueDetail[b].toString() + '|';
+        if (listIsChecked.length > 0 && listIsChecked.contains(true)) {
+          final path = Platform.isAndroid
+              ? (await ExternalPath.getExternalStorageDirectories()).first
+              : (await getApplicationDocumentsDirectory()).path;
+          final File fileHeader = File(
+              "$path/Backup_Header_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+          final File fileDetail = File(
+              "$path/Backup_Detail_Pembelian_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+          String queryHeader = '';
+          String queryDetail = '';
+          for (int i = 0; i < result.length; i++) {
+            if (listIsChecked[i]) {
+              var mapValue = result[i].entries.map((e) => e.value).toList();
+              var resultDetail = await db?.rawQuery(
+                  "SELECT * FROM d_beli WHERE ID_HBELI = ?",
+                  ["${mapValue[0]}"]);
+              if (resultDetail != null && resultDetail.isNotEmpty) {
+                for (int a = 0; a < resultDetail.length; a++) {
+                  var mapValueDetail =
+                      resultDetail[a].entries.map((e) => e.value).toList();
+                  for (int b = 0; b < mapValueDetail.length; b++) {
+                    queryDetail =
+                        queryDetail + mapValueDetail[b].toString() + '|';
+                  }
+                  queryDetail = queryDetail + '\n';
+                }
               }
-              queryDetail = queryDetail + '\n';
+              for (int j = 0; j < mapValue.length; j++) {
+                queryHeader = queryHeader + mapValue[j].toString() + '|';
+              }
+              queryHeader = queryHeader + '\n';
+              await fileHeader.writeAsString(queryHeader);
+              await fileDetail.writeAsString(queryDetail);
+              Fluttertoast.showToast(msg: 'Data berhasil dibackup');
             }
           }
-          for (int j = 0; j < mapValue.length; j++) {
-            queryHeader = queryHeader + mapValue[j].toString() + '|';
-          }
-          queryHeader = queryHeader + '\n';
+        } else {
+          Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
         }
-        await fileHeader.writeAsString(queryHeader);
-        await fileDetail.writeAsString(queryDetail);
-        Fluttertoast.showToast(msg: 'Data berhasil dibackup');
       } else {
         Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
@@ -409,42 +426,72 @@ abstract class BackupSelectedController extends State<BackupSelected> {
       //   "$filterEnd",
       // ]);
       if (result != null && result.isNotEmpty) {
-        final path = Platform.isAndroid
-            ? (await ExternalPath.getExternalStorageDirectories()).first
-            : (await getApplicationDocumentsDirectory()).path;
-        final File fileHeader = File(
-            "$path/Backup_Header_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
-        final File fileDetail = File(
-            "$path/Backup_Detail_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
-        String queryHeader = '';
-        String queryDetail = '';
-        for (int i = 0; i < result.length; i++) {
-          var mapValue = result[i].entries.map((e) => e.value).toList();
-          var resultDetail = await db?.rawQuery(
-              "SELECT * FROM d_jual WHERE ID_HJUAL = ?", ["${mapValue[0]}"]);
-          if (resultDetail != null && resultDetail.isNotEmpty) {
-            for (int a = 0; a < resultDetail.length; a++) {
-              var mapValueDetail =
-                  resultDetail[a].entries.map((e) => e.value).toList();
-              for (int b = 0; b < mapValueDetail.length; b++) {
-                queryDetail = queryDetail + mapValueDetail[b].toString() + '|';
+        if (listIsChecked.length > 0 && listIsChecked.contains(true)) {
+          final path = Platform.isAndroid
+              ? (await ExternalPath.getExternalStorageDirectories()).first
+              : (await getApplicationDocumentsDirectory()).path;
+          final File fileHeader = File(
+              "$path/Backup_Header_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+          final File fileDetail = File(
+              "$path/Backup_Detail_Penjualan_${DateFormatter.toNumberDateText(context, DateTime.parse(filterStartDate!))}_sampai_${DateFormatter.toNumberDateText(context, DateTime.parse(filterEndDate!))}.txt");
+          String queryHeader = '';
+          String queryDetail = '';
+          for (int i = 0; i < result.length; i++) {
+            if (listIsChecked[i]) {
+              var mapValue = result[i].entries.map((e) => e.value).toList();
+              var resultDetail = await db?.rawQuery(
+                  "SELECT * FROM d_jual WHERE ID_HJUAL = ?",
+                  ["${mapValue[0]}"]);
+              if (resultDetail != null && resultDetail.isNotEmpty) {
+                for (int a = 0; a < resultDetail.length; a++) {
+                  var mapValueDetail =
+                      resultDetail[a].entries.map((e) => e.value).toList();
+                  for (int b = 0; b < mapValueDetail.length; b++) {
+                    queryDetail =
+                        queryDetail + mapValueDetail[b].toString() + '|';
+                  }
+                  queryDetail = queryDetail + '\n';
+                }
               }
-              queryDetail = queryDetail + '\n';
+              for (int j = 0; j < mapValue.length; j++) {
+                queryHeader = queryHeader + mapValue[j].toString() + '|';
+              }
+              queryHeader = queryHeader + '\n';
             }
           }
-          for (int j = 0; j < mapValue.length; j++) {
-            queryHeader = queryHeader + mapValue[j].toString() + '|';
-          }
-          queryHeader = queryHeader + '\n';
+          await fileHeader.writeAsString(queryHeader);
+          await fileDetail.writeAsString(queryDetail);
+          Fluttertoast.showToast(msg: 'Data berhasil dibackup');
+        } else {
+          Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
         }
-        await fileHeader.writeAsString(queryHeader);
-        await fileDetail.writeAsString(queryDetail);
-        Fluttertoast.showToast(msg: 'Data berhasil dibackup');
       } else {
         Fluttertoast.showToast(msg: 'Tidak ada data yang dibackup');
       }
       await Future.delayed(Duration(seconds: 1), () {
         loading.dismiss();
+      });
+    }
+  }
+
+  toggleIsChecked(_index) {
+    setState(() {
+      listIsChecked[_index] = !listIsChecked[_index];
+    });
+  }
+
+  setAllChecked() {
+    for (int i = 0; i < listIsChecked.length; i++) {
+      setState(() {
+        listIsChecked[i] = true;
+      });
+    }
+  }
+
+  deleteAllChecked() {
+    for (int i = 0; i < listIsChecked.length; i++) {
+      setState(() {
+        listIsChecked[i] = false;
       });
     }
   }

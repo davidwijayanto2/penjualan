@@ -1020,3 +1020,70 @@ YYDialog loadingDialog(BuildContext context) {
     )
     ..show();
 }
+
+class CustomCheckbox extends StatefulWidget {
+  const CustomCheckbox({
+    Key? key,
+    required this.child,
+    required this.value,
+    required this.onChanged,
+    this.validatorValue = false,
+    this.checkBoxColor = MyColors.orange,
+    this.isExpand = true,
+    this.padding,
+  });
+
+  final bool? value;
+  final bool validatorValue;
+  final Widget child;
+  final Function() onChanged;
+  final Color checkBoxColor;
+  final bool isExpand;
+  final EdgeInsetsGeometry? padding;
+
+  @override
+  _CustomCheckboxState createState() => _CustomCheckboxState();
+}
+
+class _CustomCheckboxState extends State<CustomCheckbox> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: widget.onChanged,
+      child: Container(
+        padding: widget.padding ??
+            EdgeInsets.only(
+                top: widget.isExpand ? 10 : 0,
+                bottom: widget.isExpand ? 10 : 0,
+                right: 10
+                //horizontal: 10,
+                ),
+        child: Row(
+          crossAxisAlignment: widget.isExpand
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
+          children: <Widget>[
+            widget.isExpand
+                ? Expanded(
+                    child: widget.child,
+                  )
+                : widget.child,
+            SizedBox(
+              width: 8,
+            ),
+            Icon(
+              widget.value!
+                  ? FontAwesomeIcons.solidCheckSquare
+                  : FontAwesomeIcons.square,
+              color: widget.validatorValue && !widget.value!
+                  ? MyColors.red
+                  : widget.checkBoxColor,
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
