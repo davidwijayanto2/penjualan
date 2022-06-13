@@ -81,6 +81,7 @@ abstract class AddPenjualanController extends State<AddPenjualan> {
         dateTextStr = DateFormatter.toLongDateText(
             context, DateTime.parse(widget.editHJual?.tglTransaksi ?? ''));
         noNotaController.text = widget.editHJual?.nonota ?? '';
+        kotaController.text = widget.editHJual?.kota ?? '';
         keteranganController.text = widget.editHJual?.keterangan ?? '';
         keterangan2Controller.text = widget.editHJual?.rekening ?? '';
         discountController.text = thousandSeparator(
