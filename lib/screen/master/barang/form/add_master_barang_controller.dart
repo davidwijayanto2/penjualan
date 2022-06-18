@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:penjualan/model/kategori.dart';
 import 'package:penjualan/model/stok.dart';
 import 'package:penjualan/repositories/db_helper.dart';
+import 'package:penjualan/utils/string_formatter.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'add_master_barang_view.dart';
@@ -77,8 +78,8 @@ abstract class AddMasterBarangController extends State<AddMasterBarang> {
             [
               kategori ?? 0,
               namaBarangController.text.trim().toUpperCase(),
-              int.parse(quantityController.text.trim()),
-              int.parse(hargaController.text.trim()),
+              int.parse(extractNumber(value: quantityController.text.trim())),
+              int.parse(extractNumber(value: hargaController.text.trim())),
               widget.editStok?.idStok ?? 0
             ]).then((value) {
           Navigator.pop(context);
@@ -91,8 +92,10 @@ abstract class AddMasterBarangController extends State<AddMasterBarang> {
             [
               kategori ?? 0,
               namaBarangController.text.trim().toUpperCase(),
-              int.parse(quantityController.text.trim()),
-              int.parse(hargaController.text.trim()),
+              int.parse(extractNumber(
+                  value: quantityController.text.trim().replaceAll('.', ''))),
+              int.parse(extractNumber(
+                  value: hargaController.text.trim().replaceAll('.', ''))),
             ]).then((value) {
           Navigator.pop(context);
         }).catchError((onError) {
