@@ -234,7 +234,7 @@ abstract class BackupRestoreSebagianController
                 ]);
               } else {
                 Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
+                    msg: 'Restore error, ID ${list[0]} sudah ada.');
                 onError = true;
                 break;
               }
@@ -252,15 +252,16 @@ abstract class BackupRestoreSebagianController
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split('|');
 
-              batch.rawInsert('INSERT INTO d_jual VALUES(?,?,?,?,?,?,?)', [
-                list[0],
-                list[1],
-                list[2],
-                list[3],
-                list[4],
-                list[5],
-                list[6],
-              ]);
+              batch.rawInsert(
+                  'INSERT INTO d_jual(ID_HJUAL, NM_BARANG, SATUAN, QUANTITY, HARGA_BARANG, SUBTOTAL) VALUES(?,?,?,?,?,?)',
+                  [
+                    list[1],
+                    list[2],
+                    list[3],
+                    list[4],
+                    list[5],
+                    list[6],
+                  ]);
             }
             if (!onError) {
               batch.commit();
@@ -319,7 +320,7 @@ abstract class BackupRestoreSebagianController
                 ]);
               } else {
                 Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
+                    msg: 'Restore error, ID ${list[0]} sudah ada.');
                 onError = true;
                 break;
               }
@@ -337,15 +338,16 @@ abstract class BackupRestoreSebagianController
             for (int i = 0; i < line.length; i++) {
               final list = line[i].split('|');
 
-              batch.rawInsert('INSERT INTO d_beli VALUES(?,?,?,?,?,?,?)', [
-                list[0],
-                list[1],
-                list[2],
-                list[3],
-                list[4],
-                list[5],
-                list[6],
-              ]);
+              batch.rawInsert(
+                  'INSERT INTO d_beli(ID_HBELI, NM_BARANG, SATUAN, QUANTITY, HARGA_BARANG, SUBTOTAL) VALUES(?,?,?,?,?,?)',
+                  [
+                    list[1],
+                    list[2],
+                    list[3],
+                    list[4],
+                    list[5],
+                    list[6],
+                  ]);
             }
             if (!onError) {
               batch.commit();
@@ -400,7 +402,7 @@ abstract class BackupRestoreSebagianController
                 ]);
               } else {
                 Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
+                    msg: 'Restore error, ID ${list[0]} sudah ada.');
                 onError = true;
                 break;
               }
@@ -428,7 +430,7 @@ abstract class BackupRestoreSebagianController
                 ]);
               } else {
                 Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
+                    msg: 'Restore error, ID ${list[0]} sudah ada.');
                 onError = true;
                 break;
               }
@@ -452,7 +454,7 @@ abstract class BackupRestoreSebagianController
                 ]);
               } else {
                 Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
+                    msg: 'Restore error, ID ${list[0]} sudah ada.');
                 onError = true;
                 break;
               }
@@ -484,7 +486,7 @@ abstract class BackupRestoreSebagianController
                 ]);
               } else {
                 Fluttertoast.showToast(
-                    msg: 'Backup error, terdapat data yang sama.');
+                    msg: 'Restore error, ID ${list[0]} sudah ada.');
                 onError = true;
                 break;
               }

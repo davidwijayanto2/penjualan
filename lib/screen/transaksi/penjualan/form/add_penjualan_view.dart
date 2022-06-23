@@ -407,12 +407,15 @@ class AddPenjualanView extends AddPenjualanController {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CommonText.text(
-                text: djual?.nmBarang ?? '',
-                style: CommonText.body1(
-                  color: MyColors.black,
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: CommonText.text(
+                  text: djual?.nmBarang ?? '',
+                  style: CommonText.body1(
+                    color: MyColors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Row(
@@ -439,7 +442,7 @@ class AddPenjualanView extends AddPenjualanController {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
           Row(

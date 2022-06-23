@@ -276,12 +276,15 @@ class AddPembelianView extends AddPembelianController {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CommonText.text(
-                text: dbeli?.nmBarang ?? '',
-                style: CommonText.body1(
-                  color: MyColors.black,
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: CommonText.text(
+                  text: dbeli?.nmBarang ?? '',
+                  style: CommonText.body1(
+                    color: MyColors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Row(
